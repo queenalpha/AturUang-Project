@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import '../configuration/theme_config.dart';
+import '../configuration/rounded button.dart';
+
+class WelcomingPage extends StatefulWidget {
+  const WelcomingPage({Key? key, required String title}) : super(key: key);
+
+  @override
+  State<WelcomingPage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<WelcomingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: primaryBackground,
+      body: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image.asset('assets/Logo_without_text.png', width: 250),
+        SizedBox(height: 20),
+        Text("Welcome!",
+            style: TextStyle(
+                fontFamily: 'Poppins-SemiBold',
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
+        SizedBox(height: 10),
+        Text("Start managing your money easily",
+            style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 15,
+                fontWeight: FontWeight.w100,
+                color: Colors.white)),
+        SizedBox(height: 30),
+        RoundedButton(
+          colour: btncolor,
+          title: "Sign In",
+          onPressed: () {},
+          width: 273,
+          height: 57,
+        ),
+        RoundedButton(
+          colour: btncolor,
+          title: "Sign Up",
+          onPressed: () {},
+          width: 273,
+          height: 57,
+        )
+      ])),
+    );
+
+    // Positioned(bottom: 200, child: Image.asset('assets/Ellipse3.png'))
+  }
+}
