@@ -38,24 +38,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "cloud_firestore",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.13.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-6.0.7",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "cloud_firestore_web",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.8.7",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
       "name": "collection",
       "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.17.2",
       "packageUri": "lib/",
@@ -326,7 +308,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-11-30T08:48:46.914994Z",
+  "generated": "2023-11-30T09:16:41.079016Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }
