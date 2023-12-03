@@ -84,7 +84,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       keyboardType: TextInputType.text,
                       decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Masukkan Username'),
+                          hintText: 'Enter username'),
                     ),
                     SizedBox(
                       height: 10,
@@ -106,7 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       keyboardType: TextInputType.emailAddress,
                       decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Masukkan Email Anda'),
+                          hintText: 'Enter your email'),
                     ),
                     const SizedBox(height: 20.0),
                     Text('Password',
@@ -128,7 +128,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         password: value,
                       ),
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Masukkan Password Anda',
+                        hintText: 'Enter your password',
                         suffixIcon: IconButton(
                           icon: Icon(
                             _isObsecured

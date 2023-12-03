@@ -8,13 +8,13 @@ class Validator {
     RegExp noKapitalRegExp = RegExp(r'[A-Z]');
 
     if (username.isEmpty) {
-      return 'Username tidak boleh kosong';
+      return 'Username cannot be empty';
     } else if (username.length < 8) {
-      return 'Username kurang dari 8 karakter';
+      return 'Username less than 8 characters';
     } else if (noKapitalRegExp.hasMatch(username)) {
-      return 'Username tidak boleh huruf kapital';
+      return 'Username must be lowercase';
     } else if (!noSpasiRegExp.hasMatch(username)) {
-      return 'Username tidak boleh ada spasi';
+      return 'Username cannot contain spaces';
     }
 
     return null;
@@ -29,9 +29,9 @@ class Validator {
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*(?:\.co(?:m)?)$");
 
     if (email.isEmpty) {
-      return 'Email tidak boleh kosong';
+      return 'Email cannot be empty';
     } else if (!emailRegExp.hasMatch(email)) {
-      return 'Masukkan Email yang sesuai';
+      return 'Enter the correct Email';
     }
 
     return null;
@@ -45,11 +45,11 @@ class Validator {
     RegExp kapitalRegExp = RegExp(r'[A-Z]');
 
     if (password.isEmpty) {
-      return 'Password tidak boleh kosong';
+      return 'Password cannot be empty';
     } else if (password.length < 8) {
-      return 'Password kurang dari 8 karakter';
+      return 'Password less than 8 characters';
     } else if (!kapitalRegExp.hasMatch(password)) {
-      return 'Password harus mengandung huruf kapital';
+      return 'Password must contain capital letters';
     }
 
     return null;
@@ -61,7 +61,7 @@ class Validator {
     }
 
     if (value.isEmpty) {
-      return 'Password tidak boleh kosong';
+      return 'Password cannot be empty';
     }
 
     return null;

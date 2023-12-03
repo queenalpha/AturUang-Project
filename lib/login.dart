@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           decoration: kTextFieldDecoration.copyWith(
-                              hintText: 'Masukkan Email Anda'),
+                              hintText: 'Enter your email'),
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             value: value,
                           ),
                           decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Masukkan Password Anda',
+                            hintText: 'Enter your password',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _isObsecured
@@ -149,6 +149,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 15.0,
                         ),
+                        if (_errorText.isNotEmpty)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              _errorText,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.0),
+                            ),
+                          ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: _isProcessing
@@ -161,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       onPressed: () async {
                                         _focusEmail.unfocus();
                                         _focusPassword.unfocus();
+                                        _errorText = '';
 
                                         if (_formKey.currentState!.validate()) {
                                           setState(() {
@@ -186,29 +196,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     HomePage(),
                                               ),
                                             );
+                                          } else {
+                                            _errorText =
+                                                'Your email or password is incorrect!';
                                           }
-                                          // if (user == null) {{
-                                          //     _errorText = 'Email atau Password Anda salah';
-                                          // }
-
-                                          // else{
-                                          //   setState((){
-                                          //     _errorText = 'Email atau Password Anda salah'
-                                          //   });
-                                          // }
                                         }
                                       },
                                     )
                                   ]),
-                        if (_errorText.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              _errorText,
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 14.0),
-                            ),
-                          )
                       ])),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
