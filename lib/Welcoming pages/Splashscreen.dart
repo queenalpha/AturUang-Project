@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _GotonavigateToHome();
   }
-
+//testing
   _GotonavigateToHome() async {
     await Future.delayed(Duration(seconds: 3));
     Navigator.pushReplacement(
