@@ -1,4 +1,9 @@
+import 'package:aturuang_project/welcoming-pages/Home.dart';
 import 'package:aturuang_project/roundedbutton.dart';
+import 'package:aturuang_project/utils/fire_auth.dart';
+import 'package:aturuang_project/utils/validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // ignore: unused_import
@@ -27,18 +32,46 @@ const kTextFieldDecoration = InputDecoration(
 );
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+
+  final _focusEmail = FocusNode();
+  final _focusPassword = FocusNode();
+
+  bool _isProcessing = false;
+
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    }
+    return firebaseApp;
+  }
+
   bool _isObsecured = true;
+  String _errorText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 50, right: 50, top: 100, bottom: 15),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,57 +84,127 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 5.0,
               ),
-              Text('Email',
-                  style: TextStyle(
-                      fontFamily: 'Poppins-Reguler',
-                      fontSize: 15.0,
-                      color: const Color.fromARGB(255, 20, 165, 162))),
-              SizedBox(
-                height: 5.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter your Email'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text('Password',
-                  style: TextStyle(
-                      fontFamily: 'Poppins-Reguler',
-                      fontSize: 15.0,
-                      color: const Color.fromARGB(255, 20, 165, 162))),
-              SizedBox(
-                height: 5.0,
-              ),
-              TextField(
-                obscureText: _isObsecured,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isObsecured ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isObsecured = !_isObsecured;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              RoundedButton(
-                colour: const Color.fromARGB(255, 20, 165, 182),
-                title: 'Sign In',
-                onPressed: () async {},
-              ),
+              Form(
+                  key: _formKey,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Email',
+                            style: TextStyle(
+                                fontFamily: 'Poppins-Reguler',
+                                fontSize: 15.0,
+                                color:
+                                    const Color.fromARGB(255, 20, 165, 162))),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        TextFormField(
+                          controller: _emailTextController,
+                          focusNode: _focusEmail,
+                          validator: (value) => Validator.validateEmail(
+                            email: value,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Enter your email'),
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        Text('Password',
+                            style: TextStyle(
+                                fontFamily: 'Poppins-Reguler',
+                                fontSize: 15.0,
+                                color:
+                                    const Color.fromARGB(255, 20, 165, 162))),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        TextFormField(
+                          controller: _passwordTextController,
+                          focusNode: _focusPassword,
+                          obscureText: _isObsecured,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          validator: (value) => Validator.isNotEmptyValidate(
+                            value: value,
+                          ),
+                          decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'Enter your password',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isObsecured
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isObsecured = !_isObsecured;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        if (_errorText.isNotEmpty)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              _errorText,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.0),
+                            ),
+                          ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: _isProcessing
+                                ? [const CircularProgressIndicator()]
+                                : [
+                                    RoundedButton(
+                                      colour: const Color.fromARGB(
+                                          255, 20, 165, 182),
+                                      title: 'Sign In',
+                                      onPressed: () async {
+                                        _focusEmail.unfocus();
+                                        _focusPassword.unfocus();
+                                        _errorText = '';
+
+                                        if (_formKey.currentState!.validate()) {
+                                          setState(() {
+                                            _isProcessing = true;
+                                          });
+
+                                          User? user = await FireAuth
+                                              .signInUsingEmailPassword(
+                                            email: _emailTextController.text,
+                                            password:
+                                                _passwordTextController.text,
+                                          );
+
+                                          setState(() {
+                                            _isProcessing = false;
+                                          });
+
+                                          if (user != null) {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage(),
+                                              ),
+                                            );
+                                          } else {
+                                            _errorText =
+                                                'Your email or password is incorrect!';
+                                          }
+                                        }
+                                      },
+                                    )
+                                  ]),
+                      ])),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -115,17 +218,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: 5.0,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Navigator.pushNamed(context, 'register_screen');
-                      });
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          fontSize: 12.0,
-                          color: Color.fromARGB(255, 20, 165, 182)),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          Navigator.pushNamed(context, 'register');
+                        });
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromARGB(255, 20, 165, 182)),
+                      ),
                     ),
                   )
                 ],

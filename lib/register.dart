@@ -1,9 +1,11 @@
+import 'package:aturuang_project/login.dart';
 import 'package:aturuang_project/roundedbutton.dart';
+import 'package:aturuang_project/utils/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// ignore: unused_import
-import 'package:google_fonts/google_fonts.dart';
-//test
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aturuang_project/utils/fire_auth.dart';
+
 const kTextFieldDecoration = InputDecoration(
   filled: true,
   fillColor: Color.fromARGB(242, 242, 242, 242),
@@ -27,156 +29,194 @@ const kTextFieldDecoration = InputDecoration(
 );
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  late String email;
-  late String password = '';
-  late String Username;
-  String passworderror = '';
-  String usernameerror = '';
+  final _registerFormKey = GlobalKey<FormState>();
+  final _usernameTextController = TextEditingController();
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  final _focusUsername = FocusNode();
+  final _focusEmail = FocusNode();
+  final _focusPassword = FocusNode();
+  bool _isProcessing = false;
+
   bool _isObsecured = true;
 
-  final RegExp emailRegExp = RegExp(
-    r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,}$',
-  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 50, right: 50, top: 15, bottom: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // const SizedBox(height: 5.0),
             SvgPicture.asset(
               'assets/undraw_my_password_re_ydq7.svg',
               height: 250,
               width: 250,
             ),
             const SizedBox(height: 5.0),
-            Text('Username',
-                style: TextStyle(
-                    fontFamily: 'Poppins-Reguler',
-                    fontSize: 15.0,
-                    color: const Color.fromARGB(255, 20, 165, 162))),
-            SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              keyboardType: TextInputType.text,
-              decoration:
-                  kTextFieldDecoration.copyWith(hintText: 'Enter Username'),
-              onChanged: (value) {
-                Username = value;
-                setState(() {
-                  usernameerror = (Username.length >= 6)
-                      ? ''
-                      : 'Username at least 6 character';
-                });
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            if (usernameerror.isNotEmpty)
-              Text(
-                usernameerror,
-                style: TextStyle(color: Colors.red),
-              ),
-            const SizedBox(height: 10.0),
-            Text('Email',
-                style: TextStyle(
-                    fontFamily: 'Poppins-Reguler',
-                    fontSize: 15.0,
-                    color: const Color.fromARGB(255, 20, 165, 162))),
-            SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              keyboardType: TextInputType.emailAddress,
-              decoration:
-                  kTextFieldDecoration.copyWith(hintText: 'Enter your Email'),
-            ),
-            const SizedBox(height: 20.0),
-            Text('Password',
-                style: TextStyle(
-                    fontFamily: 'Poppins-Reguler',
-                    fontSize: 15.0,
-                    color: const Color.fromARGB(255, 20, 165, 162))),
-            SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              obscureText: _isObsecured,
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                  passworderror = (password.length >= 8)
-                      ? ''
-                      : 'Password at least 8 character';
-                });
-              },
-              decoration: kTextFieldDecoration.copyWith(
-                hintText: 'Enter your Password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isObsecured ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isObsecured = !_isObsecured;
-                    });
-                  },
-                ),
-              ),
-            ),
-            SizedBox(height: 10.0),
-            if (passworderror.isNotEmpty)
-              Text(
-                passworderror,
-                style: TextStyle(color: Colors.red),
-              ),
-            SizedBox(
-              height: 15.0,
-            ),
-            RoundedButton(
-              colour: const Color.fromARGB(255, 20, 165, 182),
-              title: 'Sign Up',
-              onPressed: () async {},
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Already have an account ?',
-                  style: TextStyle(
-                      fontFamily: 'Poppins-Reguler',
-                      fontSize: 12.0,
-                      color: Colors.black),
-                ),
-                SizedBox(
-                  width: 5.0,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      Navigator.pushNamed(context, 'login_screen');
-                    });
-                  },
-                  child: Text(
-                    "Sign In",
-                    style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromARGB(255, 20, 165, 182)),
-                  ),
-                )
-              ],
-            )
+            Form(
+                key: _registerFormKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Username',
+                        style: TextStyle(
+                            fontFamily: 'Poppins-Reguler',
+                            fontSize: 15.0,
+                            color: const Color.fromARGB(255, 20, 165, 162))),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      controller: _usernameTextController,
+                      focusNode: _focusUsername,
+                      validator: (value) => Validator.validateUsername(
+                        username: value,
+                      ),
+                      keyboardType: TextInputType.text,
+                      decoration: kTextFieldDecoration.copyWith(
+                          hintText: 'Enter username'),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text('Email',
+                        style: TextStyle(
+                            fontFamily: 'Poppins-Reguler',
+                            fontSize: 15.0,
+                            color: const Color.fromARGB(255, 20, 165, 162))),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      controller: _emailTextController,
+                      focusNode: _focusEmail,
+                      validator: (value) => Validator.validateEmail(
+                        email: value,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: kTextFieldDecoration.copyWith(
+                          hintText: 'Enter your email'),
+                    ),
+                    const SizedBox(height: 20.0),
+                    Text('Password',
+                        style: TextStyle(
+                            fontFamily: 'Poppins-Reguler',
+                            fontSize: 15.0,
+                            color: const Color.fromARGB(255, 20, 165, 162))),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      controller: _passwordTextController,
+                      focusNode: _focusPassword,
+                      obscureText: _isObsecured,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                      validator: (value) => Validator.validatePassword(
+                        password: value,
+                      ),
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isObsecured
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isObsecured = !_isObsecured;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _isProcessing
+                          ? [const CircularProgressIndicator()]
+                          : [
+                              RoundedButton(
+                                colour: const Color.fromARGB(255, 20, 165, 182),
+                                title: 'Sign Up',
+                                onPressed: () async {
+                                  _focusUsername.unfocus();
+                                  _focusEmail.unfocus();
+                                  _focusPassword.unfocus();
+                                  if (_registerFormKey.currentState!
+                                      .validate()) {
+                                    setState(() {
+                                      _isProcessing = true;
+                                    });
+
+                                    User? user = await FireAuth
+                                        .registerUsingEmailPassword(
+                                      name: _usernameTextController.text,
+                                      email: _emailTextController.text,
+                                      password: _passwordTextController.text,
+                                    );
+                                    setState(() {
+                                      _isProcessing = false;
+                                    });
+
+                                    if (user != null) {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) => LoginScreen(),
+                                        ),
+                                        ModalRoute.withName('/'),
+                                      );
+                                    }
+                                  }
+                                },
+                              ),
+                            ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Already have an account ?',
+                          style: TextStyle(
+                              fontFamily: 'Poppins-Reguler',
+                              fontSize: 12.0,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  Navigator.pushNamed(context, 'login');
+                                });
+                              },
+                              child: Text(
+                                "Sign In",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color.fromARGB(255, 20, 165, 182)),
+                              ),
+                            )),
+                      ],
+                    )
+                  ],
+                )),
           ],
         ),
       ),
