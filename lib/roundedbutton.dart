@@ -2,17 +2,10 @@ import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
   RoundedButton(
-      {required this.colour,
-      required this.title,
-      required this.onPressed,
-      required this.width,
-      required this.height});
+      {required this.colour, required this.title, required this.onPressed});
   final Color colour;
   final String title;
   final VoidCallback onPressed;
-
-  final double width;
-  final double height;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,8 +16,8 @@ class RoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         child: MaterialButton(
           onPressed: onPressed,
-          minWidth: width,
-          height: height,
+          minWidth: 200.0,
+          height: 50.0,
           child: Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 20),
