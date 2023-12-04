@@ -107,6 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: kTextFieldDecoration.copyWith(
                               hintText: 'Enter your email'),
+                          onTap: () {
+                            setState(() {
+                              _errorText = '';
+                            });
+                          },
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -145,13 +150,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                           ),
+                          onTap: () {
+                            setState(() {
+                              _errorText = '';
+                            });
+                          },
                         ),
                         SizedBox(
                           height: 15.0,
                         ),
                         if (_errorText.isNotEmpty)
                           Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               _errorText,
                               style:
