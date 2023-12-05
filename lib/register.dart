@@ -1,6 +1,8 @@
 import 'package:aturuang_project/login.dart';
 import 'package:aturuang_project/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
+import 'package:aturuang_project/welcoming-pages/Home.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,6 +48,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isProcessing = false;
 
   bool _isObsecured = true;
+
+  Future<void> _initializeFirebase() async {
+    await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -70,6 +70,31 @@ class DataService {
     }
   }
 
+  Future insertUser(String appid, String user_id, String foto) async {
+    String uri = 'https://io.etter.cloud/v4/insert';
+
+    try {
+      final response = await http.post(Uri.parse(uri), body: {
+        'token': '651bc4399b493f4b9fe24867',
+        'project': 'aturuang',
+        'collection': 'user',
+        'appid': appid,
+        'user_id': user_id,
+        'foto': foto
+      });
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        // Return an empty array
+        return '[]';
+      }
+    } catch (e) {
+      // Print error here
+      return '[]';
+    }
+  }
+
   Future selectAll(
       String token, String project, String collection, String appid) async {
     String uri = 'https://io.etter.cloud/v4/select_all/token/' +
