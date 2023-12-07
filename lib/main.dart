@@ -1,10 +1,13 @@
 import 'package:aturuang_project/welcoming-pages/Home.dart';
+import 'package:aturuang_project/welcoming-pages/Onboarding.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/login.dart';
 import 'package:aturuang_project/register.dart';
+import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,8 @@ class MyApp extends StatelessWidget {
         title: 'Aturuang',
         home: SplashScreen(),
         routes: {
+          'welcome': (context) => const WelcomingPage(title: 'Welcome'),
+          'onboard': (context) => const onBoardingPage(),
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const HomePage(),

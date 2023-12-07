@@ -14,7 +14,7 @@ const kTextFieldDecoration = InputDecoration(
   fillColor: Color.fromARGB(242, 242, 242, 242),
   hintText: 'Enter a Value',
   hintStyle: TextStyle(
-      color: Colors.grey, fontFamily: 'Poppins-Reguler', fontSize: 12),
+      color: Colors.grey, fontFamily: 'Poppins-Regular', fontSize: 12),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.black),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Text('Email',
                             style: TextStyle(
-                                fontFamily: 'Poppins-Reguler',
+                                fontFamily: 'Poppins-Regular',
                                 fontSize: 15.0,
                                 color:
                                     const Color.fromARGB(255, 20, 165, 162))),
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Text('Password',
                             style: TextStyle(
-                                fontFamily: 'Poppins-Reguler',
+                                fontFamily: 'Poppins-Regular',
                                 fontSize: 15.0,
                                 color:
                                     const Color.fromARGB(255, 20, 165, 162))),
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     "Don't have an account ?",
                     style: TextStyle(
-                        fontFamily: 'Poppins-Reguler',
+                        fontFamily: 'Poppins-Regular',
                         fontSize: 12.0,
                         color: Colors.black),
                   ),
@@ -229,6 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
                             fontSize: 12.0,
                             color: Color.fromARGB(255, 20, 165, 182)),
                       ),

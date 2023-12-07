@@ -11,7 +11,7 @@ const kTextFieldDecoration = InputDecoration(
   fillColor: Color.fromARGB(242, 242, 242, 242),
   hintText: 'Fill A value',
   hintStyle: TextStyle(
-      color: Colors.grey, fontFamily: 'Poppins-Reguler', fontSize: 12),
+      color: Colors.grey, fontFamily: 'Poppins-Regular', fontSize: 12),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.black),
@@ -70,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: <Widget>[
                     Text('Username',
                         style: TextStyle(
-                            fontFamily: 'Poppins-Reguler',
+                            fontFamily: 'Poppins-Regular',
                             fontSize: 15.0,
                             color: const Color.fromARGB(255, 20, 165, 162))),
                     SizedBox(
@@ -92,7 +92,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 10.0),
                     Text('Email',
                         style: TextStyle(
-                            fontFamily: 'Poppins-Reguler',
+                            fontFamily: 'Poppins-Regular',
                             fontSize: 15.0,
                             color: const Color.fromARGB(255, 20, 165, 162))),
                     SizedBox(
@@ -111,7 +111,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 20.0),
                     Text('Password',
                         style: TextStyle(
-                            fontFamily: 'Poppins-Reguler',
+                            fontFamily: 'Poppins-Regular',
                             fontSize: 15.0,
                             color: const Color.fromARGB(255, 20, 165, 162))),
                     SizedBox(
@@ -191,7 +191,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Text(
                           'Already have an account ?',
                           style: TextStyle(
-                              fontFamily: 'Poppins-Reguler',
+                              fontFamily: 'Poppins-Regular',
                               fontSize: 12.0,
                               color: Colors.black),
                         ),
@@ -209,6 +209,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               child: Text(
                                 "Sign In",
                                 style: TextStyle(
+                                    fontFamily: 'Poppins-Regular',
                                     fontSize: 12.0,
                                     color: Color.fromARGB(255, 20, 165, 182)),
                               ),

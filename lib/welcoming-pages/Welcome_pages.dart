@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
 import '../configuration/rounded button.dart';
 
+
 class WelcomingPage extends StatefulWidget {
   const WelcomingPage({Key? key, required String title}) : super(key: key);
 
@@ -52,7 +53,5 @@ class _HomePageState extends State<WelcomingPage> {
         )
       ])),
     );
-
-    // Positioned(bottom: 200, child: Image.asset('assets/Ellipse3.png'))
   }
 }

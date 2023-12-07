@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../configuration/theme_config.dart';
 import '../welcoming-pages/Welcome_pages.dart';
+import 'Onboarding.dart';
+
+int? initScreen;
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,15 +15,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _GotonavigateToHome();
+    GotonavigateToHome();
   }
 
-  _GotonavigateToHome() async {
+  Future<void> GotonavigateToHome() async {
     await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    initScreen = await preferences.getInt('initScreen');
+    await preferences.setInt('initScreen', 1);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const WelcomingPage(title: 'Home'),
+        builder: initScreen == 0 || initScreen == null
+            ? (context) => onBoardingPage()
+            : (context) => const WelcomingPage(title: 'Welcoming'),
       ),
     );
   }
