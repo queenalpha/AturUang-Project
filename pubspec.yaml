@@ -69,9 +69,11 @@ flutter:
     - assets/undraw_load_more_re_482p.svg
     - assets/fonts/Poppins-Regular.ttf
     - assets/Logo Aturuang.png
-    - assets/Ellipse3.png
     - assets/Logo_without_text.png
     - assets/moneycard.png
+    - assets/IconGoals.png
+    - assets/IconCounting.png
+    - assets/IconReporting.png
     - assets/fonts/Poppins-Bold.ttf
     - assets/fonts/Poppins-Regular.ttf
     - assets/fonts/Poppins-SemiBold.ttf
