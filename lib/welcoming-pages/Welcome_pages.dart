@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
-import '../configuration/rounded button.dart';
+import '../configuration/roundedbutton.dart';
 
 class WelcomingPage extends StatefulWidget {
   const WelcomingPage({Key? key, required String title}) : super(key: key);
@@ -13,7 +13,7 @@ class _HomePageState extends State<WelcomingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryBackground,
+      backgroundColor: secondaryColor,
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Image.asset('assets/Logo_without_text.png', width: 250),
@@ -33,7 +33,7 @@ class _HomePageState extends State<WelcomingPage> {
                 color: Colors.white)),
         SizedBox(height: 30),
         RoundedButton(
-          colour: btncolor,
+          colour: primaryColor,
           title: "Sign In",
           onPressed: () {
             Navigator.pushNamed(context, 'login');
@@ -42,7 +42,7 @@ class _HomePageState extends State<WelcomingPage> {
           height: 57,
         ),
         RoundedButton(
-          colour: btncolor,
+          colour: primaryColor,
           title: "Sign Up",
           onPressed: () {
             Navigator.pushNamed(context, 'register');

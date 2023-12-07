@@ -71,6 +71,7 @@ flutter:
     - assets/Logo Aturuang.png
     - assets/Ellipse3.png
     - assets/Logo_without_text.png
+    - assets/moneycard.png
     - assets/fonts/Poppins-Bold.ttf
     - assets/fonts/Poppins-Regular.ttf
     - assets/fonts/Poppins-SemiBold.ttf

@@ -1,32 +1,11 @@
-import 'package:aturuang_project/login.dart';
-import 'package:aturuang_project/roundedbutton.dart';
+import 'package:aturuang_project/pages/login.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aturuang_project/utils/fire_auth.dart';
-
-const kTextFieldDecoration = InputDecoration(
-  filled: true,
-  fillColor: Color.fromARGB(242, 242, 242, 242),
-  hintText: 'Fill A value',
-  hintStyle: TextStyle(
-      color: Colors.grey, fontFamily: 'Poppins-Reguler', fontSize: 12),
-  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-  border: UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.black),
-    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-  ),
-  enabledBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.black),
-    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderSide:
-        BorderSide(color: Color.fromARGB(255, 20, 165, 182), width: 2.0),
-    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-  ),
-);
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -68,11 +47,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Username',
-                        style: TextStyle(
-                            fontFamily: 'Poppins-Reguler',
-                            fontSize: 15.0,
-                            color: const Color.fromARGB(255, 20, 165, 162))),
+                    Text(
+                      'Username',
+                      style: TextStyle(
+                          fontFamily: 'Poppins-Reguler',
+                          fontSize: 15.0,
+                          color: primaryColor),
+                    ),
                     SizedBox(
                       height: 5.0,
                     ),
@@ -94,7 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: TextStyle(
                             fontFamily: 'Poppins-Reguler',
                             fontSize: 15.0,
-                            color: const Color.fromARGB(255, 20, 165, 162))),
+                            color: primaryColor)),
                     SizedBox(
                       height: 5.0,
                     ),
@@ -113,7 +94,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: TextStyle(
                             fontFamily: 'Poppins-Reguler',
                             fontSize: 15.0,
-                            color: const Color.fromARGB(255, 20, 165, 162))),
+                            color: primaryColor)),
                     SizedBox(
                       height: 5.0,
                     ),
@@ -150,8 +131,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ? [const CircularProgressIndicator()]
                           : [
                               RoundedButton(
-                                colour: const Color.fromARGB(255, 20, 165, 182),
+                                colour: primaryColor,
                                 title: 'Sign Up',
+                                width: 200.0,
+                                height: 50.0,
                                 onPressed: () async {
                                   _focusUsername.unfocus();
                                   _focusEmail.unfocus();
@@ -209,8 +192,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               child: Text(
                                 "Sign In",
                                 style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Color.fromARGB(255, 20, 165, 182)),
+                                    fontSize: 12.0, color: primaryColor),
                               ),
                             )),
                       ],
