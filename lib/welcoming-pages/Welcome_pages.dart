@@ -1,7 +1,113 @@
 import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
 import '../configuration/rounded button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
+class onBoardingPage extends StatelessWidget {
+  const onBoardingPage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return IntroductionScreen(
+      pages: [
+        PageViewModel(
+          title: 'WELCOME TO Aturuang',
+          body:
+              "Aturuang is your go-to solution for efficient and hassle-free financial management.",
+          image: SvgPicture.asset(
+            'assets/undraw_note_list_re_r4u9.svg',
+            height: 600,
+          ),
+          //assets/undraw_transfer_money_re_6o1h.svg
+          decoration: buildDecoration(),
+        ),
+        PageViewModel(
+          title: 'Income and Expense',
+          body:
+              'You can enter your income and expenses with the results of digital recording.',
+          image: SvgPicture.asset(
+            'assets/undraw_transfer_money_re_6o1h.svg',
+            height: 600,
+          ),
+          //assets/undraw_vault_re_s4my.svg
+          decoration: buildDecoration(),
+        ),
+        PageViewModel(
+          title: 'Savings',
+          body: 'manage your savings by entering your income over time',
+          image: SvgPicture.asset(
+            'assets/undraw_vault_re_s4my.svg',
+            height: 600,
+          ),
+          //assets/undraw_personal_goals_re_iow7.svg
+          decoration: buildDecoration(),
+        ),
+        PageViewModel(
+          title: 'Goals',
+          body:
+              'reach your savings target with the progress bar display results',
+          image: SvgPicture.asset(
+            'assets/undraw_personal_goals_re_iow7.svg',
+            height: 600,
+          ),
+          //assets/undraw_personal_goals_re_iow7.svg
+          decoration: buildDecoration(),
+        ),
+      ],
+      next: Icon(
+        Icons.navigate_next_outlined,
+        size: 50,
+        color: const Color.fromARGB(255, 20, 165, 182),
+      ),
+      done: Text('Done',
+          style: TextStyle(
+              fontFamily: 'Poppins-SemiBold',
+              color: const Color.fromARGB(255, 20, 162, 182),
+              fontSize: 30)),
+      onDone: () => goToHome(context),
+      showSkipButton: true,
+      skip: Text(
+        'Skip',
+        style: TextStyle(
+            fontFamily: 'Poppins-SemiBold',
+            color: const Color.fromARGB(255, 20, 165, 182),
+            fontSize: 30),
+      ), //by default, skip goes to the last page
+      onSkip: () => goToHome(context),
+      dotsDecorator: getDotDecoration(),
+      animationDuration: 400,
+      globalBackgroundColor: Colors.white,
+    );
+  }
+
+  DotsDecorator getDotDecoration() => DotsDecorator(
+      color: Colors.grey,
+      size: Size(10, 10),
+      activeColor: const Color.fromARGB(255, 20, 165, 182),
+      activeSize: Size(22, 10),
+      activeShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ));
+
+  void goToHome(BuildContext context) =>
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => WelcomingPage(
+                title: 'Welcome',
+              )));
+
+  PageDecoration buildDecoration() => PageDecoration(
+      titleTextStyle: TextStyle(
+          fontFamily: 'Poppins-Regular',
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+          color: const Color.fromARGB(255, 20, 165, 182)),
+      bodyTextStyle: TextStyle(
+        fontSize: 22,
+      ),
+      pageColor: Colors.white,
+      imagePadding: EdgeInsets.all(18.0),
+      bodyPadding: EdgeInsets.only(bottom: 1.0));
+}
 
 class WelcomingPage extends StatefulWidget {
   const WelcomingPage({Key? key, required String title}) : super(key: key);
