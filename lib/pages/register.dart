@@ -1,4 +1,4 @@
-import 'package:aturuang_project/login.dart';
+import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:flutter/material.dart';

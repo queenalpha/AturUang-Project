@@ -43,6 +43,7 @@ dependencies:
   google_fonts: ^6.1.0
   introduction_screen:
   shared_preferences: ^2.2.2
+  hovering: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +76,12 @@ flutter:
     - assets/undraw_note_list_re_r4u9.svg
     - assets/Logo Aturuang.png
     - assets/Ellipse3.png
+    - assets/background.png
     - assets/Logo_without_text.png
+    - assets/jhondoe.png
+    - assets/delete account.png
+    - assets/logout.png
+    - assets/Mygoals.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -98,6 +104,9 @@ flutter:
     - family: Poppins-SemiBold
       fonts:
         - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
   #
   #
   # For details regarding fonts from package dependencies,

@@ -120,7 +120,7 @@ class _HomePageState extends State<WelcomingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryBackground,
+      backgroundColor: secondaryColor,
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Image.asset('assets/Logo_without_text.png', width: 250),
@@ -140,7 +140,7 @@ class _HomePageState extends State<WelcomingPage> {
                 color: Colors.white)),
         SizedBox(height: 30),
         RoundedButton(
-          colour: btncolor,
+          colour: primaryColor,
           title: "Sign In",
           onPressed: () {
             Navigator.pushNamed(context, 'login');
@@ -149,7 +149,7 @@ class _HomePageState extends State<WelcomingPage> {
           height: 57,
         ),
         RoundedButton(
-          colour: btncolor,
+          colour: primaryColor,
           title: "Sign Up",
           onPressed: () {
             Navigator.pushNamed(context, 'register');
@@ -159,5 +159,7 @@ class _HomePageState extends State<WelcomingPage> {
         )
       ])),
     );
+
+    // Positioned(bottom: 200, child: Image.asset('assets/Ellipse3.png'))
   }
 }

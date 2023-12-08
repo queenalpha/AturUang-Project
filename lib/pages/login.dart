@@ -1,4 +1,4 @@
-import 'package:aturuang_project/welcoming-pages/Home.dart';
+import 'package:aturuang_project/pages/Home.dart';
 import 'package:aturuang_project/roundedbutton.dart';
 import 'package:aturuang_project/utils/fire_auth.dart';
 import 'package:aturuang_project/utils/validator.dart';

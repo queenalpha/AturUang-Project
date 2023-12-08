@@ -200,6 +200,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "hovering",
+      "rootUri": "file:///C:/Users/ramdhan/AppData/Local/Pub/Cache/hosted/pub.dev/hovering-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http",
       "rootUri": "file:///C:/Users/ramdhan/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.1.0",
       "packageUri": "lib/",
@@ -464,7 +470,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-07T04:46:23.990610Z",
+  "generated": "2023-12-08T17:06:25.072540Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }
