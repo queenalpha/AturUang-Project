@@ -48,20 +48,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isProcessing = false;
 
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
+  Future<void> _initializeFirebase() async {
+    await Firebase.initializeApp();
 
     User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
+    if (user == null) {
+      Navigator.pushReplacementNamed(context, 'login');
     }
-    return firebaseApp;
   }
+
+  // Future<FirebaseApp> _initializeFirebase() async {
+  //   FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+  //   User? user = FirebaseAuth.instance.currentUser;
+
+  //   if (user != null) {
+  //     Navigator.pushReplacementNamed(context, 'home');
+  //   }
+  //   return firebaseApp;
+  // }
 
   bool _isObsecured = true;
   String _errorText = '';
@@ -199,13 +205,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           });
 
                                           if (user != null) {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomePage(),
-                                              ),
-                                            );
+                                            Navigator.pushReplacementNamed(
+                                                context, 'home');
                                           } else {
                                             _errorText =
                                                 'Your email or password is incorrect!';
@@ -233,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'register');
+                          Navigator.pushReplacementNamed(context, 'register');
                         });
                       },
                       child: Text(

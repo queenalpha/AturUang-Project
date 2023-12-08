@@ -36,7 +36,7 @@ class _HomePageState extends State<WelcomingPage> {
           colour: btncolor,
           title: "Sign In",
           onPressed: () {
-            Navigator.pushNamed(context, 'login');
+            Navigator.pushReplacementNamed(context, 'login');
           },
           width: 273,
           height: 57,
@@ -45,7 +45,7 @@ class _HomePageState extends State<WelcomingPage> {
           colour: btncolor,
           title: "Sign Up",
           onPressed: () {
-            Navigator.pushNamed(context, 'register');
+            Navigator.pushReplacementNamed(context, 'register');
           },
           width: 273,
           height: 57,

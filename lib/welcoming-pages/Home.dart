@@ -23,11 +23,7 @@ class _HomePageState extends State<HomePage> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => LoginScreen(),
-        ),
-      );
+      Navigator.pushReplacementNamed(context, 'login');
     }
   }
 

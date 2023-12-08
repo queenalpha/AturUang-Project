@@ -55,11 +55,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
+      Navigator.pushReplacementNamed(context, 'home');
     }
   }
 
@@ -219,7 +215,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  Navigator.pushNamed(context, 'login');
+                                  Navigator.pushReplacementNamed(
+                                      context, 'login');
                                 });
                               },
                               child: Text(
