@@ -38,6 +38,23 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
+    return firebaseApp;
+  }
+
   final _registerFormKey = GlobalKey<FormState>();
   final _usernameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
@@ -48,16 +65,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isProcessing = false;
 
   bool _isObsecured = true;
-
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, 'home');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

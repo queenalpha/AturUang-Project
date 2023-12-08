@@ -38,6 +38,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
+    return firebaseApp;
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final _emailTextController = TextEditingController();
@@ -47,27 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _focusPassword = FocusNode();
 
   bool _isProcessing = false;
-
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      Navigator.pushReplacementNamed(context, 'login');
-    }
-  }
-
-  // Future<FirebaseApp> _initializeFirebase() async {
-  //   FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-  //   User? user = FirebaseAuth.instance.currentUser;
-
-  //   if (user != null) {
-  //     Navigator.pushReplacementNamed(context, 'home');
-  //   }
-  //   return firebaseApp;
-  // }
 
   bool _isObsecured = true;
   String _errorText = '';
