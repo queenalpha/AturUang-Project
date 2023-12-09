@@ -27,9 +27,9 @@ class ButtomNavigation extends StatelessWidget {
       currentIndex: currentIndex,
       onTap: onTabTapped,
       backgroundColor: primaryColor,
-      unselectedItemColor: Colors.white,
+      unselectedItemColor: secondaryColor,
       selectedItemColor: Colors.white,
-      selectedIconTheme: IconThemeData(color: secondaryColor),
+      selectedIconTheme: IconThemeData(color: Colors.white),
     );
   }
 }
