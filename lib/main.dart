@@ -1,6 +1,8 @@
 import 'package:aturuang_project/pages/goallist.dart';
 import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/pages/profile.dart';
+import 'package:aturuang_project/pages/counting.dart';
+import 'package:aturuang_project/pages/reporting.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/pages/register.dart';
@@ -8,6 +10,7 @@ import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,6 +35,8 @@ class MyApp extends StatelessWidget {
           'home': (context) => const HomePage(),
           'goalist': (context) => const GoalsList(title: "Goals List"),
           'profile': (context) => const ProfilePage(),
+          'counting': (context) => const CountingScreen(),
+          'reporting': (context) => const ReportingScreen()
         });
   }
 }

@@ -19,7 +19,8 @@ class _GoalsList extends State<GoalsList> {
               Icons.arrow_back,
               color: primaryColor,
             ),
-            onPressed: () => Navigator.of(context).pop('home'),
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, 'home', (route) => false),
           ),
           title: Text(
             "Goals List",

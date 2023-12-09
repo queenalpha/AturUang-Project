@@ -43,7 +43,7 @@ class ButtomNavigation extends StatelessWidget {
         return ProfilePage();
       // Add more cases if you have additional screens
       default:
-        return Container();
+        return HomePage();
     }
   }
 }

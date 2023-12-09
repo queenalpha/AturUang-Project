@@ -59,7 +59,6 @@ class _ProfilePageState extends State<ProfilePage> {
     data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
         appid, 'user_id', currentUser?.uid ?? ''));
     lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
-    print(currentUser?.uid);
 
     List<LaporanKeuanganModel> income = [];
     List<LaporanKeuanganModel> spending = [];
@@ -217,7 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: 'Rp ',
+      symbol: 'Rp',
       decimalDigits: 0, // Jumlah digit di belakang koma
     );
 
