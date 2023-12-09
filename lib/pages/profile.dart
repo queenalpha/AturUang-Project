@@ -142,7 +142,6 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () async {
                 await _signOut();
-                Navigator.of(context).pop();
               },
               child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
@@ -216,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: 'Rp ', 
+      symbol: 'Rp ',
       decimalDigits: 0, // Jumlah digit di belakang koma
     );
 
