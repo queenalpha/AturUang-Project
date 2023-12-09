@@ -60,7 +60,6 @@ class _ProfilePageState extends State<ProfilePage> {
         appid, 'user_id', currentUser?.uid ?? ''));
     lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
     print(currentUser?.uid);
-    print("ALFIUSSS");
 
     List<LaporanKeuanganModel> income = [];
     List<LaporanKeuanganModel> spending = [];
@@ -158,14 +157,17 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding: EdgeInsets.all(10.0),
-          content: Column(
-            children: [
-              Text('Confirm your username before deleting your account:'),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
-              ),
-            ],
+          content: Container(
+            height: 100,
+            child: Column(
+              children: [
+                Text('Confirm your username before deleting your account:'),
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(labelText: 'Username'),
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -216,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: 'Rp ', 
+      symbol: 'Rp ',
       decimalDigits: 0, // Jumlah digit di belakang koma
     );
 
@@ -299,7 +301,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // Icons edit
                                   Positioned(
                                     top: 247,
-                                    // right: 150 - 70 / 250.0,
+                                    right: 135,
                                     child: Container(
                                       width: 40,
                                       height: 40,
@@ -430,28 +432,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     padding: EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: Text(
-                                                      'Income',
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontFamily:
-                                                              'Poppins-Regular',
-                                                          color: Colors.white),
+                                                    child: Expanded(
+                                                      child: Text(
+                                                        'Income',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontFamily:
+                                                                'Poppins-Regular',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding: EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: Text(
-                                                      formatCurrency(
-                                                              totalIncome)
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              'Poppins-SemiBold',
-                                                          color: Colors.white),
+                                                    child: Expanded(
+                                                      child: Text(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        formatCurrency(
+                                                                totalIncome)
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontFamily:
+                                                                'Poppins-SemiBold',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -484,28 +496,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     padding: EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: Text(
-                                                      'Spending',
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontFamily:
-                                                              'Poppins-Regular',
-                                                          color: Colors.white),
+                                                    child: Expanded(
+                                                      child: Text(
+                                                        'Spending',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontFamily:
+                                                                'Poppins-Regular',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding: EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: Text(
-                                                      formatCurrency(
-                                                              totalSpending)
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              'Poppins-SemiBold',
-                                                          color: Colors.white),
+                                                    child: Expanded(
+                                                      child: Text(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        formatCurrency(
+                                                                totalSpending)
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontFamily:
+                                                                'Poppins-SemiBold',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
