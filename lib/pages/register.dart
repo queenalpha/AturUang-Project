@@ -1,10 +1,6 @@
 import 'package:aturuang_project/pages/login.dart';
-<<<<<<<<< Temporary merge branch 1
-import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
-=========
 import 'package:aturuang_project/roundedbutton.dart';
->>>>>>>>> Temporary merge branch 2
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
