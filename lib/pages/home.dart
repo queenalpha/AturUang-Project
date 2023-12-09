@@ -5,9 +5,7 @@ import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/models/nabung_model.dart';
-import 'package:aturuang_project/models/user_model.dart';
 import 'package:aturuang_project/navBottom.dart';
-import 'package:aturuang_project/pages/goallist.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,8 +26,6 @@ class _HomePageState extends State<HomePage> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  final TextEditingController _usernameController = TextEditingController();
-  String fotoTabungan = "-";
   String username = '';
   late ValueNotifier<int> _notifier;
   int saving = 0;
@@ -37,13 +33,18 @@ class _HomePageState extends State<HomePage> {
   List<NabungModel> nabung = [];
   List<NabungModel> tabungan = [];
   List<LaporanKeuanganModel> lapKeu = [];
+
   List data = [];
 
   int totalIncome = 0;
   int totalSpending = 0;
-  int collected = 0;
-  int target = 0;
-  String goals = '';
+
+  List<String> fotoTabungan = [];
+  List<int> target = [];
+  List<String> goals = [];
+  List<String> periode = [];
+  List<int> collectedArray = [];
+  List<int> collected = [];
 
   @override
   void initState() {
@@ -73,24 +74,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  selectWhereNabung(String idd) async {
+  selectWhereNabung() async {
     List data = [];
     data = jsonDecode(await ds.selectWhere(
         token, project, 'nabung', appid, 'user_id', currentUser?.uid ?? ''));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
 
-    fotoTabungan = nabung[0].foto;
-    target = int.parse(nabung[0].target);
-    goals = nabung[0].nama;
-
-    List<int> collectedArray = [];
-
     for (NabungModel tabungan in nabung) {
-      if (tabungan.id == idd) {
-        collectedArray = jsonDecode(tabungan.nominal).cast<int>();
-        collected = collectedArray.fold(
-            0, (int previousValue, int element) => previousValue + element);
-      }
+      fotoTabungan.add(tabungan.foto);
+      goals.add(tabungan.nama);
+      target.add(int.parse(tabungan.target));
+      periode.add(tabungan.periode);
+      collectedArray = jsonDecode(tabungan.nominal).cast<int>();
+      collected.add(collectedArray.fold(
+          0, (previousValue, element) => previousValue + element));
     }
   }
 
@@ -143,10 +140,8 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: FutureBuilder<dynamic>(
-          future: Future.wait<dynamic>([
-            selectWhereLaporan(),
-            selectWhereNabung('65743dc9c735f28b8b45edf0')
-          ]),
+          future:
+              Future.wait<dynamic>([selectWhereLaporan(), selectWhereNabung()]),
           builder: (context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -456,11 +451,20 @@ class _HomePageState extends State<HomePage> {
                                             color: primaryColor)),
                                     SizedBox(height: 9),
                                     ListGoals(
-                                        goals: goals,
-                                        collected: formatCurrency(collected)
+                                        goals: goals[0],
+                                        collected: formatCurrency(collected[0])
                                             .toString(),
-                                        target:
-                                            formatCurrency(target).toString(),
+                                        target: formatCurrency(target[0])
+                                            .toString(),
+                                        onPressed: () {},
+                                        imagePath: "assets/Mobil.jpg"),
+                                    SizedBox(height: 9),
+                                    ListGoals(
+                                        goals: goals[1],
+                                        collected: formatCurrency(collected[1])
+                                            .toString(),
+                                        target: formatCurrency(target[1])
+                                            .toString(),
                                         onPressed: () {},
                                         imagePath: "assets/Mobil.jpg"),
 
