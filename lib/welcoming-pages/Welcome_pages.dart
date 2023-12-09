@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
-import '../configuration/roundedbutton.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:aturuang_project/configuration/rounded button.dart';
 
 class onBoardingPage extends StatelessWidget {
   const onBoardingPage({Key? key}) : super(key: key);

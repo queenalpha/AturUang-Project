@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../configuration/theme_config.dart';
 import '../welcoming-pages/Welcome_pages.dart';
+import '../configuration/rounded button.dart';
+import '../configuration/theme_config.dart';
 
 int? initScreen;
 
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryBackground,
+      backgroundColor: secondaryColor,
       body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

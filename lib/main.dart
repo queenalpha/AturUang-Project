@@ -1,5 +1,5 @@
-import 'package:aturuang_project/pages/Home.dart';
-import 'package:aturuang_project/pages/goalist.dart';
+import 'package:aturuang_project/pages/goallist.dart';
+import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
@@ -8,8 +8,6 @@ import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
-//
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
