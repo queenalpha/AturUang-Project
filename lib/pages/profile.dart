@@ -183,11 +183,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   if (_usernameController.text == currentUser?.displayName) {
                     await _deleteAccount();
-                    // Navigator.of(context).pop();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Username not match!'),
                     ));
+                    Navigator.pop(context);
                   }
                 }
               },
