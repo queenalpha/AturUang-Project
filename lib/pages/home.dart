@@ -35,7 +35,9 @@ class _HomePageState extends State<HomePage> {
   int saving = 0;
 
   List<NabungModel> nabung = [];
+  List<NabungModel> tabungan = [];
   List<LaporanKeuanganModel> lapKeu = [];
+  List data = [];
 
   int totalIncome = 0;
   int totalSpending = 0;
@@ -46,10 +48,28 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _notifier = ValueNotifier<int>(0);
+    selectAllTabungan();
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _initializeFirebase();
+    });
+  }
+
+  Future reloadDataTabungan(dynamic value) async {
+    setState(() {
+      selectAllTabungan();
+    });
+  }
+
+  selectAllTabungan() async {
+    data = jsonDecode(await ds.selectAll(token, project, 'nabung', appid));
+
+    tabungan = data.map((e) => NabungModel.fromJson(e)).toList();
+
+    //refresh the UI
+    setState(() {
+      tabungan = tabungan;
     });
   }
 
