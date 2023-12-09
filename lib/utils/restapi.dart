@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class DataService {
   Future insertNabung(String appid, String foto, String nama, String target,
-      String periode, String nominal, String user_id) async {
+      String periode, String nominal) async {
     String uri = 'https://io.etter.cloud/v4/insert';
 
     try {
@@ -18,69 +18,7 @@ class DataService {
         'nama': nama,
         'target': target,
         'periode': periode,
-        'nominal': nominal,
-        'user_id': user_id
-      });
-
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        // Return an empty array
-        return '[]';
-      }
-    } catch (e) {
-      // Print error here
-      return '[]';
-    }
-  }
-
-  Future insertLaporanKeuangan(
-      String appid,
-      String kategori,
-      String tanggal,
-      String tipe_keuangan,
-      String nominal,
-      String deskripsi,
-      String user_id) async {
-    String uri = 'https://io.etter.cloud/v4/insert';
-
-    try {
-      final response = await http.post(Uri.parse(uri), body: {
-        'token': '651bc4399b493f4b9fe24867',
-        'project': 'aturuang',
-        'collection': 'laporan_keuangan',
-        'appid': appid,
-        'kategori': kategori,
-        'tanggal': tanggal,
-        'tipe_keuangan': tipe_keuangan,
-        'nominal': nominal,
-        'deskripsi': deskripsi,
-        'user_id': user_id
-      });
-
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        // Return an empty array
-        return '[]';
-      }
-    } catch (e) {
-      // Print error here
-      return '[]';
-    }
-  }
-
-  Future insertUser(String appid, String user_id, String foto) async {
-    String uri = 'https://io.etter.cloud/v4/insert';
-
-    try {
-      final response = await http.post(Uri.parse(uri), body: {
-        'token': '651bc4399b493f4b9fe24867',
-        'project': 'aturuang',
-        'collection': 'user',
-        'appid': appid,
-        'user_id': user_id,
-        'foto': foto
+        'nominal': nominal
       });
 
       if (response.statusCode == 200) {

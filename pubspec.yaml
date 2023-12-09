@@ -34,26 +34,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fb6ef60f247b0bc6aefee44d036ef0ea53869a30
   http: ^1.1.0
   file_picker: ^6.0.0
   intl: ^0.18.1
   flutter_svg: ^2.0.9
   firebase_auth: ^4.15.0
   firebase_core: ^2.24.0
-<<<<<<< HEAD
-=======
-  flutter_svg: ^2.0.9
->>>>>>> origin/ramdhan
-=======
->>>>>>> fb6ef60f247b0bc6aefee44d036ef0ea53869a30
   google_fonts: ^6.1.0
-  introduction_screen:
-  shared_preferences: ^2.2.2
-  hovering: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -80,35 +67,17 @@ flutter:
   assets:
     - assets/undraw_my_password_re_ydq7.svg
     - assets/undraw_load_more_re_482p.svg
-<<<<<<< HEAD
     - assets/fonts/Poppins-Regular.ttf
-<<<<<<< HEAD
-=======
-    - assets/undraw_vault_re_s4my.svg
-    - assets/undraw_personal_goals_re_iow7.svg
-    - assets/undraw_transfer_money_re_6o1h.svg
-    - assets/undraw_note_list_re_r4u9.svg
->>>>>>> fb6ef60f247b0bc6aefee44d036ef0ea53869a30
     - assets/Logo Aturuang.png
-    - assets/background.png
     - assets/Logo_without_text.png
     - assets/moneycard.png
     - assets/IconGoals.png
     - assets/IconCounting.png
     - assets/IconReporting.png
     - assets/Mobil.jpg
-<<<<<<< HEAD
     - assets/fonts/Poppins-Bold.ttf
     - assets/fonts/Poppins-Regular.ttf
     - assets/fonts/Poppins-SemiBold.ttf
-=======
->>>>>>> origin/ramdhan
-=======
-    - assets/jhondoe.png
-    - assets/delete account.png
-    - assets/logout.png
-    - assets/Mygoals.png
->>>>>>> fb6ef60f247b0bc6aefee44d036ef0ea53869a30
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -121,20 +90,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Poppins-Regular
-      fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-    - family: Poppins-Bold
-      fonts:
-        - asset: assets/fonts/Poppins-Bold.ttf
-    - family: Poppins-SemiBold
-      fonts:
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-    - family: Poppins-Medium
-      fonts:
-        - asset: assets/fonts/Poppins-Medium.ttf
-  #
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

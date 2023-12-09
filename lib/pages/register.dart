@@ -2,7 +2,6 @@ import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/validator.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,23 +15,6 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _initializeFirebase();
-  }
-
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, 'home');
-    }
-    return firebaseApp;
-  }
-
   final _registerFormKey = GlobalKey<FormState>();
   final _usernameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
@@ -68,7 +50,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Text(
                       'Username',
                       style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
+                          fontFamily: 'Poppins-Reguler',
                           fontSize: 15.0,
                           color: primaryColor),
                     ),
@@ -91,7 +73,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 10.0),
                     Text('Email',
                         style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
+                            fontFamily: 'Poppins-Reguler',
                             fontSize: 15.0,
                             color: primaryColor)),
                     SizedBox(
@@ -110,7 +92,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 20.0),
                     Text('Password',
                         style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
+                            fontFamily: 'Poppins-Reguler',
                             fontSize: 15.0,
                             color: primaryColor)),
                     SizedBox(
@@ -192,7 +174,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Text(
                           'Already have an account ?',
                           style: TextStyle(
-                              fontFamily: 'Poppins-Regular',
+                              fontFamily: 'Poppins-Reguler',
                               fontSize: 12.0,
                               color: Colors.black),
                         ),
@@ -204,16 +186,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  Navigator.pushReplacementNamed(
-                                      context, 'login');
+                                  Navigator.pushNamed(context, 'login');
                                 });
                               },
                               child: Text(
                                 "Sign In",
                                 style: TextStyle(
-                                    fontFamily: 'Poppins-Regular',
-                                    fontSize: 12.0,
-                                    color: primaryColor),
+                                    fontSize: 12.0, color: primaryColor),
                               ),
                             )),
                       ],
