@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:convert';
@@ -15,7 +16,6 @@ import 'package:file_picker/file_picker.dart';
 
 import '../models/user_model.dart';
 import '../utils/restapi.dart';
-import '../config.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

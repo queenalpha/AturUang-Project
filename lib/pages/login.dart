@@ -1,6 +1,5 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/roundedbutton.dart';
-import 'package:aturuang_project/pages/home.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/utils/fire_auth.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -236,9 +235,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "Sign Up",
-                        style:
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: primaryTextColor,
                           fontFamily: 'Poppins-Regular',
-                            TextStyle(fontSize: 12.0, color: primaryTextColor),
+                        ),
                       ),
                     ),
                   )
