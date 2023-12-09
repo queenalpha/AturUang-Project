@@ -5,6 +5,7 @@ import 'package:aturuang_project/pages/goalist.dart';
 import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 
+// ....
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
