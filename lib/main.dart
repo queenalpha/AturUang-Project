@@ -1,3 +1,4 @@
+import 'package:aturuang_project/pages/goalist.dart';
 import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const HomePage(),
+          'goalist': (context) => const GoalsList(title: "Goals List"),
         });
   }
 }
