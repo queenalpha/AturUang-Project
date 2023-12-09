@@ -1,12 +1,12 @@
 import 'package:aturuang_project/pages/Home.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
-import 'package:aturuang_project/pages/login.dart';
-import 'package:aturuang_project/pages/register.dart';
+import 'package:aturuang_project/pages/pages/login.dart';
+import 'package:aturuang_project/pages/pages/register.dart';
 import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'utils/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aturuang',
-        home: SplashScreen(),
+        home: HomePage(),
         initialRoute: '',
         routes: {
           'welcome': (context) => const WelcomingPage(title: 'Welcome'),
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const HomePage(),
           'profile': (context) => const ProfilePage(),
+          'goalist': (context) => const GoalsList(title: "Goals List"),
         });
   }
 }

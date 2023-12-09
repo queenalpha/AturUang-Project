@@ -1,3 +1,14 @@
+import 'package:flutter/material.dart';
+
+class ProfilesScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Halaman Beranda'),
+    );
+  }
+}
+
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
