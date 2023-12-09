@@ -1,5 +1,19 @@
 import 'package:aturuang_project/navBottom.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+
+import '../models/user_model.dart';
+import '../utils/restapi.dart';
+import '../config.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -8,6 +22,177 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  DataService ds = DataService();
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  final TextEditingController _usernameController = TextEditingController();
+  String profpic = "-";
+  late ValueNotifier<int> _notifier;
+
+  //User Data
+  List<UserModel> user = [];
+
+  Future<void> _initializeFirebase() async {
+    await Firebase.initializeApp();
+
+    if (currentUser == null) {
+      Navigator.pushReplacementNamed(context, 'login');
+    }
+  }
+
+  selectWhereUser() async {
+    List data = [];
+    data = jsonDecode(await ds.selectWhere(
+        token, project, 'user', appid, 'user_id', currentUser?.uid ?? ''));
+    user = data.map((e) => UserModel.fromJson(e)).toList();
+
+    profpic = user[0].foto;
+  }
+
+  //Info
+  Future reloadDataUser(dynamic value) async {
+    setState(() {
+      selectWhereUser();
+    });
+  }
+
+  //Profic
+  File? image;
+  String? imageProfpic;
+
+  Future pickImage(String id) async {
+    try {
+      var picked = await FilePicker.platform.pickFiles(withData: true);
+
+      if (picked != null) {
+        var response = await ds.upload(token, project,
+            picked.files.first.bytes!, picked.files.first.extension.toString());
+
+        var file = jsonDecode(response);
+
+        await ds.updateId('picture', file['file_name'], token, project,
+            'mahasiswa', appid, id);
+
+        profpic = file['file_name'];
+
+        // trigger change valueNotifier
+        _notifier.value++;
+      }
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  // Fungsi untuk logout
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacementNamed(context, 'login');
+    } catch (e) {
+      print("Error during sign out: $e");
+    }
+  }
+
+  //alert sebelum logout
+  Future<void> _showLogoutConfirmation(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text('Are you sure you want to Log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await _signOut();
+                Navigator.of(context).pop();
+              },
+              child: Text('Logout', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteAccountConfirmation(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(10.0),
+          content: Column(
+            children: [
+              Text('Confirm your username before deleting your account:'),
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (currentUser != null) {
+                  await currentUser?.reload();
+                  await currentUser?.getIdToken(true);
+
+                  if (_usernameController.text == currentUser?.displayName) {
+                    await _deleteAccount();
+                    // Navigator.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Username not match!'),
+                    ));
+                  }
+                }
+              },
+              child: Text('Delete Account'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteAccount() async {
+    try {
+      if (currentUser != null) {
+        await currentUser?.delete();
+        Navigator.pushNamedAndRemoveUntil(context, 'welcome', (route) => false);
+      }
+    } catch (e) {
+      print("Error during delete account: $e");
+
+      if (context != null && Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _notifier = ValueNotifier<int>(0);
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _initializeFirebase();
+    });
+  }
+
   int _currentIndex = 0;
   @override
   Widget build(BuildContext) {
@@ -85,7 +270,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: double.infinity,
                       child: Center(
                         child: Text(
-                          'Ramdhan Mahfuzh',
+                          currentUser != null
+                              ? currentUser?.displayName ?? ''
+                              : '',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -99,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: double.infinity,
                       child: Center(
                         child: Text(
-                          'ramdhanmahfuzh74@gmail.com',
+                          currentUser != null ? currentUser?.email ?? '' : '',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,
@@ -278,6 +465,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Card(
                               color: Color.fromARGB(255, 20, 165, 182),
                               child: ListTile(
+                                onTap: () {
+                                  _showDeleteAccountConfirmation(context);
+                                },
                                 leading:
                                     Image.asset('assets/delete account.png'),
                                 title: Text(
@@ -295,6 +485,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Card(
                               color: Color.fromARGB(255, 20, 165, 182),
                               child: ListTile(
+                                onTap: () {
+                                  _showLogoutConfirmation(context);
+                                },
                                 leading: Image.asset('assets/logout.png'),
                                 title: Text(
                                   'Log Out',
