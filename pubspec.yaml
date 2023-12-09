@@ -78,6 +78,13 @@ flutter:
     - assets/Ellipse3.png
     - assets/background.png
     - assets/Logo_without_text.png
+    - assets/background.png
+    - assets/Logo_without_text.png
+    - assets/moneycard.png
+    - assets/IconGoals.png
+    - assets/IconCounting.png
+    - assets/IconReporting.png
+    - assets/Mobil.jpg
     - assets/jhondoe.png
     - assets/delete account.png
     - assets/logout.png

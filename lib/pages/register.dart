@@ -1,5 +1,10 @@
 import 'package:aturuang_project/pages/login.dart';
+<<<<<<<<< Temporary merge branch 1
+import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
+=========
 import 'package:aturuang_project/roundedbutton.dart';
+>>>>>>>>> Temporary merge branch 2
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -86,11 +91,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Username',
-                        style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 15.0,
-                            color: const Color.fromARGB(255, 20, 165, 162))),
+                    Text(
+                      'Username',
+                      style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 15.0,
+                          color: primaryColor),
+                    ),
                     SizedBox(
                       height: 5.0,
                     ),
@@ -229,8 +236,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 "Sign In",
                                 style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
-                                    fontSize: 12.0,
-                                    color: Color.fromARGB(255, 20, 165, 182)),
+                                    fontSize: 12.0, color: primaryColor),
                               ),
                             )),
                       ],
