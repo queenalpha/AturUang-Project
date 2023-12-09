@@ -1,7 +1,6 @@
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
-import 'package:aturuang_project/pages/Home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

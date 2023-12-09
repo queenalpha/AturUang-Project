@@ -1,7 +1,9 @@
+import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'dart:convert';
 import 'dart:async';
@@ -29,8 +31,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String profpic = "-";
   late ValueNotifier<int> _notifier;
 
-  //User Data
   List<UserModel> user = [];
+  List<LaporanKeuanganModel> lapKeu = [];
+
+  int totalIncome = 0;
+  int totalSpending = 0;
 
   Future<void> _initializeFirebase() async {
     await Firebase.initializeApp();
@@ -47,6 +52,31 @@ class _ProfilePageState extends State<ProfilePage> {
     user = data.map((e) => UserModel.fromJson(e)).toList();
 
     profpic = user[0].foto;
+  }
+
+  selectWhereLaporan() async {
+    List data = [];
+    data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
+        appid, 'user_id', currentUser?.uid ?? ''));
+    lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
+    print(currentUser?.uid);
+    print("ALFIUSSS");
+
+    List<LaporanKeuanganModel> income = [];
+    List<LaporanKeuanganModel> spending = [];
+
+    for (LaporanKeuanganModel keuangan in lapKeu) {
+      if (keuangan.tipe_keuangan == "Pemasukan") {
+        income.add(keuangan);
+      } else if (keuangan.tipe_keuangan == "Pengeluaran") {
+        spending.add(keuangan);
+      }
+    }
+
+    totalIncome =
+        income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+    totalSpending =
+        spending.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
   }
 
   //Info
@@ -177,10 +207,20 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       print("Error during delete account: $e");
 
-      if (context != null && Navigator.canPop(context)) {
+      if (Navigator.canPop(context)) {
         Navigator.pop(context);
       }
     }
+  }
+
+  String formatCurrency(int amount) {
+    final NumberFormat formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ', 
+      decimalDigits: 0, // Jumlah digit di belakang koma
+    );
+
+    return formatter.format(amount);
   }
 
   @override
@@ -198,316 +238,370 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Expanded(
-          child: Column(
-            children: [
-              Container(
-                height: 250,
-                width: double.infinity,
-                child: Stack(
-                    alignment: Alignment.center,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Image.asset(
-                        'assets/background.png',
-                        width: double.infinity,
-                        height: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                          top: 30,
-                          child: Text(
-                            'YOUR PROFILE',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontFamily: 'Poppins-SemiBold'),
-                          )),
-                      Positioned(
-                        top: 250 - 220 / 2,
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/jhondoe.png'),
-                          backgroundColor: Colors.transparent,
-                          radius: 140 / 2,
-                        ),
-                      ),
-
-                      // Icons edit
-                      Positioned(
-                        top: 247,
-                        // right: 150 - 70 / 250.0,
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  6.0), // Atur radius sesuai keinginan
-                              side: BorderSide(
-                                  color: Colors.black,
-                                  width: 0.7), // Atur warna dan lebar border
-                            ),
-                            color: Color.fromARGB(210, 255, 255, 255),
-                            child: Center(
-                              child: Icon(
-                                Icons.edit_rounded,
-                                color: const Color.fromARGB(255, 5, 116, 129),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
-              ),
-
-              //Username
-              Padding(
-                padding: const EdgeInsets.only(top: 38.0),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          currentUser != null
-                              ? currentUser?.displayName ?? ''
-                              : '',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'Poppins-SemiBold'),
-                        ),
-                      ),
-                    ),
-
-                    //Email
-                    Container(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          currentUser != null ? currentUser?.email ?? '' : '',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontFamily: 'Poppins-Regular'),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-
-                    // Your Financial
-                    Container(
-                      width: double.infinity,
-                      // color: Colors.green,
+      body: FutureBuilder<dynamic>(
+        future: Future.wait<dynamic>([selectWhereUser(), selectWhereLaporan()]),
+        builder: (context, AsyncSnapshot<dynamic> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              {
+                return const Text('none');
+              }
+            case ConnectionState.waiting:
+              {
+                return const Center(child: CircularProgressIndicator());
+              }
+            case ConnectionState.active:
+              {
+                return const Text('Active');
+              }
+            case ConnectionState.done:
+              {
+                if (snapshot.hasError) {
+                  return Text('${snapshot.error}',
+                      style: const TextStyle(color: Colors.red));
+                } else {
+                  return SingleChildScrollView(
+                    child: Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16.0,
-                            ),
-                            child: Text(
-                              "Your Financial",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-Medium',
-                                  fontSize: 16,
-                                  color: Colors.black),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 6.0,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //financial income and outcome card
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, right: 12.0, bottom: 7.0),
-                      child: Card(
-                        color: Color.fromARGB(255, 20, 165, 182),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
+                          Container(
+                            height: 250,
+                            width: double.infinity,
+                            child: Stack(
+                                alignment: Alignment.center,
+                                clipBehavior: Clip.none,
                                 children: [
-                                  Container(
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_upward_rounded,
-                                        size: 50,
+                                  Image.asset(
+                                    'assets/background.png',
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                      top: 30,
+                                      child: Text(
+                                        'YOUR PROFILE',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontFamily: 'Poppins-SemiBold'),
+                                      )),
+                                  Positioned(
+                                    top: 250 - 220 / 2,
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage('assets/jhondoe.png'),
+                                      backgroundColor: Colors.transparent,
+                                      radius: 140 / 2,
+                                    ),
+                                  ),
+
+                                  // Icons edit
+                                  Positioned(
+                                    top: 247,
+                                    // right: 150 - 70 / 250.0,
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              6.0), // Atur radius sesuai keinginan
+                                          side: BorderSide(
+                                              color: Colors.black,
+                                              width:
+                                                  0.7), // Atur warna dan lebar border
+                                        ),
                                         color:
-                                            Color.fromARGB(255, 38, 243, 169),
+                                            Color.fromARGB(210, 255, 255, 255),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.edit_rounded,
+                                            color: const Color.fromARGB(
+                                                255, 5, 116, 129),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Column(
+                                ]),
+                          ),
+
+                          //Username
+                          Padding(
+                            padding: const EdgeInsets.only(top: 38.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: Text(
+                                      currentUser != null
+                                          ? currentUser?.displayName ?? ''
+                                          : '',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontFamily: 'Poppins-SemiBold'),
+                                    ),
+                                  ),
+                                ),
+                                //Email
+                                Container(
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: Text(
+                                      currentUser != null
+                                          ? currentUser?.email ?? ''
+                                          : '',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 35,
+                                ),
+
+                                // Your Financial
+                                Container(
+                                  width: double.infinity,
+                                  // color: Colors.green,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 10,
+                                        padding: const EdgeInsets.only(
+                                          left: 16.0,
+                                          right: 16.0,
                                         ),
                                         child: Text(
-                                          'Income',
+                                          "Your Financial",
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Regular',
-                                              color: Colors.white),
+                                              fontFamily: 'Poppins-Medium',
+                                              fontSize: 16,
+                                              color: Colors.black),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 10,
-                                        ),
-                                        child: Text(
-                                          'RP 50.000',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: 'Poppins-SemiBold',
-                                              color: Colors.white),
-                                        ),
+                                      SizedBox(
+                                        height: 6.0,
                                       ),
                                     ],
                                   ),
-                                  //
-                                  SizedBox(
-                                    width: 25,
-                                  ),
-                                  Container(
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_downward_rounded,
-                                        size: 50,
-                                        color: Color.fromARGB(255, 255, 85, 71),
+                                ),
+                                //financial income and outcome card
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12.0, right: 12.0, bottom: 7.0),
+                                  child: Card(
+                                    color: Color.fromARGB(255, 20, 165, 182),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(7.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                child: Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.0),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.arrow_upward_rounded,
+                                                    size: 50,
+                                                    color: Color.fromARGB(
+                                                        255, 38, 243, 169),
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 10,
+                                                    ),
+                                                    child: Text(
+                                                      'Income',
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontFamily:
+                                                              'Poppins-Regular',
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 10,
+                                                    ),
+                                                    child: Text(
+                                                      formatCurrency(
+                                                              totalIncome)
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontFamily:
+                                                              'Poppins-SemiBold',
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              //
+                                              SizedBox(
+                                                width: 25,
+                                              ),
+                                              Container(
+                                                child: Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.0),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons
+                                                        .arrow_downward_rounded,
+                                                    size: 50,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 85, 71),
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 10,
+                                                    ),
+                                                    child: Text(
+                                                      'Spending',
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontFamily:
+                                                              'Poppins-Regular',
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 10,
+                                                    ),
+                                                    child: Text(
+                                                      formatCurrency(
+                                                              totalSpending)
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontFamily:
+                                                              'Poppins-SemiBold',
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                ),
+                                //// three button below
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 50, left: 12, right: 12, bottom: 50),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 10,
-                                        ),
-                                        child: Text(
-                                          'Spending',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Regular',
-                                              color: Colors.white),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: Card(
+                                          color:
+                                              Color.fromARGB(255, 20, 165, 182),
+                                          child: ListTile(
+                                            leading: Image.asset(
+                                                'assets/Mygoals.png'),
+                                            title: Text(
+                                              'My Goals',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins-Medium',
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 10,
-                                        ),
-                                        child: Text(
-                                          'RP 50.000',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: 'Poppins-SemiBold',
-                                              color: Colors.white),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: Card(
+                                          color:
+                                              Color.fromARGB(255, 20, 165, 182),
+                                          child: ListTile(
+                                            onTap: () {
+                                              _showDeleteAccountConfirmation(
+                                                  context);
+                                            },
+                                            leading: Image.asset(
+                                                'assets/delete account.png'),
+                                            title: Text(
+                                              'Delete Account',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins-Medium',
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
                                       ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: Card(
+                                          color:
+                                              Color.fromARGB(255, 20, 165, 182),
+                                          child: ListTile(
+                                            onTap: () {
+                                              _showLogoutConfirmation(context);
+                                            },
+                                            leading: Image.asset(
+                                                'assets/logout.png'),
+                                            title: Text(
+                                              'Log Out',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins-Medium',
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                     ],
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    //// three button below
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 50, left: 12, right: 12, bottom: 50),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Card(
-                              color: Color.fromARGB(255, 20, 165, 182),
-                              child: ListTile(
-                                leading: Image.asset('assets/Mygoals.png'),
-                                title: Text(
-                                  'My Goals',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Poppins-Medium',
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Card(
-                              color: Color.fromARGB(255, 20, 165, 182),
-                              child: ListTile(
-                                onTap: () {
-                                  _showDeleteAccountConfirmation(context);
-                                },
-                                leading:
-                                    Image.asset('assets/delete account.png'),
-                                title: Text(
-                                  'Delete Account',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Poppins-Medium',
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Card(
-                              color: Color.fromARGB(255, 20, 165, 182),
-                              child: ListTile(
-                                onTap: () {
-                                  _showLogoutConfirmation(context);
-                                },
-                                leading: Image.asset('assets/logout.png'),
-                                title: Text(
-                                  'Log Out',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Poppins-Medium',
-                                      color: Colors.white),
-                                ),
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
                           )
                         ],
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+                    ),
+                  );
+                }
+              }
+          }
+        },
       ),
       bottomNavigationBar: ButtomNavigation(
           currentIndex: _currentIndex,
