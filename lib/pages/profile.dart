@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-
-class ProfilesScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Halaman Beranda'),
-    );
-  }
-}
-
+import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +17,6 @@ import 'package:file_picker/file_picker.dart';
 
 import '../models/user_model.dart';
 import '../utils/restapi.dart';
-import '../config.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

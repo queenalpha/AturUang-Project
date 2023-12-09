@@ -1,4 +1,4 @@
-import 'package:aturuang_project/pages/pages/login.dart';
+import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/validator.dart';
@@ -212,7 +212,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 "Sign In",
                                 style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
-                                    fontSize: 12.0, color: primaryColor),
+                                    fontSize: 12.0,
+                                    color: primaryColor),
                               ),
                             )),
                       ],

@@ -213,9 +213,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "Sign Up",
-                        style:
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: primaryTextColor,
                           fontFamily: 'Poppins-Regular',
-                            TextStyle(fontSize: 12.0, color: primaryTextColor),
+                        ),
                       ),
                     ),
                   )
