@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   int totalIncome = 0;
   int totalSpending = 0;
 
+  List<String> idTabungan = [];
   List<String> fotoTabungan = [];
   List<int> target = [];
   List<String> goals = [];
@@ -49,7 +50,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _notifier = ValueNotifier<int>(0);
-    selectAllTabungan();
+    // selectAllTabungan();
+    selectWhereNabung();
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -59,20 +61,28 @@ class _HomePageState extends State<HomePage> {
 
   Future reloadDataTabungan(dynamic value) async {
     setState(() {
-      selectAllTabungan();
+      // selectAllTabungan();
+      selectWhereNabung();
+      idTabungan.clear();
+      goals.clear();
+      collected.clear();
+      target.clear();
+      periode.clear();
+      fotoTabungan.clear();
+      collectedArray.clear();
     });
   }
 
-  selectAllTabungan() async {
-    data = jsonDecode(await ds.selectAll(token, project, 'nabung', appid));
+  // selectAllTabungan() async {
+  //   data = jsonDecode(await ds.selectAll(token, project, 'nabung', appid));
 
-    tabungan = data.map((e) => NabungModel.fromJson(e)).toList();
+  //   tabungan = data.map((e) => NabungModel.fromJson(e)).toList();
 
-    //refresh the UI
-    setState(() {
-      tabungan = tabungan;
-    });
-  }
+  //   //refresh the UI
+  //   setState(() {
+  //     tabungan = tabungan;
+  //   });
+  // }
 
   selectWhereNabung() async {
     List data = [];
@@ -81,6 +91,7 @@ class _HomePageState extends State<HomePage> {
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
 
     for (NabungModel tabungan in nabung) {
+      idTabungan.add(tabungan.id);
       fotoTabungan.add(tabungan.foto);
       goals.add(tabungan.nama);
       target.add(int.parse(tabungan.target));
@@ -89,7 +100,6 @@ class _HomePageState extends State<HomePage> {
       collected.add(collectedArray.fold(
           0, (previousValue, element) => previousValue + element));
     }
-    print("HALO: " + formatCurrency(collected[1]));
   }
 
   Future<void> _initializeFirebase() async {
@@ -97,6 +107,10 @@ class _HomePageState extends State<HomePage> {
 
     if (currentUser == null) {
       Navigator.pushReplacementNamed(context, 'login');
+    } else {
+      setState(() {
+        selectWhereNabung();
+      });
     }
   }
 
@@ -452,14 +466,97 @@ class _HomePageState extends State<HomePage> {
                                         goals: goals[0],
                                         collected: collected[0].toString(),
                                         target: target[0].toString(),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text("Warning"),
+                                                content: Text(
+                                                    "Remove ${goals[0]} from your Goals?"),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: const Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: const Text('Remove',
+                                                        style: TextStyle(
+                                                            color: Colors.red)),
+                                                    onPressed: () async {
+                                                      bool response =
+                                                          await ds.removeId(
+                                                              token,
+                                                              project,
+                                                              'nabung',
+                                                              appid,
+                                                              '${idTabungan[0]}');
+
+                                                      if (response) {
+                                                        Navigator.pop(
+                                                            context, true);
+                                                        reloadDataTabungan(
+                                                            true);
+                                                      }
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
                                         imagePath: "assets/Mobil.jpg"),
                                     SizedBox(height: 9),
+
                                     ListGoals(
                                       goals: goals[1],
                                       collected: collected[1].toString(),
                                       target: target[1].toString(),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text("Warning"),
+                                              content: Text(
+                                                  "Remove ${goals[1]} from your Goals?"),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('Remove',
+                                                      style: TextStyle(
+                                                          color: Colors.red)),
+                                                  onPressed: () async {
+                                                    bool response =
+                                                        await ds.removeId(
+                                                            token,
+                                                            project,
+                                                            'nabung',
+                                                            appid,
+                                                            '${idTabungan[1]}');
+
+                                                    if (response) {
+                                                      Navigator.pop(
+                                                          context, true);
+                                                      reloadDataTabungan(true);
+                                                    }
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
                                       imagePath: "assets/Mobil.jpg",
                                     ),
 
