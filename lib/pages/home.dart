@@ -89,6 +89,7 @@ class _HomePageState extends State<HomePage> {
       collected.add(collectedArray.fold(
           0, (previousValue, element) => previousValue + element));
     }
+    print("HALO: " + formatCurrency(collected[1]));
   }
 
   Future<void> _initializeFirebase() async {
@@ -104,7 +105,6 @@ class _HomePageState extends State<HomePage> {
     data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
         appid, 'user_id', currentUser?.uid ?? ''));
     lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
-    print(currentUser?.uid);
 
     List<LaporanKeuanganModel> income = [];
     List<LaporanKeuanganModel> spending = [];
@@ -234,10 +234,8 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context,
-                                                  'goalist',
-                                                  (route) => false);
+                                              Navigator.pushNamed(
+                                                  context, 'goalist');
                                             },
                                             child: Column(
                                               children: [
@@ -452,21 +450,18 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(height: 9),
                                     ListGoals(
                                         goals: goals[0],
-                                        collected: formatCurrency(collected[0])
-                                            .toString(),
-                                        target: formatCurrency(target[0])
-                                            .toString(),
+                                        collected: collected[0].toString(),
+                                        target: target[0].toString(),
                                         onPressed: () {},
                                         imagePath: "assets/Mobil.jpg"),
                                     SizedBox(height: 9),
                                     ListGoals(
-                                        goals: goals[1],
-                                        collected: formatCurrency(collected[1])
-                                            .toString(),
-                                        target: formatCurrency(target[1])
-                                            .toString(),
-                                        onPressed: () {},
-                                        imagePath: "assets/Mobil.jpg"),
+                                      goals: goals[1],
+                                      collected: collected[1].toString(),
+                                      target: target[1].toString(),
+                                      onPressed: () {},
+                                      imagePath: "assets/Mobil.jpg",
+                                    ),
 
                                     SizedBox(height: 9),
 

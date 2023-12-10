@@ -551,6 +551,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                           color:
                                               Color.fromARGB(255, 20, 165, 182),
                                           child: ListTile(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                  context, 'goalist');
+                                            },
                                             leading: Image.asset(
                                                 'assets/Mygoals.png'),
                                             title: Text(
