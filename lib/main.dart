@@ -1,6 +1,7 @@
-import 'package:aturuang_project/pages/Home.dart';
+import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/pages/goalist.dart';
 import 'package:aturuang_project/pages/profile.dart';
+// import 'package:aturuang_project/pages/reporting.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/pages/register.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           'home': (context) => const HomePage(),
           'profile': (context) => const ProfilePage(),
           'goalist': (context) => const GoalsList(title: "Goals List"),
+          // 'report': (context) => const ReportingPage(),
         });
   }
 }

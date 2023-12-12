@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
-import 'package:aturuang_project/navBottom.dart';
+import 'package:aturuang_project/configuration/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
@@ -235,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   @override
   Widget build(BuildContext) {
     return Scaffold(

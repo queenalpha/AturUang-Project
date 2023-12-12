@@ -17,7 +17,7 @@ class ButtomNavigation extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
