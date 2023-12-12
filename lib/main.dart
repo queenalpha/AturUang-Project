@@ -1,5 +1,8 @@
-import 'package:aturuang_project/pages/goalist.dart';
-import 'package:aturuang_project/pages/home.dart';
+import 'package:aturuang_project/configuration/navBottom.dart';
+import 'package:aturuang_project/pages/goallist.dart';
+import 'package:aturuang_project/pages/profile.dart';
+import 'package:aturuang_project/pages/counting.dart';
+import 'package:aturuang_project/pages/reporting.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/pages/register.dart';
@@ -25,10 +28,14 @@ class MyApp extends StatelessWidget {
         title: 'Aturuang',
         home: SplashScreen(),
         routes: {
+          'welcome': (context) => const WelcomingPage(),
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
-          'home': (context) => const HomePage(),
-          'goalist': (context) => const GoalsList(title: "Goals List"),
+          'home': (context) => const NavigationBarDemo(),
+          'goalist': (context) => const GoalsList(),
+          'profile': (context) => const ProfilePage(),
+          'counting': (context) => const CountingScreen(),
+          'reporting': (context) => const ReportingScreen()
         });
   }
 }

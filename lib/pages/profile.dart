@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
-import 'package:aturuang_project/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
@@ -220,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp',
-      decimalDigits: 0, // Jumlah digit di belakang koma
+      decimalDigits: 0,
     );
 
     return formatter.format(amount);
@@ -328,7 +327,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ]),
                           ),
-
                           //Username
                           Padding(
                             padding: const EdgeInsets.only(top: 38.0),
@@ -366,7 +364,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 SizedBox(
                                   height: 35,
                                 ),
-
                                 // Your Financial
                                 Container(
                                   width: double.infinity,
@@ -539,7 +536,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                //// three button below
+                                // three button below
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: 50, left: 12, right: 12, bottom: 50),
@@ -629,13 +626,6 @@ class _ProfilePageState extends State<ProfilePage> {
           }
         },
       ),
-      bottomNavigationBar: ButtomNavigation(
-          currentIndex: _currentIndex,
-          onTabTapped: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          }),
     );
   }
 }

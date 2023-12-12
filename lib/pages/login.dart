@@ -1,7 +1,6 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/utils/fire_auth.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // ignore: unused_import
 import 'package:google_fonts/google_fonts.dart';
+
+const kTextFieldDecoration = InputDecoration(
+  filled: true,
+  fillColor: Color.fromARGB(242, 242, 242, 242),
+  hintText: 'Enter a Value',
+  hintStyle: TextStyle(
+      color: Colors.grey, fontFamily: 'Poppins-Regular', fontSize: 12),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  border: UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.black),
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
+  enabledBorder: UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.black),
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide:
+        BorderSide(color: Color.fromARGB(255, 20, 165, 182), width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
+);
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -72,7 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                                 fontFamily: 'Poppins-Reguler',
                                 fontSize: 15.0,
-                                color: primaryTextColor)),
+                                color:
+                                    const Color.fromARGB(255, 20, 165, 162))),
                         SizedBox(
                           height: 5.0,
                         ),
@@ -93,7 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                                 fontFamily: 'Poppins-Reguler',
                                 fontSize: 15.0,
-                                color: primaryTextColor)),
+                                color:
+                                    const Color.fromARGB(255, 20, 165, 162))),
                         SizedBox(
                           height: 5.0,
                         ),
@@ -141,10 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? [const CircularProgressIndicator()]
                                 : [
                                     RoundedButton(
-                                      colour: primaryColor,
+                                      colour: const Color.fromARGB(
+                                          255, 20, 165, 182),
                                       title: 'Sign In',
-                                      width: 200.0,
-                                      height: 50.0,
                                       onPressed: () async {
                                         _focusEmail.unfocus();
                                         _focusPassword.unfocus();

@@ -1,5 +1,6 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ListGoals extends StatelessWidget {
   final String goals;
@@ -15,6 +16,16 @@ class ListGoals extends StatelessWidget {
     required this.onPressed,
     required this.imagePath,
   });
+
+  String formatCurrency(int amount) {
+    final NumberFormat formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0, // Jumlah digit di belakang koma
+    );
+
+    return formatter.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +61,18 @@ class ListGoals extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Collected : ${collected}",
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+            ),
+            Text(
+                "Collected : ${formatCurrency(int.parse(collected)).toString()}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,
                   fontFamily: 'Poppins-Reguler',
                   color: Colors.white,
                 )),
-            Text("Target : ${target}",
+            Text("Target : ${formatCurrency(int.parse(target)).toString()}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,
