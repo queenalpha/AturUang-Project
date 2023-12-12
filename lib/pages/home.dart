@@ -2,7 +2,7 @@ import 'package:aturuang_project/configuration/list_configuration.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/navBottom.dart';
 import 'package:aturuang_project/pages/goalist.dart';
-import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
+import 'package:aturuang_project/welcoming-pages/welcome.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
