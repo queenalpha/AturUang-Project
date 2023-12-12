@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aturuang',
-        home: HomePage(),
+        home: SplashScreen(),
         routes: {
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
