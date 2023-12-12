@@ -314,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(210, 255, 255, 255),
                                         child: Center(
                                           child: Icon(
-                                            Icons.edit_rounded,
+                                            Icons.camera_alt,
                                             color: const Color.fromARGB(
                                                 255, 5, 116, 129),
                                           ),
