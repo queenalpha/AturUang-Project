@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
-import 'package:aturuang_project/configuration/navBottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
@@ -59,7 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
     data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
         appid, 'user_id', currentUser?.uid ?? ''));
     lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
-    print(currentUser?.uid);
 
     List<LaporanKeuanganModel> income = [];
     List<LaporanKeuanganModel> spending = [];
@@ -141,7 +139,6 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () async {
                 await _signOut();
-                Navigator.of(context).pop();
               },
               child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
@@ -184,11 +181,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   if (_usernameController.text == currentUser?.displayName) {
                     await _deleteAccount();
-                    // Navigator.of(context).pop();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Username not match!'),
                     ));
+                    Navigator.pop(context);
                   }
                 }
               },
@@ -218,8 +215,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: 'Rp ',
-      decimalDigits: 0, // Jumlah digit di belakang koma
+      symbol: 'Rp',
+      decimalDigits: 0,
     );
 
     return formatter.format(amount);
@@ -235,7 +232,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  int _currentIndex = 1;
   @override
   Widget build(BuildContext) {
     return Scaffold(
@@ -328,7 +324,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ]),
                           ),
-
                           //Username
                           Padding(
                             padding: const EdgeInsets.only(top: 38.0),
@@ -366,7 +361,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 SizedBox(
                                   height: 35,
                                 ),
-
                                 // Your Financial
                                 Container(
                                   width: double.infinity,
@@ -539,7 +533,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                //// three button below
+                                // three button below
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: 50, left: 12, right: 12, bottom: 50),
@@ -553,6 +547,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                           color:
                                               Color.fromARGB(255, 20, 165, 182),
                                           child: ListTile(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                  context, 'goalist');
+                                            },
                                             leading: Image.asset(
                                                 'assets/Mygoals.png'),
                                             title: Text(
@@ -625,13 +623,6 @@ class _ProfilePageState extends State<ProfilePage> {
           }
         },
       ),
-      bottomNavigationBar: ButtomNavigation(
-          currentIndex: _currentIndex,
-          onTabTapped: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          }),
     );
   }
 }

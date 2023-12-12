@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 
-class ReportingScreen extends StatefulWidget {
-  const ReportingScreen({super.key});
+class CountingScreen extends StatefulWidget {
+  const CountingScreen({super.key});
 
   @override
-  _ReportingScreenState createState() => _ReportingScreenState();
+  _CountingScreenState createState() => _CountingScreenState();
 }
 
-class _ReportingScreenState extends State<ReportingScreen> {
+class _CountingScreenState extends State<CountingScreen> {
   @override
   void initState() {
     super.initState();
@@ -28,14 +28,14 @@ class _ReportingScreenState extends State<ReportingScreen> {
               context, 'home', (route) => false),
         ),
         title: Text(
-          "Reporting Page",
+          "Counting Page",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
       ),
       body: Center(
         child: Text(
-          'Page Reporting',
+          'Page Counting',
           style: TextStyle(fontSize: 24),
         ),
       ),

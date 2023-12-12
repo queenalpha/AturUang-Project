@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
-import '../configuration/roundedbutton.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:aturuang_project/configuration/rounded button.dart';
 
 class onBoardingPage extends StatelessWidget {
   const onBoardingPage({Key? key}) : super(key: key);
@@ -20,7 +20,6 @@ class onBoardingPage extends StatelessWidget {
             'assets/undraw_note_list_re_r4u9.svg',
             height: 600,
           ),
-          //assets/undraw_transfer_money_re_6o1h.svg
           decoration: buildDecoration(),
         ),
         PageViewModel(
@@ -31,7 +30,6 @@ class onBoardingPage extends StatelessWidget {
             'assets/undraw_transfer_money_re_6o1h.svg',
             height: 600,
           ),
-          //assets/undraw_vault_re_s4my.svg
           decoration: buildDecoration(),
         ),
         PageViewModel(
@@ -41,7 +39,6 @@ class onBoardingPage extends StatelessWidget {
             'assets/undraw_vault_re_s4my.svg',
             height: 600,
           ),
-          //assets/undraw_personal_goals_re_iow7.svg
           decoration: buildDecoration(),
         ),
         PageViewModel(
@@ -52,7 +49,6 @@ class onBoardingPage extends StatelessWidget {
             'assets/undraw_personal_goals_re_iow7.svg',
             height: 600,
           ),
-          //assets/undraw_personal_goals_re_iow7.svg
           decoration: buildDecoration(),
         ),
       ],
@@ -74,7 +70,7 @@ class onBoardingPage extends StatelessWidget {
             fontFamily: 'Poppins-SemiBold',
             color: const Color.fromARGB(255, 20, 165, 182),
             fontSize: 30),
-      ), //by default, skip goes to the last page
+      ),
       onSkip: () => goToHome(context),
       dotsDecorator: getDotDecoration(),
       animationDuration: 400,
@@ -91,11 +87,8 @@ class onBoardingPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
       ));
 
-  void goToHome(BuildContext context) =>
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => WelcomingPage(
-                title: 'Welcome',
-              )));
+  void goToHome(BuildContext context) => Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (_) => WelcomingPage()));
 
   PageDecoration buildDecoration() => PageDecoration(
       titleTextStyle: TextStyle(
@@ -112,7 +105,7 @@ class onBoardingPage extends StatelessWidget {
 }
 
 class WelcomingPage extends StatefulWidget {
-  const WelcomingPage({Key? key, required String title}) : super(key: key);
+  const WelcomingPage({Key? key}) : super(key: key);
 
   @override
   State<WelcomingPage> createState() => _HomePageState();
