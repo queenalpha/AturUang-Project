@@ -1,4 +1,4 @@
-import 'package:aturuang_project/pages/botNav.dart';
+import 'package:aturuang_project/configuration/navBottom.dart';
 import 'package:aturuang_project/pages/goallist.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/pages/counting.dart';
@@ -9,7 +9,7 @@ import 'package:aturuang_project/pages/register.dart';
 import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'utils/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
