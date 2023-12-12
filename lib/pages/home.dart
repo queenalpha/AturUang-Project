@@ -5,7 +5,6 @@ import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/models/nabung_model.dart';
-import 'package:aturuang_project/navBottom.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,9 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // variable untuk bottomNav
-  int _currentIndex = 0;
-
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -72,17 +68,6 @@ class _HomePageState extends State<HomePage> {
       collectedArray.clear();
     });
   }
-
-  // selectAllTabungan() async {
-  //   data = jsonDecode(await ds.selectAll(token, project, 'nabung', appid));
-
-  //   tabungan = data.map((e) => NabungModel.fromJson(e)).toList();
-
-  //   //refresh the UI
-  //   setState(() {
-  //     tabungan = tabungan;
-  //   });
-  // }
 
   selectWhereNabung() async {
     List data = [];
@@ -142,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp',
-      decimalDigits: 0, // Jumlah digit di belakang koma
+      decimalDigits: 0,
     );
 
     return formatter.format(amount);
@@ -182,11 +167,9 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 39,
                           ),
-
                           // Heading Area
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 29),
-                            //Text(${"username"})
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -236,7 +219,6 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-
                                 // Menu APPS Area
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -349,7 +331,6 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 SizedBox(height: 24),
-
                                 // Financial Display Report Area
                                 Row(
                                   children: [
@@ -399,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: screenWidth * 0.23),
+                                    SizedBox(width: screenWidth * 0.10),
                                     Container(
                                       width: screenWidth * 0.13,
                                       height: screenWidth * 0.13,
@@ -449,12 +430,11 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 SizedBox(height: 50),
-
                                 // GoalList Area
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // batasi Item countnya 2 atau 3
+                                    // batasi Item countnya 2
                                     Text("Goals List",
                                         style: TextStyle(
                                             fontFamily: 'Poppins-Reguler',
@@ -592,13 +572,6 @@ class _HomePageState extends State<HomePage> {
                   }
                 }
             }
-          }),
-      bottomNavigationBar: ButtomNavigation(
-          currentIndex: _currentIndex,
-          onTabTapped: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
           }),
     );
   }
