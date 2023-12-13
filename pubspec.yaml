@@ -43,6 +43,8 @@ dependencies:
   google_fonts: ^6.1.0
   introduction_screen:
   shared_preferences: ^2.2.2
+  fl_chart: ^0.65.0
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
