@@ -76,12 +76,12 @@ class _ReportingPageState extends State<ReportingPage> {
                     ),
                   ),
                   AppBar(
-                    leadingWidth: 50,
+                    leadingWidth: 100,
                     leading: IconButton(
                       icon: Icon(
                         Icons.arrow_back,
                         color: Colors.white,
-                        size: 20,
+                        size: 25,
                       ),
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
