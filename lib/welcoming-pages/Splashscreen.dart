@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../welcoming-pages/Welcome_pages.dart';
 import '../configuration/theme_config.dart';
-
-int? initScreen;
+import 'welcome.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -22,9 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: initScreen == 0 || initScreen == null
-            ? (context) => onBoardingPage()
-            : (context) => const WelcomingPage(),
+        builder: (context) => const WelcomingPage(title: 'Home'),
       ),
     );
   }

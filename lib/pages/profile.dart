@@ -23,9 +23,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  //current index for bottom nav
-  int _currentIndex = 1;
-
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 

@@ -1,5 +1,4 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/utils/fire_auth.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
@@ -39,6 +38,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
+    return firebaseApp;
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final _emailTextController = TextEditingController();
@@ -48,21 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _focusPassword = FocusNode();
 
   bool _isProcessing = false;
-
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
-    }
-    return firebaseApp;
-  }
 
   bool _isObsecured = true;
   String _errorText = '';
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Text('Email',
                             style: TextStyle(
-                                fontFamily: 'Poppins-Reguler',
+                                fontFamily: 'Poppins-Regular',
                                 fontSize: 15.0,
                                 color:
                                     const Color.fromARGB(255, 20, 165, 162))),
@@ -108,13 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: kTextFieldDecoration.copyWith(
                               hintText: 'Enter your email'),
+                          onTap: () {
+                            setState(() {
+                              _errorText = '';
+                            });
+                          },
                         ),
                         const SizedBox(
                           height: 20.0,
                         ),
                         Text('Password',
                             style: TextStyle(
-                                fontFamily: 'Poppins-Reguler',
+                                fontFamily: 'Poppins-Regular',
                                 fontSize: 15.0,
                                 color:
                                     const Color.fromARGB(255, 20, 165, 162))),
@@ -146,13 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                           ),
+                          onTap: () {
+                            setState(() {
+                              _errorText = '';
+                            });
+                          },
                         ),
                         SizedBox(
                           height: 15.0,
                         ),
                         if (_errorText.isNotEmpty)
                           Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               _errorText,
                               style:
@@ -190,19 +201,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           });
 
                                           if (user != null) {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomePage(),
-                                              ),
-                                            );
+                                            Navigator.pushReplacementNamed(
+                                                context, 'home');
                                           } else {
                                             _errorText =
                                                 'Your email or password is incorrect!';
                                           }
                                         }
-                                      },
+                                      }, width: 200.0, height: 50.0,
                                     )
                                   ]),
                       ])),
@@ -212,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     "Don't have an account ?",
                     style: TextStyle(
-                        fontFamily: 'Poppins-Reguler',
+                        fontFamily: 'Poppins-Regular',
                         fontSize: 12.0,
                         color: Colors.black),
                   ),
@@ -224,13 +230,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'register');
+                          Navigator.pushReplacementNamed(context, 'register');
                         });
                       },
                       child: Text(
                         "Sign Up",
-                        style:
-                            TextStyle(fontSize: 12.0, color: primaryTextColor),
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: primaryTextColor,
+                          fontFamily: 'Poppins-Regular',
+                        ),
                       ),
                     ),
                   )

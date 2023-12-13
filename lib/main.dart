@@ -1,12 +1,8 @@
-import 'package:aturuang_project/configuration/navBottom.dart';
-import 'package:aturuang_project/pages/goallist.dart';
-import 'package:aturuang_project/pages/profile.dart';
-import 'package:aturuang_project/pages/counting.dart';
-import 'package:aturuang_project/pages/reporting.dart';
+import 'package:aturuang_project/pages/goalist.dart';
+import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/pages/register.dart';
-import 'package:aturuang_project/welcoming-pages/Welcome_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utils/firebase_options.dart';
@@ -27,16 +23,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aturuang',
-        home: SplashScreen(),
+        home: HomePage(),
         routes: {
-          'welcome': (context) => const WelcomingPage(),
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
-          'home': (context) => const NavigationBarDemo(),
-          'goalist': (context) => const GoalsList(),
-          'profile': (context) => const ProfilePage(),
-          'counting': (context) => const CountingScreen(),
-          'reporting': (context) => const ReportingPage()
+          'home': (context) => const HomePage(),
+          'goalist': (context) => const GoalsList(title: "Goals List"),
         });
   }
 }
