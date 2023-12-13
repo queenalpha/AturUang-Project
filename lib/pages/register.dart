@@ -1,5 +1,5 @@
 import 'package:aturuang_project/pages/login.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/rounded button.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:flutter/material.dart';
