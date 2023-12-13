@@ -69,9 +69,15 @@ flutter:
   assets:
     - assets/undraw_my_password_re_ydq7.svg
     - assets/undraw_load_more_re_482p.svg
+    - assets/undraw_note_list_re_r4u9.svg
+    - assets/undraw_personal_goals_re_iow7.svg
+    - assets/undraw_transfer_money_re_6o1h.svg
+    - assets/undraw_vault_re_s4my.svg
+    - assets/Mygoals.png
+    - assets/delete account.png
+    - assets/logout.png
     - assets/fonts/Poppins-Regular.ttf
     - assets/Logo Aturuang.png
-    - assets/Ellipse3.png
     - assets/background.png
     - assets/Logo_without_text.png
     - assets/background.png
