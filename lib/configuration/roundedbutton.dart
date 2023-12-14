@@ -1,3 +1,4 @@
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:flutter/material.dart';
 
 const kTextFieldDecoration = InputDecoration(
@@ -50,6 +51,39 @@ class RoundedButton extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ToggleButton extends StatelessWidget {
+  final List<bool> isSelected;
+  final List<String> buttonLabels;
+
+  ToggleButton({
+    required this.isSelected,
+    required this.buttonLabels,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: primaryColor,
+      child: ToggleButtons(
+        isSelected: isSelected,
+        selectedColor: Colors.black,
+        fillColor: secondaryColor,
+        color: Colors.black,
+        children: List.generate(
+          buttonLabels.length,
+          (index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 29),
+            child: Text(
+              buttonLabels[index],
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ),
       ),

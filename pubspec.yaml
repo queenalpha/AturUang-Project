@@ -70,17 +70,22 @@ flutter:
   assets:
     - assets/undraw_my_password_re_ydq7.svg
     - assets/undraw_load_more_re_482p.svg
-    - assets/fonts/Poppins-Regular.ttf
+    - assets/undraw_vault_re_s4my.svg
+    - assets/undraw_personal_goals_re_iow7.svg
+    - assets/undraw_transfer_money_re_6o1h.svg
+    - assets/undraw_note_list_re_r4u9.svg
     - assets/Logo Aturuang.png
+    - assets/background.png
     - assets/Logo_without_text.png
     - assets/moneycard.png
     - assets/IconGoals.png
     - assets/IconCounting.png
     - assets/IconReporting.png
     - assets/Mobil.jpg
-    - assets/fonts/Poppins-Bold.ttf
-    - assets/fonts/Poppins-Regular.ttf
-    - assets/fonts/Poppins-SemiBold.ttf
+    - assets/jhondoe.png
+    - assets/delete account.png
+    - assets/logout.png
+    - assets/Mygoals.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
