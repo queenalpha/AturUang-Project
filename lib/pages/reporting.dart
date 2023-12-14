@@ -126,12 +126,12 @@ class _ReportingPageState extends State<ReportingPage> {
                       ),
                     ),
                   ),
-                 
                 ],
               ),
-              
             ),
-            
+            ToggleButton(
+                isSelected: [true, false, false],
+                buttonLabels: ["All", "Income", "Spending"])
           ],
         ),
       ),
