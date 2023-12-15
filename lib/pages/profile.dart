@@ -48,32 +48,37 @@ class _ProfilePageState extends State<ProfilePage> {
     List data = [];
     data = jsonDecode(await ds.selectWhere(
         token, project, 'user', appid, 'user_id', currentUser?.uid ?? ''));
-    user = data.map((e) => UserModel.fromJson(e)).toList();
 
-    profpic = user[0].foto;
+    if (data.isNotEmpty) {
+      user = data.map((e) => UserModel.fromJson(e)).toList();
+      profpic = user[0].foto;
+    }
   }
 
   selectWhereLaporan() async {
     List data = [];
     data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
         appid, 'user_id', currentUser?.uid ?? ''));
-    lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
 
-    List<LaporanKeuanganModel> income = [];
-    List<LaporanKeuanganModel> spending = [];
+    if (data.isNotEmpty) {
+      lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
 
-    for (LaporanKeuanganModel keuangan in lapKeu) {
-      if (keuangan.tipe_keuangan == "Pemasukan") {
-        income.add(keuangan);
-      } else if (keuangan.tipe_keuangan == "Pengeluaran") {
-        spending.add(keuangan);
+      List<LaporanKeuanganModel> income = [];
+      List<LaporanKeuanganModel> spending = [];
+
+      for (LaporanKeuanganModel keuangan in lapKeu) {
+        if (keuangan.tipe_keuangan == "Pemasukan") {
+          income.add(keuangan);
+        } else if (keuangan.tipe_keuangan == "Pengeluaran") {
+          spending.add(keuangan);
+        }
       }
-    }
 
-    totalIncome =
-        income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
-    totalSpending =
-        spending.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+      totalIncome =
+          income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+      totalSpending = spending.fold(
+          0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+    }
   }
 
   //Info
@@ -314,7 +319,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(210, 255, 255, 255),
                                         child: Center(
                                           child: Icon(
-                                            Icons.camera_alt,
+                                            Icons.edit_rounded,
                                             color: const Color.fromARGB(
                                                 255, 5, 116, 129),
                                           ),

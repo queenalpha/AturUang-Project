@@ -1,5 +1,7 @@
 import 'package:aturuang_project/configuration/navBottom.dart';
-import 'package:aturuang_project/pages/goallist.dart';
+import 'package:aturuang_project/pages/goal_list.dart';
+import 'package:aturuang_project/pages/goals_detail.dart';
+import 'package:aturuang_project/pages/goals_menu.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/pages/counting.dart';
 import 'package:aturuang_project/pages/reporting.dart';
@@ -19,7 +21,7 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { 
   const MyApp({super.key});
 
   @override
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aturuang',
-        home: SplashScreen(),
+        home: ProfilePage(),
         routes: {
           'welcome': (context) => const WelcomingPage(),
           'login': (context) => const LoginScreen(),

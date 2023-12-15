@@ -1,6 +1,7 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/pages/home.dart';
 import 'package:aturuang_project/pages/profile.dart';
+import 'package:aturuang_project/pages/reporting.dart';
 import 'package:flutter/material.dart';
 
 class NavigationBarDemo extends StatefulWidget {
@@ -16,6 +17,7 @@ class _NavigationBarDemoState extends State<NavigationBarDemo> {
   final List<Widget> _page = [
     const HomePage(),
     const ProfilePage(),
+    const ReportingPage()
   ];
 
   void onTabTapped(int index) {
