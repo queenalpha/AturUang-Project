@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/pages/reporting.dart';
+
 
 class ToggleButton extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _ToggleButtonState extends State<ToggleButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 36,
+      height: 40,
       child: Card(
         color: primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),

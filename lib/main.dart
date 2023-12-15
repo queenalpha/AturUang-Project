@@ -1,5 +1,5 @@
 import 'package:aturuang_project/configuration/navBottom.dart';
-import 'package:aturuang_project/pages/goallist.dart';
+import 'package:aturuang_project/pages/goal_list.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/pages/counting.dart';
 import 'package:aturuang_project/pages/reporting.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           'goalist': (context) => const GoalsList(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => const CountingScreen(),
-          'reporting': (context) => const ReportingPage()
+          'reporting': (context) => const ReportingPage(),
         });
   }
 }

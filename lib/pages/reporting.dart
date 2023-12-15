@@ -1,12 +1,7 @@
 import 'package:aturuang_project/configuration/list_configuration.dart';
-import 'package:aturuang_project/pages/profile.dart';
-// import 'package:fl_chart/fl_chart.dart';
 import 'package:chart_it/chart_it.dart';
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/configuration/navBottom.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class LegendItem extends StatelessWidget {
   final Color color;
@@ -96,63 +91,61 @@ class _ReportingPageState extends State<ReportingPage> {
                   //Chart Start
                   Padding(
                     padding: const EdgeInsets.all(45.0),
-                    child: Positioned(
-                      top: 300,
-                      child: Center(
-                        child: PieChart(
-                          chartStyle: RadialChartStyle(
-                              backgroundColor: Colors.transparent),
-                          animationDuration: const Duration(milliseconds: 500),
-                          height: 350,
-                          width: 350,
-                          animateOnUpdate: true,
-                          animateOnLoad: true,
-                          data: PieSeries(
-                            donutRadius: 70.0,
-                            donutSpaceColor: Colors.transparent,
-                            donutLabel: () => 'Rp100.000',
-                            donutLabelStyle: ChartTextStyle(
-                                textStyle: TextStyle(
-                                    fontFamily: 'Poppins-SemiBold',
-                                    fontSize: 19,
-                                    color: Colors.white)),
-                            slices: <SliceData>[
-                              SliceData(
-                                  style: SliceDataStyle(
-                                    radius: 100,
-                                    color: Color.fromARGB(255, 38, 243, 169),
-                                    labelPosition: 150,
-                                    strokeWidth: 0.0,
-                                    strokeColor: Colors.white,
-                                  ),
-                                  label: (_, value) => 'Rp70.000',
-                                  labelStyle: ChartTextStyle(
-                                      textStyle: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          fontSize: 18,
-                                          color: Colors.white)),
-                                  value: 70),
-                              SliceData(
-                                  style: SliceDataStyle(
-                                    radius: 100,
-                                    color: Color.fromARGB(255, 255, 84, 71),
-                                    labelPosition: 150,
-                                    strokeWidth: 0.0,
-                                    strokeColor: Colors.white,
-                                  ),
-                                  label: (_, value) => 'Rp30.000',
-                                  labelStyle: ChartTextStyle(
-                                      textStyle: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          fontSize: 18,
-                                          color: Colors.white)),
-                                  value: 30),
-                            ],
-                          ),
+                    child: Center(
+                      child: PieChart(
+                        chartStyle: RadialChartStyle(
+                            backgroundColor: Colors.transparent),
+                        animationDuration: const Duration(milliseconds: 500),
+                        height: 350,
+                        width: 350,
+                        // animateOnUpdate: true,
+                        // animateOnLoad: true,
+                        data: PieSeries(
+                          donutRadius: 70.0,
+                          donutSpaceColor: Colors.transparent,
+                          donutLabel: () => 'Rp100.000',
+                          donutLabelStyle: ChartTextStyle(
+                              textStyle: TextStyle(
+                                  fontFamily: 'Poppins-SemiBold',
+                                  fontSize: 19,
+                                  color: Colors.white)),
+                          slices: <SliceData>[
+                            SliceData(
+                                style: SliceDataStyle(
+                                  radius: 100,
+                                  color: Color.fromARGB(255, 38, 243, 169),
+                                  labelPosition: 150,
+                                  strokeWidth: 0.0,
+                                  strokeColor: Colors.white,
+                                ),
+                                label: (_, value) => 'Rp70.000',
+                                labelStyle: ChartTextStyle(
+                                    textStyle: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        fontSize: 18,
+                                        color: Colors.white)),
+                                value: 70),
+                            SliceData(
+                                style: SliceDataStyle(
+                                  radius: 100,
+                                  color: Color.fromARGB(255, 255, 84, 71),
+                                  labelPosition: 150,
+                                  strokeWidth: 0.0,
+                                  strokeColor: Colors.white,
+                                ),
+                                label: (_, value) => 'Rp30.000',
+                                labelStyle: ChartTextStyle(
+                                    textStyle: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        fontSize: 18,
+                                        color: Colors.white)),
+                                value: 30),
+                          ],
                         ),
                       ),
                     ),
                   ),
+
                   //chart end
 
 //Legend Start
@@ -186,7 +179,7 @@ class _ReportingPageState extends State<ReportingPage> {
               ),
             ),
             SizedBox(
-              height: 37,
+              height: 40,
             ),
             Container(
               width: double.infinity,
@@ -225,6 +218,7 @@ class _ReportingPageState extends State<ReportingPage> {
           ],
         ),
       ),
+      // bottomNavigationBar: NavigationBarDemo(),
     );
   }
 }
