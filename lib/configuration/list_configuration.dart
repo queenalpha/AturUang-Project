@@ -1,4 +1,5 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/pages/goals_detail.dart';
 import 'package:flutter/material.dart';
 
 class ListReporting extends StatelessWidget {
@@ -31,7 +32,7 @@ class ListReporting extends StatelessWidget {
             onTap: () {},
             child: Icon(
               Icons.arrow_upward_outlined,
-              color: reportIncome,
+              // color: reportIncome,
               size: 30,
             ),
           ),
@@ -101,57 +102,69 @@ class ListGoals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: border,
-          width: 2.0,
-        ),
-      ),
-      child: ListTile(
-        dense: true,
-        leading: Container(
-          width: 57,
-          height: 39,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(imagePath),
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'goals_detail', (route) => false);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: border,
+            width: 2.0,
           ),
         ),
-        tileColor: primaryColor,
-        title: Text(goals,
+        child: ListTile(
+          dense: true,
+          leading: Container(
+            width: 57,
+            height: 39,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(imagePath),
+              ),
+            ),
+          ),
+          tileColor: primaryColor,
+          title: Text(
+            goals,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               fontFamily: 'Poppins-Bold',
               color: Colors.white,
-            )),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Collected : ${collected}",
+            ),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Collected : ${collected}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,
                   fontFamily: 'Poppins-Reguler',
                   color: Colors.white,
-                )),
-            Text("Target : ${target}",
+                ),
+              ),
+              Text(
+                "Target : ${target}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,
                   fontFamily: 'Poppins-Reguler',
                   color: Colors.white,
-                )),
-          ],
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete_sharp, color: Colors.white),
-          onPressed: onPressed,
+                ),
+              ),
+            ],
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.delete_sharp, color: Colors.white),
+            onPressed: onPressed,
+          ),
         ),
       ),
     );

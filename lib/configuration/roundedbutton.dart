@@ -18,7 +18,7 @@ class _ToggleButtonState extends State<ToggleButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 36,
+      height: 40,
       child: Card(
         color: primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
@@ -78,13 +78,12 @@ const kTextFieldDecoration = InputDecoration(
 );
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton(
-      {required this.colour,
-      required this.title,
-      required this.onPressed,
-      required this.width,
-      required this.height});
-  final Color colour;
+  RoundedButton({
+    required this.title,
+    required this.onPressed,
+    required this.width,
+    required this.height, required Color color
+  });
   final String title;
   final VoidCallback onPressed;
 
@@ -96,67 +95,15 @@ class RoundedButton extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         elevation: 5.0,
-        color: colour,
+        color: primaryColor,
         borderRadius: BorderRadius.circular(8.0),
         child: MaterialButton(
           onPressed: onPressed,
           minWidth: width,
-          height: height,
+          height:height,
           child: Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ToggleButton extends StatefulWidget {
-  @override
-  _ToggleButtonState createState() => _ToggleButtonState();
-  final List<bool> isSelected;
-  final List<String> buttonLabels;
-
-  ToggleButton({required this.isSelected, required this.buttonLabels});
-}
-
-class _ToggleButtonState extends State<ToggleButton> {
-  // Initial state
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 36,
-      child: Card(
-        color: primaryColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-        child: ToggleButtons(
-          isSelected: widget.isSelected,
-          onPressed: (int index) {
-            setState(() {
-              for (int buttonIndex = 0;
-                  buttonIndex < widget.isSelected.length;
-                  buttonIndex++) {
-                widget.isSelected[buttonIndex] = buttonIndex == index;
-              }
-            });
-          },
-          selectedColor: secondaryColor,
-          fillColor: secondaryColor,
-          children: List.generate(
-            widget.buttonLabels.length,
-            (index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: Text(
-                widget.buttonLabels[index],
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
-                ),
-              ),
-            ),
           ),
         ),
       ),

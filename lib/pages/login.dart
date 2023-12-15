@@ -176,8 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? [const CircularProgressIndicator()]
                                 : [
                                     RoundedButton(
-                                      colour: const Color.fromARGB(
-                                          255, 20, 165, 182),
+                                      color: primaryColor,
                                       title: 'Sign In',
                                       onPressed: () async {
                                         _focusEmail.unfocus();
