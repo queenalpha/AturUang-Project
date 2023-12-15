@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/list_configuration.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/nabung_model.dart';
 import 'package:aturuang_project/utils/restapi.dart';
@@ -17,24 +18,152 @@ class GoalsDetail extends StatefulWidget {
 }
 
 class _GoalsDetail extends State<GoalsDetail> {
+  //bikin varibale target tabungan dan progress saat ini
+  double targetAmount = 100000.0;
+  double currentAmount = 20000.0;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // bikin variable total progress
+    double progress_savings = currentAmount / targetAmount;
+
     return Scaffold(
         appBar: AppBar(
-      backgroundColor: Colors.white,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: primaryColor,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: primaryColor,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(
+            "Goals Detail",
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
         ),
-        onPressed: () => Navigator.pop(context),
-      ),
-      title: Text(
-        "Goals Detail",
-        style: TextStyle(color: Colors.black),
-      ),
-      centerTitle: true,
-    ));
+        body: Column(children: [
+          Container(
+            child: Stack(
+              children: [
+                Container(
+                  height: 204,
+                  width: double.infinity,
+                  child: Image.asset(
+                    "assets/Meat.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.only(top: 137, left: 25),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Meat Stock",
+                          style: TextStyle(
+                            fontFamily: 'Poppins-Bold',
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 21),
+                        const Icon(
+                          Icons.edit_square,
+                          size: 20.0,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 29),
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 65,
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 19, vertical: 14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Target"),
+                              Text(
+                                "Rp${targetAmount.toStringAsFixed(0)}",
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            width: 314,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey[400],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: LinearProgressIndicator(
+                                value: progress_savings,
+                                backgroundColor: Colors.transparent,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    secondaryColor),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                // SizedBox(height: 18),
+                // Row(
+                //   children: [
+                //     TextFormField(
+                //       decoration: kTextFieldDecoration.copyWith(
+                //         label: Text("Rp"),
+                //       ),
+                //     ),
+                //     RoundedButton(
+                //         color: primaryColor,
+                //         title: 'Add',
+                //         onPressed: () {},
+                //         width: 96,
+                //         height: 36),
+                //   ],
+                // ),
+                // SizedBox(height: 41),
+                // Container(
+                //   child: Column(
+                //     children: [
+                //       Text("History"),
+                //       SizedBox(height: 15),
+                //       ListReporting(
+                //           title: 'Savings',
+                //           time: '12.00',
+                //           date: '23 Novmber 2023',
+                //           nominal: 'Rp25.000')
+                //     ],
+                //   ),
+                
+              ],
+            ),
+          ),
+        ]));
   }
 }

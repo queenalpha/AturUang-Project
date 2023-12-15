@@ -21,7 +21,7 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget { 
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
@@ -29,13 +29,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aturuang',
-        home: ProfilePage(),
+        home: SplashScreen(),
         routes: {
           'welcome': (context) => const WelcomingPage(),
           'login': (context) => const LoginScreen(),
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const NavigationBarDemo(),
           'goalist': (context) => const GoalsList(),
+          'goals_menu': (context) => const GoalsMenu(),
+          'goals_detail': (context) => const GoalsDetail(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => const CountingScreen(),
           'reporting': (context) => const ReportingPage()
