@@ -44,8 +44,9 @@ dependencies:
   introduction_screen:
   shared_preferences: ^2.2.2
   hovering: ^1.0.4
-  fl_chart: ^0.65.0
   percent_indicator: ^4.2.3
+  fl_chart: ^0.65.0
+  chart_it: ^0.2.2
 
 dev_dependencies:
   flutter_test:

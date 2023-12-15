@@ -32,6 +32,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "chart_it",
+      "rootUri": "file:///C:/Users/ramdhan/AppData/Local/Pub/Cache/hosted/pub.dev/chart_it-0.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///C:/Users/ramdhan/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
@@ -488,7 +494,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-11T15:15:11.056243Z",
+  "generated": "2023-12-14T14:28:17.014205Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

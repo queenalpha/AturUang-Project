@@ -2,6 +2,89 @@ import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+class ListReporting extends StatelessWidget {
+  final String title;
+  final String time;
+  final String date;
+  final String nominal;
+
+  ListReporting({
+    required this.title,
+    required this.time,
+    required this.date,
+    required this.nominal,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(right: 16, left: 16, top: 8, bottom: 8),
+      child: Container(
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(10),
+        // ),
+        child: ListTile(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          tileColor: primaryColor,
+          dense: true,
+          leading: InkWell(
+            onTap: () {},
+            child: Icon(
+              Icons.arrow_upward_outlined,
+              color: reportIncome,
+              size: 30,
+            ),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontFamily: 'Poppins-SemiBold',
+                    color: Colors.white),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Row(
+                children: [
+                  Text(
+                    time,
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: 'Poppins-Bold',
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                    date,
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: 'Poppins-Regular',
+                        color: Colors.black),
+                  )
+                ],
+              )
+            ],
+          ),
+          trailing: Text(
+            nominal,
+            style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'Poppins-SemiBold',
+                color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ListGoals extends StatelessWidget {
   final String goals;
   final String collected;

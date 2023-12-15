@@ -161,291 +161,358 @@ class _HomePageState extends State<HomePage> {
                     return Text('${snapshot.error}',
                         style: const TextStyle(color: Colors.red));
                   } else {
-                    return SafeArea(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 39,
-                          ),
-                          // Heading Area
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 29),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Welcome, ${currentUser?.displayName ?? 'Guest'}",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins-SemiBold',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(height: 21),
-                                AspectRatio(
-                                  aspectRatio: 317 / 155,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                    return SingleChildScrollView(
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 39,
+                            ),
+                            // Heading Area
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 29),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Welcome, ${currentUser?.displayName ?? 'Guest'}",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins-SemiBold',
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    child: Stack(
+                                  ),
+                                  SizedBox(height: 21),
+                                  AspectRatio(
+                                    aspectRatio: 317 / 155,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Image.asset('assets/moneycard.png'),
+                                          Positioned(
+                                              top: 90,
+                                              left: 27,
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Total Savings",
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontFamily:
+                                                                'Poppins-Reguler',
+                                                            color:
+                                                                Colors.white)),
+                                                    Text(
+                                                        formatCurrency(saving)
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontFamily:
+                                                                'Poppins-Reguler',
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color:
+                                                                Colors.white)),
+                                                  ]))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  // Menu APPS Area
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 30, right: 30, top: 30),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/moneycard.png'),
-                                        Positioned(
-                                            top: 90,
-                                            left: 27,
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                        Column(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pushNamed(
+                                                    context, 'goalist');
+                                              },
+                                              child: Column(
                                                 children: [
-                                                  Text("Total Savings",
-                                                      style: TextStyle(
-                                                          fontSize: 10,
-                                                          fontFamily:
-                                                              'Poppins-Reguler',
-                                                          color: Colors.white)),
-                                                  Text(
-                                                      formatCurrency(saving)
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontFamily:
-                                                              'Poppins-Reguler',
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          color: Colors.white)),
-                                                ]))
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Container(
+                                                      color: primaryColor,
+                                                      padding:
+                                                          EdgeInsets.all(8),
+                                                      child: Image.asset(
+                                                        "assets/IconGoals.png",
+                                                        height: 35,
+                                                        width: 35,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text("Goals"),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 40),
+                                        Column(
+                                          children: [
+                                            GestureDetector(
+                                              // Navigation to financial counting
+                                              onTap: () {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        'counting',
+                                                        (route) => false);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Container(
+                                                      color: primaryColor,
+                                                      padding:
+                                                          EdgeInsets.all(8),
+                                                      child: Image.asset(
+                                                        "assets/IconCounting.png",
+                                                        height: 35,
+                                                        width: 35,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text("Counting"),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 40),
+                                        Column(
+                                          children: [
+                                            GestureDetector(
+                                              // Navigation to reporting
+                                              onTap: () {
+                                                Navigator.pushReplacementNamed(
+                                                    context, 'reporting');
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Container(
+                                                      color: primaryColor,
+                                                      padding:
+                                                          EdgeInsets.all(8),
+                                                      child: Image.asset(
+                                                        "assets/IconReporting.png",
+                                                        height: 35,
+                                                        width: 35,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text("Reporting"),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                // Menu APPS Area
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 30, right: 30, top: 30),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  SizedBox(height: 29),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: Container(
+                                      height: 3,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 24),
+                                  // Financial Display Report Area
+                                  Row(
                                     children: [
+                                      Container(
+                                        width: screenWidth * 0.13,
+                                        height: screenWidth * 0.13,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              screenWidth * 0.02),
+                                          border: Border.all(
+                                            width: screenWidth * 0.002,
+                                            color: Colors.grey[900]!,
+                                          ),
+                                          color: cardGrey,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_upward_sharp,
+                                          size: screenWidth * 0.10,
+                                          color: arrowUp,
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth * 0.02),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.pushNamed(
-                                                  context, 'goalist');
-                                            },
-                                            child: Column(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child: Container(
-                                                    color: primaryColor,
-                                                    padding: EdgeInsets.all(8),
-                                                    child: Image.asset(
-                                                      "assets/IconGoals.png",
-                                                      height: 35,
-                                                      width: 35,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text("Goals"),
-                                              ],
+                                          Text(
+                                            "Income",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-Bold',
+                                              fontSize: screenWidth * 0.033,
+                                              fontWeight: FontWeight.w300,
+                                              color: secondaryColor,
+                                            ),
+                                          ),
+                                          SizedBox(height: screenWidth * 0.02),
+                                          //Ambil data INCOME dari API
+                                          Text(
+                                            formatCurrency(totalIncome)
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-Bold',
+                                              fontSize: screenWidth * 0.035,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(width: 40),
+                                      SizedBox(width: screenWidth * 0.10),
+                                      Container(
+                                        width: screenWidth * 0.13,
+                                        height: screenWidth * 0.13,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              screenWidth * 0.02),
+                                          border: Border.all(
+                                            width: screenWidth * 0.002,
+                                            color: Colors.grey[900]!,
+                                          ),
+                                          color: cardGrey,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_downward_sharp,
+                                          size: screenWidth * 0.10,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth * 0.02),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          GestureDetector(
-                                            // Navigation to financial counting
-                                            onTap: () {
-                                              Navigator.pushNamedAndRemoveUntil(
-                                                  context,
-                                                  'counting',
-                                                  (route) => false);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child: Container(
-                                                    color: primaryColor,
-                                                    padding: EdgeInsets.all(8),
-                                                    child: Image.asset(
-                                                      "assets/IconCounting.png",
-                                                      height: 35,
-                                                      width: 35,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text("Counting"),
-                                              ],
+                                          Text(
+                                            "Spending",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-Bold',
+                                              fontSize: screenWidth * 0.033,
+                                              fontWeight: FontWeight.w300,
+                                              color: secondaryColor,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 40),
-                                      Column(
-                                        children: [
-                                          GestureDetector(
-                                            // Navigation to reporting
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                  context, 'reporting');
-                                            },
-                                            child: Column(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child: Container(
-                                                    color: primaryColor,
-                                                    padding: EdgeInsets.all(8),
-                                                    child: Image.asset(
-                                                      "assets/IconReporting.png",
-                                                      height: 35,
-                                                      width: 35,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Text("Reporting"),
-                                              ],
+                                          SizedBox(height: screenWidth * 0.02),
+                                          // ambil data spending dari API
+                                          Text(
+                                            formatCurrency(totalSpending)
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-Bold',
+                                              fontSize: screenWidth * 0.035,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(height: 29),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                SizedBox(height: 24),
-                                // Financial Display Report Area
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: screenWidth * 0.13,
-                                      height: screenWidth * 0.13,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            screenWidth * 0.02),
-                                        border: Border.all(
-                                          width: screenWidth * 0.002,
-                                          color: Colors.grey[900]!,
-                                        ),
-                                        color: cardGrey,
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_upward_sharp,
-                                        size: screenWidth * 0.10,
-                                        color: arrowUp,
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.02),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Income",
+                                  SizedBox(height: 50),
+                                  // GoalList Area
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // batasi Item countnya 2
+                                      Text("Goals List",
                                           style: TextStyle(
-                                            fontFamily: 'Poppins-Bold',
-                                            fontSize: screenWidth * 0.033,
-                                            fontWeight: FontWeight.w300,
-                                            color: secondaryColor,
-                                          ),
-                                        ),
-                                        SizedBox(height: screenWidth * 0.02),
-                                        //Ambil data INCOME dari API
-                                        Text(
-                                          formatCurrency(totalIncome)
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins-Bold',
-                                            fontSize: screenWidth * 0.035,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: screenWidth * 0.10),
-                                    Container(
-                                      width: screenWidth * 0.13,
-                                      height: screenWidth * 0.13,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            screenWidth * 0.02),
-                                        border: Border.all(
-                                          width: screenWidth * 0.002,
-                                          color: Colors.grey[900]!,
-                                        ),
-                                        color: cardGrey,
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_downward_sharp,
-                                        size: screenWidth * 0.10,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.02),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Spending",
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins-Bold',
-                                            fontSize: screenWidth * 0.033,
-                                            fontWeight: FontWeight.w300,
-                                            color: secondaryColor,
-                                          ),
-                                        ),
-                                        SizedBox(height: screenWidth * 0.02),
-                                        // ambil data spending dari API
-                                        Text(
-                                          formatCurrency(totalSpending)
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins-Bold',
-                                            fontSize: screenWidth * 0.035,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 50),
-                                // GoalList Area
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // batasi Item countnya 2
-                                    Text("Goals List",
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins-Reguler',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w200,
-                                            color: primaryColor)),
-                                    SizedBox(height: 9),
-                                    ListGoals(
-                                        goals: goals[0],
-                                        collected: collected[0].toString(),
-                                        target: target[0].toString(),
+                                              fontFamily: 'Poppins-Reguler',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w200,
+                                              color: primaryColor)),
+                                      SizedBox(height: 9),
+                                      ListGoals(
+                                          goals: goals[0],
+                                          collected: collected[0].toString(),
+                                          target: target[0].toString(),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text("Warning"),
+                                                  content: Text(
+                                                      "Remove ${goals[0]} from your Goals?"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                          const Text('Cancel'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                    TextButton(
+                                                      child: const Text(
+                                                          'Remove',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red)),
+                                                      onPressed: () async {
+                                                        bool response =
+                                                            await ds.removeId(
+                                                                token,
+                                                                project,
+                                                                'nabung',
+                                                                appid,
+                                                                '${idTabungan[0]}');
+
+                                                        if (response) {
+                                                          Navigator.pop(
+                                                              context, true);
+                                                          reloadDataTabungan(
+                                                              true);
+                                                        }
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          imagePath: "assets/Mobil.jpg"),
+                                      SizedBox(height: 9),
+
+                                      ListGoals(
+                                        goals: goals[1],
+                                        collected: collected[1].toString(),
+                                        target: target[1].toString(),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -454,7 +521,7 @@ class _HomePageState extends State<HomePage> {
                                               return AlertDialog(
                                                 title: const Text("Warning"),
                                                 content: Text(
-                                                    "Remove ${goals[0]} from your Goals?"),
+                                                    "Remove ${goals[1]} from your Goals?"),
                                                 actions: <Widget>[
                                                   TextButton(
                                                     child: const Text('Cancel'),
@@ -474,7 +541,7 @@ class _HomePageState extends State<HomePage> {
                                                               project,
                                                               'nabung',
                                                               appid,
-                                                              '${idTabungan[0]}');
+                                                              '${idTabungan[1]}');
 
                                                       if (response) {
                                                         Navigator.pop(
@@ -489,84 +556,37 @@ class _HomePageState extends State<HomePage> {
                                             },
                                           );
                                         },
-                                        imagePath: "assets/Mobil.jpg"),
-                                    SizedBox(height: 9),
+                                        imagePath: "assets/Mobil.jpg",
+                                      ),
 
-                                    ListGoals(
-                                      goals: goals[1],
-                                      collected: collected[1].toString(),
-                                      target: target[1].toString(),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text("Warning"),
-                                              content: Text(
-                                                  "Remove ${goals[1]} from your Goals?"),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Cancel'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: const Text('Remove',
-                                                      style: TextStyle(
-                                                          color: Colors.red)),
-                                                  onPressed: () async {
-                                                    bool response =
-                                                        await ds.removeId(
-                                                            token,
-                                                            project,
-                                                            'nabung',
-                                                            appid,
-                                                            '${idTabungan[1]}');
+                                      SizedBox(height: 9),
 
-                                                    if (response) {
-                                                      Navigator.pop(
-                                                          context, true);
-                                                      reloadDataTabungan(true);
-                                                    }
-                                                  },
-                                                )
-                                              ],
-                                            );
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, 'goalist');
                                           },
-                                        );
-                                      },
-                                      imagePath: "assets/Mobil.jpg",
-                                    ),
-
-                                    SizedBox(height: 9),
-
-                                    Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, 'goalist');
-                                        },
-                                        child: Text(
-                                          "See More",
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins-Reguler',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w200,
-                                            color: primaryColor,
-                                            decoration:
-                                                TextDecoration.underline,
+                                          child: Text(
+                                            "See More",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-Reguler',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w200,
+                                              color: primaryColor,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   }

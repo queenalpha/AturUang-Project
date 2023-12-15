@@ -1,52 +1,44 @@
-// import 'package:flutter/material.dart';
-// import 'package:aturuang_project/configuration/theme_config.dart';
-
-// class ReportingScreen extends StatefulWidget {
-//   const ReportingScreen({super.key});
-
-//   @override
-//   _ReportingScreenState createState() => _ReportingScreenState();
-// }
-
-// class _ReportingScreenState extends State<ReportingScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         leading: IconButton(
-//           icon: Icon(
-//             Icons.arrow_back,
-//             color: primaryColor,
-//           ),
-//           onPressed: () => Navigator.pushNamedAndRemoveUntil(
-//               context, 'home', (route) => false),
-//         ),
-//         title: Text(
-//           "Reporting Page",
-//           style: TextStyle(color: Colors.black),
-//         ),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: Text(
-//           'Page Reporting',
-//           style: TextStyle(fontSize: 24),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:aturuang_project/configuration/list_configuration.dart';
 import 'package:aturuang_project/pages/profile.dart';
+// import 'package:fl_chart/fl_chart.dart';
+import 'package:chart_it/chart_it.dart';
 import 'package:flutter/material.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/configuration/navBottom.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+class LegendItem extends StatelessWidget {
+  final Color color;
+  final String label;
+
+  const LegendItem({required this.color, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        SizedBox(width: 5),
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins-Medium',
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class ReportingPage extends StatefulWidget {
   const ReportingPage({Key? key}) : super(key: key);
@@ -60,13 +52,14 @@ class _ReportingPageState extends State<ReportingPage> {
     // TODO: implement build
     return Scaffold(
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Container(
               child: Stack(
                 children: [
                   Container(
-                    height: 450,
+                    height: 500,
                     width: double.infinity,
                     child: Image.asset(
                       'assets/background.png',
@@ -76,7 +69,7 @@ class _ReportingPageState extends State<ReportingPage> {
                     ),
                   ),
                   AppBar(
-                    leadingWidth: 50,
+                    leadingWidth: 100,
                     leading: IconButton(
                       icon: Icon(
                         Icons.arrow_back,
@@ -99,33 +92,134 @@ class _ReportingPageState extends State<ReportingPage> {
                             fontFamily: 'Poppins-SemiBold',
                             fontSize: 20)),
                   ),
+
+                  //Chart Start
                   Padding(
-                    padding: const EdgeInsets.all(95.0),
+                    padding: const EdgeInsets.all(45.0),
                     child: Positioned(
-                      top: 450 / 2 - 120,
+                      top: 300,
                       child: Center(
-                        child: new CircularPercentIndicator(
-                          radius: 120.0,
-                          lineWidth: 30.0,
-                          animation: true,
-                          percent: 0.6,
-                          footer: new Text(
-                            "Total",
-                            style: new TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                height: 3.5),
+                        child: PieChart(
+                          chartStyle: RadialChartStyle(
+                              backgroundColor: Colors.transparent),
+                          animationDuration: const Duration(milliseconds: 500),
+                          height: 350,
+                          width: 350,
+                          animateOnUpdate: true,
+                          animateOnLoad: true,
+                          data: PieSeries(
+                            donutRadius: 70.0,
+                            donutSpaceColor: Colors.transparent,
+                            donutLabel: () => 'Rp100.000',
+                            donutLabelStyle: ChartTextStyle(
+                                textStyle: TextStyle(
+                                    fontFamily: 'Poppins-SemiBold',
+                                    fontSize: 19,
+                                    color: Colors.white)),
+                            slices: <SliceData>[
+                              SliceData(
+                                  style: SliceDataStyle(
+                                    radius: 100,
+                                    color: Color.fromARGB(255, 38, 243, 169),
+                                    labelPosition: 150,
+                                    strokeWidth: 0.0,
+                                    strokeColor: Colors.white,
+                                  ),
+                                  label: (_, value) => 'Rp70.000',
+                                  labelStyle: ChartTextStyle(
+                                      textStyle: TextStyle(
+                                          fontFamily: 'Poppins-Medium',
+                                          fontSize: 18,
+                                          color: Colors.white)),
+                                  value: 70),
+                              SliceData(
+                                  style: SliceDataStyle(
+                                    radius: 100,
+                                    color: Color.fromARGB(255, 255, 84, 71),
+                                    labelPosition: 150,
+                                    strokeWidth: 0.0,
+                                    strokeColor: Colors.white,
+                                  ),
+                                  label: (_, value) => 'Rp30.000',
+                                  labelStyle: ChartTextStyle(
+                                      textStyle: TextStyle(
+                                          fontFamily: 'Poppins-Medium',
+                                          fontSize: 18,
+                                          color: Colors.white)),
+                                  value: 30),
+                            ],
                           ),
-                          circularStrokeCap: CircularStrokeCap.round,
-                          progressColor:
-                              const Color.fromARGB(255, 38, 243, 169),
-                          backgroundColor: Color.fromARGB(255, 255, 84, 71),
                         ),
                       ),
                     ),
                   ),
+                  //chart end
+
+//Legend Start
+                  Padding(
+                    padding: const EdgeInsets.only(top: 400.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LegendItem(
+                          color: const Color.fromARGB(255, 38, 243, 169),
+                          label: 'Income',
+                        ),
+                        SizedBox(width: 20),
+                        LegendItem(
+                          color: Color.fromARGB(255, 255, 84, 71),
+                          label: 'Spending',
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
+              ),
+            ),
+            //Toggle Button
+            Container(
+              child: Center(
+                child: ToggleButton(
+                  isSelected: [true, false, false],
+                  buttonLabels: ["All", "Income", "Spending"],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 37,
+            ),
+            Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // all list
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: Text(
+                      'All list',
+                      style: TextStyle(
+                          fontFamily: 'Poppins-Medium',
+                          fontSize: 15,
+                          color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 6.0,
+                  ),
+                ],
+              ),
+            ),
+
+            SingleChildScrollView(
+              // sengaja dikasih ini biar kalo banyak ngga overflow
+              child: Container(
+                child: ListReporting(
+                    title: 'Salary',
+                    time: '12:00',
+                    date: '23 November 2023',
+                    nominal: 'Rp100.000'),
               ),
             ),
           ],
