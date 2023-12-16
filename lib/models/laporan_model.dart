@@ -5,7 +5,6 @@ class LaporanKeuanganModel {
   final String tipe_keuangan;
   final String nominal;
   final String deskripsi;
-  final String user_id;
 
   LaporanKeuanganModel(
       {required this.id,
@@ -13,8 +12,7 @@ class LaporanKeuanganModel {
       required this.tanggal,
       required this.tipe_keuangan,
       required this.nominal,
-      required this.deskripsi,
-      required this.user_id});
+      required this.deskripsi});
 
   factory LaporanKeuanganModel.fromJson(Map<String, dynamic> data) {
     return LaporanKeuanganModel(
@@ -23,7 +21,6 @@ class LaporanKeuanganModel {
         tanggal: data['tanggal'],
         tipe_keuangan: data['tipe_keuangan'],
         nominal: data['nominal'],
-        deskripsi: data['deskripsi'],
-        user_id: data['user_id']);
+        deskripsi: data['deskripsi']);
   }
 }

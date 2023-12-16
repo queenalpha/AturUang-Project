@@ -116,7 +116,7 @@ class TabunganList extends StatelessWidget {
                       style: const TextStyle(color: Colors.red));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
-                    child: Text('Anda belum memiliki Goals apapun!'),
+                    child: Text('you do not have goals yet.'),
                   );
                 } else {
                   List<dynamic> tabunganList = snapshot.data!;
@@ -189,9 +189,9 @@ class _TabunganSectionState extends State<TabunganSection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              height: 6), // Category Goals (DAY, WEEK, YEAR)
+                          SizedBox(height: 6),
                           ListGoals(
+                              id_goal: '${tabungan.id}',
                               goals: '${tabungan.nama}',
                               collected:
                                   '${parseAndConvert(collected.toString())}',

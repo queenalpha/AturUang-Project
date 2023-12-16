@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/rounded button.dart';
 
 const kTextFieldDecoration = InputDecoration(
   filled: true,
@@ -224,24 +224,27 @@ class _CountingScreenState extends State<CountingScreen> {
               ),
             ),
             RoundedButton(
-                colour: primaryColor,
-                title: "Save",
-                onPressed: () async {
-                  _focusamount.unfocus();
-                  _focusdescription.unfocus();
-                  _focusfinancial.unfocus();
+              colour: primaryColor,
+              title: "Save",
+              onPressed: () async {
+                _focusamount.unfocus();
+                _focusdescription.unfocus();
+                _focusfinancial.unfocus();
 
-                  await ds.insertLaporanKeuangan(
-                      appid,
-                      selectedFinancialCategory!,
-                      now.toString(),
-                      widget.selectedOption,
-                      _AmountTextController.text,
-                      _descriptionTextController.text,
-                      currentUser!.uid);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, 'home', (route) => false);
-                })
+                await ds.insertLaporanKeuangan(
+                    appid,
+                    selectedFinancialCategory!,
+                    now.toString(),
+                    widget.selectedOption,
+                    _AmountTextController.text,
+                    _descriptionTextController.text,
+                    currentUser!.uid);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'home', (route) => false);
+              },
+              width: 150.0,
+              height: 50.0,
+            )
           ],
         ),
       ),

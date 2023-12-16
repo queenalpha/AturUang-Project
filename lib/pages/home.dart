@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   List<String> idTabungan = [];
   List<String> fotoTabungan = [];
   List<int> target = [];
+  List<String> id_goals = [];
   List<String> goals = [];
   List<String> periode = [];
   List<int> collectedArray = [];
@@ -61,12 +62,13 @@ class _HomePageState extends State<HomePage> {
       // selectAllTabungan();
       selectWhereNabung();
       idTabungan.clear();
+      id_goals.clear();
       goals.clear();
       collected.clear();
+      collectedArray.clear();
       target.clear();
       periode.clear();
       fotoTabungan.clear();
-      collectedArray.clear();
     });
   }
 
@@ -81,6 +83,7 @@ class _HomePageState extends State<HomePage> {
       idTabungan.add(tabungan.id);
       fotoTabungan.add(tabungan.foto);
       goals.add(tabungan.nama);
+      id_goals.add(tabungan.id);
       target.add(int.parse(tabungan.target));
       periode.add(tabungan.periode);
       collectedArray = jsonDecode(tabungan.nominal).cast<int>();
@@ -238,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                                           GestureDetector(
                                             onTap: () {
                                               Navigator.pushNamed(
-                                                  context, 'goalist');
+                                                  context, 'goals_menu');
                                             },
                                             child: Column(
                                               children: [
@@ -467,6 +470,7 @@ class _HomePageState extends State<HomePage> {
                                                   color: primaryColor)),
                                           SizedBox(height: 9),
                                           ListGoals(
+                                              id_goal: id_goals[0],
                                               goals: goals[0],
                                               collected:
                                                   collected[0].toString(),
@@ -525,6 +529,7 @@ class _HomePageState extends State<HomePage> {
                                           SizedBox(height: 9),
 
                                           ListGoals(
+                                            id_goal: id_goals[1],
                                             goals: goals[1],
                                             collected: collected[1].toString(),
                                             target: target[1].toString(),

@@ -174,7 +174,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ? [const CircularProgressIndicator()]
                           : [
                               RoundedButton(
-                                colour: const Color.fromARGB(255, 20, 165, 182),
+                                color : primaryColor,
                                 title: 'Sign Up',
                                 onPressed: () async {
                                   _focusUsername.unfocus();
@@ -209,7 +209,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       );
                                     }
                                   }
-                                },
+                                }, width: 200.0, height: 50.0,
                               ),
                             ],
                     ),

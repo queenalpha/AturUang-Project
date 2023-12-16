@@ -176,8 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? [const CircularProgressIndicator()]
                                 : [
                                     RoundedButton(
-                                      colour: const Color.fromARGB(
-                                          255, 20, 165, 182),
+                                      color: primaryColor,
                                       title: 'Sign In',
                                       onPressed: () async {
                                         _focusEmail.unfocus();
@@ -208,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 'Your email or password is incorrect!';
                                           }
                                         }
-                                      },
+                                      }, width: 200.0, height: 50.0,
                                     )
                                   ]),
                       ])),

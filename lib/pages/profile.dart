@@ -59,23 +59,26 @@ class _ProfilePageState extends State<ProfilePage> {
     List data = [];
     data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
         appid, 'user_id', currentUser?.uid ?? ''));
-    lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
 
-    List<LaporanKeuanganModel> income = [];
-    List<LaporanKeuanganModel> spending = [];
+    if (data.isNotEmpty) {
+      lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
 
-    for (LaporanKeuanganModel keuangan in lapKeu) {
-      if (keuangan.tipe_keuangan == "Income") {
-        income.add(keuangan);
-      } else if (keuangan.tipe_keuangan == "Spending") {
-        spending.add(keuangan);
+      List<LaporanKeuanganModel> income = [];
+      List<LaporanKeuanganModel> spending = [];
+
+      for (LaporanKeuanganModel keuangan in lapKeu) {
+        if (keuangan.tipe_keuangan == "Income") {
+          income.add(keuangan);
+        } else if (keuangan.tipe_keuangan == "Spending") {
+          spending.add(keuangan);
+        }
       }
-    }
 
-    totalIncome =
-        income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
-    totalSpending =
-        spending.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+      totalIncome =
+          income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+      totalSpending = spending.fold(
+          0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
+    }
   }
 
   //Info
@@ -286,12 +289,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontFamily: 'Poppins-SemiBold'),
                                       )),
                                   profpic == '-'
-                                      ? const Positioned(
-                                          top: 250 - 220 / 2,
-                                          child: Icon(
-                                            Icons.person,
-                                            color: Colors.white,
-                                            size: 130,
+                                      ? SizedBox(
+                                          height: 120,
+                                          width: 120,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.grey[300],
+                                            child: Icon(
+                                              color: Colors.grey[500],
+                                              Icons.person,
+                                              size: 90,
+                                            ),
                                           ),
                                         )
                                       : Positioned(
@@ -319,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(210, 255, 255, 255),
                                         child: Center(
                                           child: Icon(
-                                            Icons.camera_alt,
+                                            Icons.edit_rounded,
                                             color: const Color.fromARGB(
                                                 255, 5, 116, 129),
                                           ),

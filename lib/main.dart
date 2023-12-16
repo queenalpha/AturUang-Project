@@ -1,5 +1,7 @@
 import 'package:aturuang_project/configuration/navBottom.dart';
 import 'package:aturuang_project/pages/goal_list.dart';
+import 'package:aturuang_project/pages/goals_detail.dart';
+import 'package:aturuang_project/pages/goals_menu.dart';
 import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/pages/counting.dart';
 import 'package:aturuang_project/pages/reporting.dart';
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const NavigationBarDemo(),
           'goalist': (context) => const GoalsList(),
+          'goals_menu': (context) => const GoalsMenu(),
+          'goals_detail': (context) => const GoalsDetail(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => CountingScreen(),
           'reporting': (context) => const ReportingPage(),
