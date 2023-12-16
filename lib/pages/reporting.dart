@@ -81,9 +81,7 @@ class _ReportingPageState extends State<ReportingPage> {
                             context, 'home', (route) => false);
                       },
                     ),
-                    // Warna latar belakang transparan
                     backgroundColor: Colors.transparent,
-                    // Atur elevasi ke 0 untuk menghilangkan bayangan AppBar
                     elevation: 0,
                     centerTitle: true,
                     title: Text('Reporting',
@@ -155,7 +153,7 @@ class _ReportingPageState extends State<ReportingPage> {
                   ),
                   //chart end
 
-//Legend Start
+                  //Legend Start
                   Padding(
                     padding: const EdgeInsets.only(top: 400.0),
                     child: Row(

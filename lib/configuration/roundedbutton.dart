@@ -55,6 +55,34 @@ class _ToggleButtonState extends State<ToggleButton> {
   }
 }
 
+InputDecoration formSavingAdd(String labelText) {
+  if (labelText == 'Rp') {
+    return InputDecoration(
+      filled: true,
+      fillColor: Color.fromARGB(242, 242, 242, 242),
+      hintText: 'Rp',
+      hintStyle: TextStyle(
+          color: Colors.grey, fontFamily: 'Poppins-Reguler', fontSize: 15),
+      // prefixText: 'Rp',
+      // prefixStyle: TextStyle(
+      //   fontFamily: 'Poppins-SemiBold',
+      //   color: Colors.black,
+      //   fontWeight: FontWeight.w400,
+      // ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: primaryColor),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
+    );
+  } else {
+    return kTextFieldDecoration.copyWith();
+  }
+}
+
 const kTextFieldDecoration = InputDecoration(
   filled: true,
   fillColor: Color.fromARGB(242, 242, 242, 242),
@@ -78,12 +106,12 @@ const kTextFieldDecoration = InputDecoration(
 );
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton({
-    required this.title,
-    required this.onPressed,
-    required this.width,
-    required this.height, required Color color
-  });
+  RoundedButton(
+      {required this.title,
+      required this.onPressed,
+      required this.width,
+      required this.height,
+      required Color color});
   final String title;
   final VoidCallback onPressed;
 
@@ -100,7 +128,7 @@ class RoundedButton extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPressed,
           minWidth: width,
-          height:height,
+          height: height,
           child: Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 20),

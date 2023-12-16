@@ -92,7 +92,7 @@ class _GoalsDetail extends State<GoalsMenu> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 270),
+                                            horizontal: 2),
                                         child: GestureDetector(
                                           onTap: () =>
                                               Navigator.of(context).pop(),

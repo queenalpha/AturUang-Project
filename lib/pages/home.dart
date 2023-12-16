@@ -235,8 +235,11 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.pushNamed(
-                                                    context, 'goalist');
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        'goals_menu',
+                                                        (route) => false);
                                               },
                                               child: Column(
                                                 children: [
@@ -452,7 +455,7 @@ class _HomePageState extends State<HomePage> {
                                       Text("Goals List",
                                           style: TextStyle(
                                               fontFamily: 'Poppins-Reguler',
-                                              fontSize: 12,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w200,
                                               color: primaryColor)),
                                       SizedBox(height: 9),
@@ -571,7 +574,7 @@ class _HomePageState extends State<HomePage> {
                                             "See More",
                                             style: TextStyle(
                                               fontFamily: 'Poppins-Reguler',
-                                              fontSize: 12,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w200,
                                               color: primaryColor,
                                               decoration:

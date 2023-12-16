@@ -1,15 +1,15 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:aturuang_project/configuration/api_configuration.dart';
+// import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/list_configuration.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/models/nabung_model.dart';
-import 'package:aturuang_project/utils/restapi.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:aturuang_project/models/nabung_model.dart';
+// import 'package:aturuang_project/utils/restapi.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class GoalsDetail extends StatefulWidget {
   const GoalsDetail({Key? key}) : super(key: key);
@@ -28,56 +28,57 @@ class _GoalsDetail extends State<GoalsDetail> {
     double progress_savings = currentAmount / targetAmount;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: primaryColor,
-            ),
-            onPressed: () => Navigator.pop(context),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
-          title: Text(
-            "Goals Detail",
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true,
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: Column(children: [
-          Container(
-            child: Stack(
-              children: [
-                Container(
-                  height: 204,
-                  width: double.infinity,
-                  child: Image.asset(
-                    "assets/Meat.png",
-                    fit: BoxFit.cover,
-                  ),
+        title: Text(
+          "Goals Detail",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 204,
+                width: double.infinity,
+                child: Image.asset(
+                  "assets/Meat.png",
+                  fit: BoxFit.cover,
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 137, left: 25),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Meat Stock",
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Bold',
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 21),
-                        const Icon(
-                          Icons.edit_square,
-                          size: 20.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ))
-              ],
-            ),
+              ),
+              Positioned(
+                top: 137,
+                left: 25,
+                child: Row(
+                  children: [
+                    Text(
+                      "Meat Stock",
+                      style: TextStyle(
+                        fontFamily: 'Poppins-Bold',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 21),
+                    const Icon(
+                      Icons.edit_square,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 20),
           Padding(
@@ -90,12 +91,15 @@ class _GoalsDetail extends State<GoalsDetail> {
                       width: double.infinity,
                       height: 65,
                       decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(8)),
+                        color: primaryColor, // Use your desired color
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 19, vertical: 14),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 19,
+                        vertical: 14,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -103,9 +107,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Target"),
-                              Text(
-                                "Rp${targetAmount.toStringAsFixed(0)}",
-                              )
+                              Text("Rp${targetAmount.toStringAsFixed(0)}"),
                             ],
                           ),
                           SizedBox(height: 5),
@@ -128,42 +130,49 @@ class _GoalsDetail extends State<GoalsDetail> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-                // SizedBox(height: 18),
-                // Row(
-                //   children: [
-                //     TextFormField(
-                //       decoration: kTextFieldDecoration.copyWith(
-                //         label: Text("Rp"),
-                //       ),
-                //     ),
-                //     RoundedButton(
-                //         color: primaryColor,
-                //         title: 'Add',
-                //         onPressed: () {},
-                //         width: 96,
-                //         height: 36),
-                //   ],
-                // ),
-                // SizedBox(height: 41),
-                // Container(
-                //   child: Column(
-                //     children: [
-                //       Text("History"),
-                //       SizedBox(height: 15),
-                //       ListReporting(
-                //           title: 'Savings',
-                //           time: '12.00',
-                //           date: '23 Novmber 2023',
-                //           nominal: 'Rp25.000')
-                //     ],
-                //   ),
-                
+                SizedBox(height: 18),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(decoration: formSavingAdd('Rp')),
+                    ),
+                    SizedBox(width: 8),
+                    RoundedButton(
+                      color: primaryColor, // Use your desired color
+                      title: 'Add',
+                      onPressed: () {},
+                      width: 96,
+                      height: 40,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 41),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "History",
+                      style: TextStyle(
+                          fontFamily: 'Poppins-Reguler',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w200),
+                    ),
+                    SizedBox(height: 15),
+                    ListReporting(
+                        title: 'Savings',
+                        time: '12.00',
+                        date: '23 Novmber 2023',
+                        nominal: 'Rp25.000')
+                  ],
+                ),
               ],
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }
