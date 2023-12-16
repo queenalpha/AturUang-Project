@@ -73,7 +73,83 @@ class _GoalsDetail extends State<GoalsMenu> {
                   RoundedButton(
                       color: primaryColor,
                       title: 'Create',
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Stack(children: [
+                                Container(
+                                  width: 300,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border:
+                                        Border.all(color: Colors.transparent),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 270),
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Icon(
+                                            Icons.close_sharp,
+                                            size: 24.0,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Your goals has been\ncreated on goals list.",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-SemiBold',
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.w200,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+
+                                  // child: Padding(
+                                  //   padding:
+                                  //       EdgeInsets.symmetric(horizontal: 36),
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Column(
+                                  //         mainAxisAlignment: MainAxisAlignment.center,
+                                  //         children: [
+                                  //           Text(
+                                  //               "Your goals has been\ncreated on goals list",
+                                  //               style: TextStyle(
+                                  //                 fontFamily: 'Poppins-SemiBold',
+                                  //                 fontSize: 20.0,
+                                  //                 fontWeight: FontWeight.w200,
+                                  //                 color: Colors.white,
+                                  //               )),
+                                  //           SizedBox(height: 8),
+
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      },
                       width: 180,
                       height: 50)
                 ],
