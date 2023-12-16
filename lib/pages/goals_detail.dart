@@ -24,7 +24,13 @@ class GoalsDetail extends StatefulWidget {
 class _GoalsDetail extends State<GoalsDetail> {
   DataService ds = DataService();
   List<int> collectedArray = [];
+  List<String> collectedDate = [];
+  List<NabungModel> tabungan = [];
   List<int> collected = [];
+  final _amountTextController = TextEditingController();
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  final _focusAmount = FocusNode();
 
   String foto = "-";
   late ValueNotifier<int> _notifier;
@@ -58,15 +64,6 @@ class _GoalsDetail extends State<GoalsDetail> {
     return formatter.format(amount);
   }
 
-  // Future reloadDataGoals(dynamic value) async {
-  //   setState(() {
-  //     final args = ModalRoute.of(context)?.settings.arguments as List<String>;
-  //     selectIdGoal(args[0]);
-  //     collected.clear();
-  //     collectedArray.clear();
-  //   });
-  // }
-
   //Profic
   File? image;
   String? imageProfpic;
@@ -99,7 +96,6 @@ class _GoalsDetail extends State<GoalsDetail> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as List<String>;
-    print(args[0]);
 
     return Scaffold(
         appBar: AppBar(
@@ -230,6 +226,103 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     ],
                                   ),
                                 )
+                              ],
+                            ),
+                            SizedBox(height: 18),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      prefixText: 'Rp.  ',
+                                      prefixStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      hintText: 'Enter the amount of money',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    focusNode: _focusAmount,
+                                    controller: _amountTextController,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                RoundedButton(
+                                  color: primaryColor, // Use your desired color
+                                  title: 'Add',
+                                  onPressed: () async {
+                                    _focusAmount.unfocus();
+
+                                    List data = [];
+                                    data = jsonDecode(await ds.selectWhere(
+                                        token,
+                                        project,
+                                        "nabung",
+                                        appid,
+                                        "id",
+                                        args[0]));
+                                    nabung = data
+                                        .map((e) => NabungModel.fromJson(e))
+                                        .toList();
+                                    for (NabungModel tabungan in nabung) {
+                                      collectedArray =
+                                          jsonDecode(tabungan.nominal)
+                                              .cast<int>();
+                                      collectedDate =
+                                          jsonDecode(tabungan.tanggal)
+                                              .cast<String>();
+                                    }
+                                    collectedArray.add(
+                                        int.parse(_amountTextController.text));
+
+                                    try {
+                                      await ds.updateWhere(
+                                          "id",
+                                          args[0],
+                                          "nominal",
+                                          collectedArray.toString(),
+                                          token,
+                                          project,
+                                          "nabung",
+                                          appid);
+                                    } catch (e) {
+                                      print('Error decoding: $e');
+                                    }
+
+                                    // collectedDate
+                                    // .add(DateTime.now().toString());
+                                    // await ds.updateWhere(
+                                    //     "id",
+                                    //     args[0],
+                                    //     "tanggal",
+                                    //     collectedDate.toString(),
+                                    //     token,
+                                    //     project,
+                                    //     "nabung",
+                                    //     appid);
+                                  },
+                                  width: 96,
+                                  height: 60,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "History",
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins-Reguler',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w200),
+                                ),
+                                SizedBox(height: 15),
+                                ListReporting(
+                                    title: 'Savings',
+                                    time: '12.00',
+                                    date: '23 Novmber 2023',
+                                    nominal: 'Rp25.000')
                               ],
                             ),
                           ],
