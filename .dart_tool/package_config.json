@@ -32,6 +32,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "chart_it",
+      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/chart_it-0.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
@@ -488,7 +494,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-15T22:59:42.103045Z",
+  "generated": "2023-12-16T01:01:25.788860Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

@@ -65,9 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
     List<LaporanKeuanganModel> spending = [];
 
     for (LaporanKeuanganModel keuangan in lapKeu) {
-      if (keuangan.tipe_keuangan == "Pemasukan") {
+      if (keuangan.tipe_keuangan == "Income") {
         income.add(keuangan);
-      } else if (keuangan.tipe_keuangan == "Pengeluaran") {
+      } else if (keuangan.tipe_keuangan == "Spending") {
         spending.add(keuangan);
       }
     }

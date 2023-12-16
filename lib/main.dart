@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
           'home': (context) => const NavigationBarDemo(),
           'goalist': (context) => const GoalsList(),
           'profile': (context) => const ProfilePage(),
-          'counting': (context) => const CountingScreen(),
-          'reporting': (context) => const ReportingPage()
+          'counting': (context) => CountingScreen(),
+          'reporting': (context) => const ReportingPage(),
         });
   }
 }

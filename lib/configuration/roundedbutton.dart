@@ -1,4 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
+
+class ToggleButton extends StatefulWidget {
+  @override
+  _ToggleButtonState createState() => _ToggleButtonState();
+  final List<bool> isSelected;
+  final List<String> buttonLabels;
+
+  ToggleButton({required this.isSelected, required this.buttonLabels});
+}
+
+class _ToggleButtonState extends State<ToggleButton> {
+  // Initial state
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      child: Card(
+        color: primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+        child: ToggleButtons(
+          isSelected: widget.isSelected,
+          onPressed: (int index) {
+            setState(() {
+              for (int buttonIndex = 0;
+                  buttonIndex < widget.isSelected.length;
+                  buttonIndex++) {
+                widget.isSelected[buttonIndex] = buttonIndex == index;
+              }
+            });
+          },
+          selectedColor: secondaryColor,
+          fillColor: secondaryColor,
+          children: List.generate(
+            widget.buttonLabels.length,
+            (index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: Text(
+                widget.buttonLabels[index],
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class RoundedButton extends StatelessWidget {
   RoundedButton(
