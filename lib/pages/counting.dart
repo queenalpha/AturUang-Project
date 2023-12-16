@@ -44,8 +44,6 @@ class _CountingScreenState extends State<CountingScreen> {
   void initState() {
     super.initState();
   }
-
-  final _dateTextController = TextEditingController();
   final _financialcategoryTextController = TextEditingController();
   final _AmountTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
@@ -172,21 +170,6 @@ class _CountingScreenState extends State<CountingScreen> {
                       },
                     ),
                   ),
-                  // if (isCustomCategory)
-                  //   Padding(
-                  //     padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-                  //     child: TextFormField(
-                  //       controller: _financialcategoryTextController,
-                  //       focusNode: _focusfinancial,
-                  //       keyboardType: TextInputType.text,
-                  //       decoration: kTextFieldDecoration.copyWith(
-                  //         hintText: 'Custom Financial Category',
-                  //       ),
-                  //       onChanged: (value) {
-                  //         // Handle the changes in the custom category input
-                  //       },
-                  //     ),
-                  //   ),
                   SizedBox(
                     height: 8.0,
                   ),

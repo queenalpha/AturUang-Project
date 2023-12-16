@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           'register': (context) => const RegistrationScreen(),
           'home': (context) => const NavigationBarDemo(),
           'goalist': (context) => const GoalsList(),
-          'goals_menu': (context) => const GoalsMenu(),
+          'goals_menu': (context) => GoalsMenu(),
           'goals_detail': (context) => const GoalsDetail(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => CountingScreen(),
