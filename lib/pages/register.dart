@@ -1,7 +1,8 @@
 import 'package:aturuang_project/pages/login.dart';
-// import 'package:aturuang_project/configuration/rounded button.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/utils/restapi.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  DataService ds = DataService();
   @override
   void initState() {
     super.initState();
@@ -190,6 +192,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       email: _emailTextController.text,
                                       password: _passwordTextController.text,
                                     );
+                                    User? currentUser =
+                                        FirebaseAuth.instance.currentUser;
+                                    await ds.insertUser(
+                                        appid, currentUser!.uid, '-');
                                     setState(() {
                                       _isProcessing = false;
                                     });

@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final TextEditingController _usernameController = TextEditingController();
   String profpic = "-";
+  String id = "-";
   late ValueNotifier<int> _notifier;
 
   List<UserModel> user = [];
@@ -47,10 +48,11 @@ class _ProfilePageState extends State<ProfilePage> {
   selectWhereUser() async {
     List data = [];
     data = jsonDecode(await ds.selectWhere(
-        token, project, 'user', appid, 'user_id', currentUser?.uid ?? ''));
+        token, project, 'user', appid, 'user_id', currentUser!.uid));
     user = data.map((e) => UserModel.fromJson(e)).toList();
 
     profpic = user[0].foto;
+    id = user[0].id.toString();
   }
 
   selectWhereLaporan() async {
@@ -97,12 +99,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
         var file = jsonDecode(response);
 
-        await ds.updateId('picture', file['file_name'], token, project,
-            'mahasiswa', appid, id);
+        await ds.updateId(
+            'foto', file['file_name'], token, project, 'user', appid, id);
 
         profpic = file['file_name'];
 
-        // trigger change valueNotifier
         _notifier.value++;
       }
     } on PlatformException catch (e) {
@@ -284,31 +285,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 24,
                                             fontFamily: 'Poppins-SemiBold'),
                                       )),
-                                  Positioned(
-                                    top: 250 - 220 / 2,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/jhondoe.png'),
-                                      backgroundColor: Colors.transparent,
-                                      radius: 140 / 2,
-                                    ),
-                                  ),
-
-                                  // Icons edit
-                                  Positioned(
-                                    top: 247,
-                                    right: 135,
+                                  profpic == '-'
+                                      ? const Positioned(
+                                          top: 250 - 220 / 2,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.white,
+                                            size: 130,
+                                          ),
+                                        )
+                                      : Positioned(
+                                          top: 250 - 220 / 2,
+                                          child: CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(fileUri + profpic),
+                                            backgroundColor: Colors.transparent,
+                                            radius: 140 / 2,
+                                          ),
+                                        ),
+                                  InkWell(
+                                    onTap: () => pickImage(id),
                                     child: Container(
                                       width: 40,
                                       height: 40,
                                       child: Card(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              6.0), // Atur radius sesuai keinginan
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
                                           side: BorderSide(
-                                              color: Colors.black,
-                                              width:
-                                                  0.7), // Atur warna dan lebar border
+                                              color: Colors.black, width: 0.7),
                                         ),
                                         color:
                                             Color.fromARGB(210, 255, 255, 255),

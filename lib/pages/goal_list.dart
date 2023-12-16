@@ -116,7 +116,7 @@ class TabunganList extends StatelessWidget {
                       style: const TextStyle(color: Colors.red));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
-                    child: Text('Tidak ada data mahasiswa.'),
+                    child: Text('Anda belum memiliki Goals apapun!'),
                   );
                 } else {
                   List<dynamic> tabunganList = snapshot.data!;

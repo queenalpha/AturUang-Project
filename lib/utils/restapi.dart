@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class DataService {
   Future insertNabung(String appid, String foto, String nama, String target,
-      String periode, String nominal, String user_id) async {
+      String periode, String nominal, String user_id, String tanggal) async {
     String uri = 'https://io.etter.cloud/v4/insert';
 
     try {
@@ -19,7 +19,8 @@ class DataService {
         'target': target,
         'periode': periode,
         'nominal': nominal,
-        'user_id': user_id
+        'user_id': user_id,
+        'tanggal': tanggal
       });
 
       if (response.statusCode == 200) {
