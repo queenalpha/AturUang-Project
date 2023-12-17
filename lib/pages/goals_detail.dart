@@ -26,6 +26,7 @@ class _GoalsDetail extends State<GoalsDetail> {
   int numberOfDates = 0;
   DataService ds = DataService();
   List<int> collectedArray = [];
+  List<int> collectedArray2 = [];
   List<DateTime> collectedDate = [];
   List<NabungModel> tabungan = [];
   List<int> collected = [];
@@ -51,7 +52,6 @@ class _GoalsDetail extends State<GoalsDetail> {
 
     DateTime date;
     String stringDate = '';
-    // collectedArray = jsonDecode(nabung[0].nominal).cast<int>();
     stringDate = nabung[0].tanggal;
     List<String> dateStrings =
         stringDate.replaceAll("[", "").replaceAll("]", "").split(",");
@@ -302,33 +302,33 @@ class _GoalsDetail extends State<GoalsDetail> {
                                   title: 'Add',
                                   onPressed: () async {
                                     _focusAmount.unfocus();
-                                    _amountTextController.text = '';
+                                    collectedArray.clear();
+                                    collectedDate.clear();
 
-                                    // List data = [];
-                                    // data = jsonDecode(await ds.selectId(token,
-                                    //     project, "nabung", appid, args[0]));
-                                    // nabung = data
-                                    //     .map((e) => NabungModel.fromJson(e))
-                                    //     .toList();
-                                    // DateTime date;
-                                    // String stringDate = '';
-                                    // // for (NabungModel tabungan in nabung) {
-                                    // collectedArray =
-                                    //     jsonDecode(nabung[0].nominal)
-                                    //         .cast<int>();
-                                    // stringDate = nabung[0].tanggal;
-                                    // List<String> dateStrings = stringDate
-                                    //     .replaceAll("[", "")
-                                    //     .replaceAll("]", "")
-                                    //     .split(",");
+                                    List data = [];
+                                    data = jsonDecode(await ds.selectId(token,
+                                        project, "nabung", appid, args[0]));
+                                    nabung = data
+                                        .map((e) => NabungModel.fromJson(e))
+                                        .toList();
+                                    DateTime date;
+                                    String stringDate = '';
+                                    collectedArray =
+                                        jsonDecode(nabung[0].nominal)
+                                            .cast<int>();
+                                    stringDate = nabung[0].tanggal;
+                                    List<String> dateStrings = stringDate
+                                        .replaceAll("[", "")
+                                        .replaceAll("]", "")
+                                        .split(",");
 
-                                    // for (String dateString in dateStrings) {
-                                    //   String trimmedDateString =
-                                    //       dateString.trim().replaceAll("'", "");
-                                    //   DateTime dateTime =
-                                    //       DateTime.parse(trimmedDateString);
-                                    //   collectedDate.add(dateTime);
-                                    // }
+                                    for (String dateString in dateStrings) {
+                                      String trimmedDateString =
+                                          dateString.trim().replaceAll("'", "");
+                                      DateTime dateTime =
+                                          DateTime.parse(trimmedDateString);
+                                      collectedDate.add(dateTime);
+                                    }
 
                                     collectedArray.add(
                                         int.parse(_amountTextController.text));
@@ -342,6 +342,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         args[0]);
 
                                     collectedDate.add(DateTime.now());
+
                                     await ds.updateId(
                                         "tanggal",
                                         collectedDate.toString(),
@@ -350,9 +351,12 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         "nabung",
                                         appid,
                                         args[0]);
+                                    print("AA: " + collectedArray.toString());
+                                    print("BB: " + collectedDate.toString());
                                     setState(() {});
                                     collectedArray.clear();
                                     collectedDate.clear();
+                                    _amountTextController.text = '';
                                   },
                                   width: 96,
                                   height: 60,
