@@ -178,9 +178,9 @@ class _GoalsDetail extends State<GoalsMenu> {
                             _goalsTextController.text,
                             _targetTextController.text,
                             widget.selectedOption,
-                            "[]",
+                            "[0]",
                             currentUser!.uid,
-                            "[]");
+                            "[${now}]");
                         Navigator.pushNamedAndRemoveUntil(
                             context, 'home', (route) => false);
                       },

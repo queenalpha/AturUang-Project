@@ -24,7 +24,7 @@ class GoalsDetail extends StatefulWidget {
 class _GoalsDetail extends State<GoalsDetail> {
   DataService ds = DataService();
   List<int> collectedArray = [];
-  List<String> collectedDate = [];
+  List<DateTime> collectedDate = [];
   List<NabungModel> tabungan = [];
   List<int> collected = [];
   final _amountTextController = TextEditingController();
@@ -254,52 +254,53 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     _focusAmount.unfocus();
 
                                     List data = [];
-                                    data = jsonDecode(await ds.selectWhere(
+                                    data = jsonDecode(await ds.selectId(token,
+                                        project, "nabung", appid, args[0]));
+                                    nabung = data
+                                        .map((e) => NabungModel.fromJson(e))
+                                        .toList();
+                                    DateTime date;
+                                    String stringDate = '';
+                                    // for (NabungModel tabungan in nabung) {
+                                    collectedArray =
+                                        jsonDecode(nabung[0].nominal)
+                                            .cast<int>();
+                                    stringDate = nabung[0].tanggal;
+                                    List<String> dateStrings = stringDate
+                                        .replaceAll("[", "")
+                                        .replaceAll("]", "")
+                                        .split(",");
+
+                                    for (String dateString in dateStrings) {
+                                      String trimmedDateString =
+                                          dateString.trim().replaceAll("'", "");
+                                      DateTime dateTime =
+                                          DateTime.parse(trimmedDateString);
+                                      collectedDate.add(dateTime);
+                                    }
+
+                                    collectedArray.add(
+                                        int.parse(_amountTextController.text));
+                                    await ds.updateId(
+                                        "nominal",
+                                        collectedArray.toString(),
                                         token,
                                         project,
                                         "nabung",
                                         appid,
-                                        "id",
-                                        args[0]));
-                                    nabung = data
-                                        .map((e) => NabungModel.fromJson(e))
-                                        .toList();
-                                    for (NabungModel tabungan in nabung) {
-                                      collectedArray =
-                                          jsonDecode(tabungan.nominal)
-                                              .cast<int>();
-                                      collectedDate =
-                                          jsonDecode(tabungan.tanggal)
-                                              .cast<String>();
-                                    }
-                                    collectedArray.add(
-                                        int.parse(_amountTextController.text));
+                                        args[0]);
 
-                                    try {
-                                      await ds.updateWhere(
-                                          "id",
-                                          args[0],
-                                          "nominal",
-                                          collectedArray.toString(),
-                                          token,
-                                          project,
-                                          "nabung",
-                                          appid);
-                                    } catch (e) {
-                                      print('Error decoding: $e');
-                                    }
-
-                                    // collectedDate
-                                    // .add(DateTime.now().toString());
-                                    // await ds.updateWhere(
-                                    //     "id",
-                                    //     args[0],
-                                    //     "tanggal",
-                                    //     collectedDate.toString(),
-                                    //     token,
-                                    //     project,
-                                    //     "nabung",
-                                    //     appid);
+                                    collectedDate.add(DateTime.now());
+                                    await ds.updateId(
+                                        "tanggal",
+                                        collectedDate.toString(),
+                                        token,
+                                        project,
+                                        "nabung",
+                                        appid,
+                                        args[0]);
+                                    collectedArray.clear();
+                                    collectedDate.clear();
                                   },
                                   width: 96,
                                   height: 60,

@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
     statusNabung = true;
     List data = [];
     data = jsonDecode(await ds.selectWhere(
-        token, project, 'nabung', appid, 'user_id', currentUser?.uid ?? ''));
+        token, project, 'nabung', appid, 'user_id', currentUser!.uid));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
 
     for (NabungModel tabungan in nabung) {
