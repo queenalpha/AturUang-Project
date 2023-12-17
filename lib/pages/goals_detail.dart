@@ -9,7 +9,6 @@ import 'package:aturuang_project/models/nabung_model.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +21,8 @@ class GoalsDetail extends StatefulWidget {
 }
 
 class _GoalsDetail extends State<GoalsDetail> {
+  @override
+  void initState() {}
   int numberOfDates = 0;
   DataService ds = DataService();
   List<int> collectedArray = [];
@@ -36,6 +37,7 @@ class _GoalsDetail extends State<GoalsDetail> {
   String foto = "-";
   late ValueNotifier<int> _notifier;
   List<NabungModel> nabung = [];
+  List<NabungModel> nabung2 = [];
 
   double targetAmount = 0.0;
   double currentAmount = 0.0;
@@ -302,6 +304,32 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     _focusAmount.unfocus();
                                     _amountTextController.text = '';
 
+                                    // List data = [];
+                                    // data = jsonDecode(await ds.selectId(token,
+                                    //     project, "nabung", appid, args[0]));
+                                    // nabung = data
+                                    //     .map((e) => NabungModel.fromJson(e))
+                                    //     .toList();
+                                    // DateTime date;
+                                    // String stringDate = '';
+                                    // // for (NabungModel tabungan in nabung) {
+                                    // collectedArray =
+                                    //     jsonDecode(nabung[0].nominal)
+                                    //         .cast<int>();
+                                    // stringDate = nabung[0].tanggal;
+                                    // List<String> dateStrings = stringDate
+                                    //     .replaceAll("[", "")
+                                    //     .replaceAll("]", "")
+                                    //     .split(",");
+
+                                    // for (String dateString in dateStrings) {
+                                    //   String trimmedDateString =
+                                    //       dateString.trim().replaceAll("'", "");
+                                    //   DateTime dateTime =
+                                    //       DateTime.parse(trimmedDateString);
+                                    //   collectedDate.add(dateTime);
+                                    // }
+
                                     collectedArray.add(
                                         int.parse(_amountTextController.text));
                                     await ds.updateId(
@@ -322,6 +350,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         "nabung",
                                         appid,
                                         args[0]);
+                                    setState(() {});
                                     collectedArray.clear();
                                     collectedDate.clear();
                                   },
