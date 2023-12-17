@@ -22,6 +22,7 @@ class GoalsDetail extends StatefulWidget {
 }
 
 class _GoalsDetail extends State<GoalsDetail> {
+  int numberOfDates = 0;
   DataService ds = DataService();
   List<int> collectedArray = [];
   List<DateTime> collectedDate = [];
@@ -45,13 +46,29 @@ class _GoalsDetail extends State<GoalsDetail> {
     data = jsonDecode(await ds.selectId(token, project, 'nabung', appid, id));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
     foto = nabung[0].foto;
-    targetAmount = double.parse(nabung[0].target);
-    for (NabungModel tabungan in nabung) {
-      collectedArray = jsonDecode(tabungan.nominal).cast<int>();
-      collected.add(collectedArray.fold(
-          0, (previousValue, element) => previousValue + element));
+
+    DateTime date;
+    String stringDate = '';
+    // collectedArray = jsonDecode(nabung[0].nominal).cast<int>();
+    stringDate = nabung[0].tanggal;
+    List<String> dateStrings =
+        stringDate.replaceAll("[", "").replaceAll("]", "").split(",");
+
+    for (String dateString in dateStrings) {
+      String trimmedDateString = dateString.trim().replaceAll("'", "");
+      DateTime dateTime = DateTime.parse(trimmedDateString);
+      collectedDate.add(dateTime);
     }
+    targetAmount = double.parse(nabung[0].target);
+    collectedArray = jsonDecode(nabung[0].nominal).cast<int>();
+    collected.add(collectedArray.fold(
+        0, (previousValue, element) => previousValue + element));
+
     currentAmount = double.parse(collected[0].toString());
+
+    List<String> dateList =
+        nabung[0].tanggal.replaceAll('[', '').replaceAll(']', '').split(', ');
+    numberOfDates = dateList.length;
   }
 
   String formatCurrency(int amount) {
@@ -62,6 +79,37 @@ class _GoalsDetail extends State<GoalsDetail> {
     );
 
     return formatter.format(amount);
+  }
+
+  String getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Januari';
+      case 2:
+        return 'Februari';
+      case 3:
+        return 'Maret';
+      case 4:
+        return 'April';
+      case 5:
+        return 'Mei';
+      case 6:
+        return 'Juni';
+      case 7:
+        return 'Juli';
+      case 8:
+        return 'Agustus';
+      case 9:
+        return 'September';
+      case 10:
+        return 'Oktober';
+      case 11:
+        return 'November';
+      case 12:
+        return 'Desember';
+      default:
+        return 'Bulan tidak valid';
+    }
   }
 
   //Profic
@@ -248,36 +296,11 @@ class _GoalsDetail extends State<GoalsDetail> {
                                 ),
                                 SizedBox(width: 8),
                                 RoundedButton(
-                                  color: primaryColor, // Use your desired color
+                                  color: primaryColor,
                                   title: 'Add',
                                   onPressed: () async {
                                     _focusAmount.unfocus();
-
-                                    List data = [];
-                                    data = jsonDecode(await ds.selectId(token,
-                                        project, "nabung", appid, args[0]));
-                                    nabung = data
-                                        .map((e) => NabungModel.fromJson(e))
-                                        .toList();
-                                    DateTime date;
-                                    String stringDate = '';
-                                    // for (NabungModel tabungan in nabung) {
-                                    collectedArray =
-                                        jsonDecode(nabung[0].nominal)
-                                            .cast<int>();
-                                    stringDate = nabung[0].tanggal;
-                                    List<String> dateStrings = stringDate
-                                        .replaceAll("[", "")
-                                        .replaceAll("]", "")
-                                        .split(",");
-
-                                    for (String dateString in dateStrings) {
-                                      String trimmedDateString =
-                                          dateString.trim().replaceAll("'", "");
-                                      DateTime dateTime =
-                                          DateTime.parse(trimmedDateString);
-                                      collectedDate.add(dateTime);
-                                    }
+                                    _amountTextController.text = '';
 
                                     collectedArray.add(
                                         int.parse(_amountTextController.text));
@@ -319,11 +342,20 @@ class _GoalsDetail extends State<GoalsDetail> {
                                       fontWeight: FontWeight.w200),
                                 ),
                                 SizedBox(height: 15),
-                                ListReporting(
-                                    title: 'Savings',
-                                    time: '12.00',
-                                    date: '23 Novmber 2023',
-                                    nominal: 'Rp25.000')
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return ListReporting(
+                                        title: 'Saving',
+                                        time:
+                                            '${collectedDate[index + 1].hour}.${collectedDate[index + 1].minute}',
+                                        date:
+                                            '${collectedDate[index + 1].day} ${getMonthName(collectedDate[index + 1].month)} ${collectedDate[index + 1].year}',
+                                        nominal: formatCurrency(
+                                            collectedArray[index + 1]));
+                                  },
+                                  itemCount: numberOfDates - 1,
+                                )
                               ],
                             ),
                           ],
