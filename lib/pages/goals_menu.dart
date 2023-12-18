@@ -4,6 +4,7 @@ import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/restapi.dart';
+// import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,19 @@ class _GoalsDetail extends State<GoalsMenu> {
     }
   }
 
+  static String? isNotEmptyValidate(
+      {required String? value, required String? field}) {
+    if (value == null) {
+      return null;
+    }
+
+    if (value.isEmpty) {
+      return 'Isi terlebih dahulu ${field} tersebut!';
+    }
+
+    return null;
+  }
+
   Future<void> uploadDataAndImage() async {
     if (imageBytes != null && extImage != null) {
       var response = await ds.upload(token, project, imageBytes!, extImage!);
@@ -82,6 +96,7 @@ class _GoalsDetail extends State<GoalsMenu> {
 
   final _goalsTextController = TextEditingController();
   final _targetTextController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final _focusGoals = FocusNode();
   final _focusTarget = FocusNode();
@@ -182,36 +197,51 @@ class _GoalsDetail extends State<GoalsMenu> {
                     ),
                   ),
                   SizedBox(height: 31),
-                  TextFormField(
-                    decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Goals name',
-                    ),
-                    focusNode: _focusGoals,
-                    controller: _goalsTextController,
-                  ),
-                  SizedBox(height: 31),
-                  TextFormField(
-                    decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Target',
-                    ),
-                    focusNode: _focusTarget,
-                    controller: _targetTextController,
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 44),
-                  RoundedButton(
-                      color: primaryColor,
-                      title: 'Create',
-                      onPressed: () async {
-                        _focusGoals.unfocus();
-                        _focusTarget.unfocus();
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'Goals name',
+                          ),
+                          validator: (value) => isNotEmptyValidate(
+                              value: value, field: "Goals name"),
+                          focusNode: _focusGoals,
+                          controller: _goalsTextController,
+                        ),
+                        SizedBox(height: 31),
+                        TextFormField(
+                          decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'Target',
+                          ),
+                          focusNode: _focusTarget,
+                          controller: _targetTextController,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              isNotEmptyValidate(value: value, field: 'Target'),
+                        ),
+                        SizedBox(height: 44),
+                        RoundedButton(
+                          color: primaryColor,
+                          title: 'Create',
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState?.save();
+                              _focusGoals.unfocus();
+                              _focusTarget.unfocus();
 
-                        await uploadDataAndImage();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, 'home', (route) => false);
-                      },
-                      width: 180,
-                      height: 50)
+                              await uploadDataAndImage();
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'home', (route) => false);
+                            }
+                          },
+                          width: 180,
+                          height: 50,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

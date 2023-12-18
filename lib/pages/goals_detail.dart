@@ -351,9 +351,8 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         "nabung",
                                         appid,
                                         args[0]);
-                                    print("AA: " + collectedArray.toString());
-                                    print("BB: " + collectedDate.toString());
-                                    setState(() {});
+                                    // setState(() {});
+                                    // _notifier.value++;
                                     collectedArray.clear();
                                     collectedDate.clear();
                                     _amountTextController.text = '';
