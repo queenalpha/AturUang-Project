@@ -106,6 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
             'foto', file['file_name'], token, project, 'user', appid, id);
 
         profpic = file['file_name'];
+        print(file['file_name']);
 
         _notifier.value++;
       }

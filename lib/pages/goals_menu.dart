@@ -26,27 +26,57 @@ class _GoalsDetail extends State<GoalsMenu> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  //Profic
-  File? image;
-  String? imageProfpic;
+  String? imagePath;
+  Uint8List? imageBytes;
+  MemoryImage? selectedImage;
+  String? extImage;
 
   Future pickImage() async {
     try {
-      var picked = await FilePicker.platform.pickFiles(withData: true);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
 
-      if (picked != null) {
-        var response = await ds.upload(token, project,
-            picked.files.first.bytes!, picked.files.first.extension.toString());
-
-        var file = jsonDecode(response);
-        profpic = file['file_name'];
-
-        _notifier.value++;
+      if (result != null) {
+        setState(() {
+          imageBytes = result.files.single.bytes;
+          selectedImage = MemoryImage(imageBytes!);
+          extImage = result.files.first.extension.toString();
+        });
       }
     } on PlatformException catch (e) {
       if (kDebugMode) {
         print(e);
       }
+    }
+  }
+
+  Future<void> uploadDataAndImage() async {
+    if (imageBytes != null && extImage != null) {
+      var response = await ds.upload(token, project, imageBytes!, extImage!);
+      var file = jsonDecode(response);
+      await ds.insertNabung(
+        appid,
+        file['file_name'],
+        _goalsTextController.text,
+        _targetTextController.text,
+        widget.selectedOption,
+        "[0]",
+        currentUser!.uid,
+        "[${now}]",
+      );
+    } else {
+      await ds.insertNabung(
+        appid,
+        '-',
+        _goalsTextController.text,
+        _targetTextController.text,
+        widget.selectedOption,
+        "[0]",
+        currentUser!.uid,
+        "[${now}]",
+      );
     }
   }
 
@@ -87,17 +117,21 @@ class _GoalsDetail extends State<GoalsMenu> {
                   width: 142,
                   child: CircleAvatar(
                     backgroundColor: Colors.grey[300],
-                    child: Icon(
-                      color: Colors.grey[500],
-                      Icons.camera_alt_sharp,
-                      size: 38.5,
-                    ),
+                    backgroundImage: selectedImage,
+                    child: selectedImage == null
+                        ? Icon(
+                            color: Colors.grey[500],
+                            Icons.camera_alt_sharp,
+                            size: 38.5,
+                          )
+                        : SizedBox.shrink(),
                   ),
                 ),
               ),
             ),
+            Text(profpic),
             SizedBox(
-              height: 35, // Adjust the height of the box as needed
+              height: 35,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 29),
@@ -172,15 +206,7 @@ class _GoalsDetail extends State<GoalsMenu> {
                         _focusGoals.unfocus();
                         _focusTarget.unfocus();
 
-                        await ds.insertNabung(
-                            appid,
-                            '-',
-                            _goalsTextController.text,
-                            _targetTextController.text,
-                            widget.selectedOption,
-                            "[0]",
-                            currentUser!.uid,
-                            "[${now}]");
+                        await uploadDataAndImage();
                         Navigator.pushNamedAndRemoveUntil(
                             context, 'home', (route) => false);
                       },
