@@ -171,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                     return Text('${snapshot.error}',
                         style: const TextStyle(color: Colors.red));
                   } else {
+                    print(id_goals.length.toString());
                     return SafeArea(
                       child: Column(
                         children: [
@@ -527,62 +528,67 @@ class _HomePageState extends State<HomePage> {
                                               },
                                               imagePath: "assets/Mobil.jpg"),
                                           SizedBox(height: 9),
+                                          (id_goals.length / 4) >= 2
+                                              ? ListGoals(
+                                                  id_goal: id_goals[1],
+                                                  goals: goals[1],
+                                                  collected:
+                                                      collected[1].toString(),
+                                                  target: target[1].toString(),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      barrierDismissible: false,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                              "Warning"),
+                                                          content: Text(
+                                                              "Remove ${goals[1]} from your Goals?"),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Remove',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .red)),
+                                                              onPressed:
+                                                                  () async {
+                                                                bool response =
+                                                                    await ds.removeId(
+                                                                        token,
+                                                                        project,
+                                                                        'nabung',
+                                                                        appid,
+                                                                        '${idTabungan[1]}');
 
-                                          ListGoals(
-                                            id_goal: id_goals[1],
-                                            goals: goals[1],
-                                            collected: collected[1].toString(),
-                                            target: target[1].toString(),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                barrierDismissible: false,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title:
-                                                        const Text("Warning"),
-                                                    content: Text(
-                                                        "Remove ${goals[1]} from your Goals?"),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child: const Text(
-                                                            'Cancel'),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                      TextButton(
-                                                        child: const Text(
-                                                            'Remove',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .red)),
-                                                        onPressed: () async {
-                                                          bool response =
-                                                              await ds.removeId(
-                                                                  token,
-                                                                  project,
-                                                                  'nabung',
-                                                                  appid,
-                                                                  '${idTabungan[1]}');
-
-                                                          if (response) {
-                                                            Navigator.pop(
-                                                                context, true);
-                                                            reloadDataTabungan(
-                                                                true);
-                                                          }
-                                                        },
-                                                      )
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            imagePath: "assets/Mobil.jpg",
-                                          ),
+                                                                if (response) {
+                                                                  Navigator.pop(
+                                                                      context,
+                                                                      true);
+                                                                  reloadDataTabungan(
+                                                                      true);
+                                                                }
+                                                              },
+                                                            )
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  imagePath: "assets/Mobil.jpg",
+                                                )
+                                              : SizedBox(height: 9),
 
                                           SizedBox(height: 9),
 
