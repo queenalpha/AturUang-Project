@@ -97,6 +97,8 @@ class _GoalsDetail extends State<GoalsMenu> {
   final _goalsTextController = TextEditingController();
   final _targetTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isAtLeastOneSelected = false;
+  String errorMessage = '';
 
   final _focusGoals = FocusNode();
   final _focusTarget = FocusNode();
@@ -170,6 +172,8 @@ class _GoalsDetail extends State<GoalsMenu> {
                             }
                             widget.isSelected[index] = true;
                           });
+                          isAtLeastOneSelected =
+                              widget.isSelected.contains(true);
                           if (widget.isSelected.contains(true)) {
                             widget.selectedOption = widget
                                 .buttonLabels[widget.isSelected.indexOf(true)];
@@ -226,14 +230,28 @@ class _GoalsDetail extends State<GoalsMenu> {
                           color: primaryColor,
                           title: 'Create',
                           onPressed: () async {
+                            _focusGoals.unfocus();
+                            _focusTarget.unfocus();
                             if (_formKey.currentState?.validate() ?? false) {
-                              _formKey.currentState?.save();
-                              _focusGoals.unfocus();
-                              _focusTarget.unfocus();
-
-                              await uploadDataAndImage();
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, 'home', (route) => false);
+                              if (widget.isSelected.contains(true)) {
+                                widget.selectedOption = widget.buttonLabels[
+                                    widget.isSelected.indexOf(true)];
+                                await uploadDataAndImage();
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, 'home', (route) => false);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Pilih salah satu periode!'),
+                                  ),
+                                );
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Lengkapi Seluruh data!'),
+                                ),
+                              );
                             }
                           },
                           width: 180,
