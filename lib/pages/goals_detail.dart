@@ -192,8 +192,8 @@ class _GoalsDetail extends State<GoalsDetail> {
                             Container(
                               height: 204,
                               width: double.infinity,
-                              child: Image.asset(
-                                "assets/Meat.png",
+                              child: Image.network(
+                                fileUri + nabung[0].foto,
                                 fit: BoxFit.cover,
                               ),
                             ),

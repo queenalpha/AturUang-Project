@@ -98,7 +98,6 @@ class _GoalsDetail extends State<GoalsMenu> {
   final _targetTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isAtLeastOneSelected = false;
-  String errorMessage = '';
 
   final _focusGoals = FocusNode();
   final _focusTarget = FocusNode();

@@ -29,9 +29,9 @@ const kTextFieldDecoration = InputDecoration(
 class CountingScreen extends StatefulWidget {
   @override
   _CountingScreenState createState() => _CountingScreenState();
-  List<bool> isSelected = [true, false];
+  List<bool> isSelected = [false, true];
   List<String> buttonLabels = ['Income', 'Spending'];
-  String selectedOption = 'a';
+  String selectedOption = 'Spending';
 
   CountingScreen({super.key});
 }
@@ -44,9 +44,11 @@ class _CountingScreenState extends State<CountingScreen> {
   void initState() {
     super.initState();
   }
+
   final _financialcategoryTextController = TextEditingController();
   final _AmountTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final _focusfinancial = FocusNode();
   final _focusamount = FocusNode();
@@ -57,8 +59,22 @@ class _CountingScreenState extends State<CountingScreen> {
 
   bool isCustomCategory = false;
 
+  static String? isNotEmptyValidate(
+      {required String? value, required String? field}) {
+    if (value == null) {
+      return null;
+    }
+
+    if (value.isEmpty) {
+      return 'Isi terlebih dahulu ${field} tersebut!';
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(selectedFinancialCategory);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
@@ -106,7 +122,6 @@ class _CountingScreenState extends State<CountingScreen> {
                           }
                           widget.selectedOption =
                               widget.isSelected[0] ? 'Income' : 'Spending';
-                          print("PILIHAN : " + widget.selectedOption);
                         });
                       },
                       selectedColor: secondaryColor,
@@ -131,6 +146,7 @@ class _CountingScreenState extends State<CountingScreen> {
             ),
             Container(),
             Form(
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -144,6 +160,8 @@ class _CountingScreenState extends State<CountingScreen> {
                         hintText: 'Financial Category',
                       ),
                       value: selectedFinancialCategory,
+                      validator: (value) =>
+                          value == null ? 'Pilih kategori keuangan!' : null,
                       items: [
                         ...financialCategory.map((Category) {
                           return DropdownMenuItem<String>(
@@ -182,6 +200,8 @@ class _CountingScreenState extends State<CountingScreen> {
                       decoration: kTextFieldDecoration.copyWith(
                         hintText: 'Amount',
                       ),
+                      validator: (value) =>
+                          isNotEmptyValidate(value: value, field: "Amount"),
                     ),
                   ),
                   SizedBox(
@@ -197,7 +217,7 @@ class _CountingScreenState extends State<CountingScreen> {
                         minLines: 4,
                         maxLines: 6,
                         decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Description',
+                          hintText: 'Description(Optional)',
                         ),
                       )),
                   SizedBox(
@@ -214,16 +234,24 @@ class _CountingScreenState extends State<CountingScreen> {
                 _focusdescription.unfocus();
                 _focusfinancial.unfocus();
 
-                await ds.insertLaporanKeuangan(
-                    appid,
-                    selectedFinancialCategory!,
-                    now.toString(),
-                    widget.selectedOption,
-                    _AmountTextController.text,
-                    _descriptionTextController.text,
-                    currentUser!.uid);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, 'home', (route) => false);
+                if (_formKey.currentState?.validate() ?? false) {
+                  await ds.insertLaporanKeuangan(
+                      appid,
+                      selectedFinancialCategory!,
+                      now.toString(),
+                      widget.selectedOption,
+                      _AmountTextController.text,
+                      _descriptionTextController.text,
+                      currentUser!.uid);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'home', (route) => false);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lengkapi Seluruh data!'),
+                    ),
+                  );
+                }
               },
               width: 150.0,
               height: 50.0,
@@ -257,7 +285,6 @@ class _CountingScreenState extends State<CountingScreen> {
               onPressed: () {
                 setState(() {
                   String newCategory = _financialcategoryTextController.text;
-                  // Insert new category above 'Custom'
                   financialCategory.insert(
                       financialCategory.length - 1, newCategory);
                   selectedFinancialCategory = newCategory;
