@@ -526,7 +526,7 @@ class _HomePageState extends State<HomePage> {
                                                   },
                                                 );
                                               },
-                                              imagePath: "assets/Mobil.jpg"),
+                                              imagePath: "${fotoTabungan[0]}"),
                                           SizedBox(height: 9),
                                           (id_goals.length / 4) >= 2
                                               ? ListGoals(
@@ -586,7 +586,8 @@ class _HomePageState extends State<HomePage> {
                                                       },
                                                     );
                                                   },
-                                                  imagePath: "assets/Mobil.jpg",
+                                                  imagePath:
+                                                      "${fotoTabungan[1]}",
                                                 )
                                               : SizedBox(height: 9),
 

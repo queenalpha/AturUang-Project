@@ -1,5 +1,5 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/pages/goals_detail.dart';
+import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -136,7 +136,7 @@ class ListGoals extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(imagePath),
+                image: NetworkImage(fileUri + imagePath),
               ),
             ),
           ),

@@ -238,7 +238,7 @@ class _TabunganSectionState extends State<TabunganSection> {
                                   },
                                 );
                               },
-                              imagePath: "assets/Mobil.jpg"),
+                              imagePath: "${tabungan.foto}"),
                           SizedBox(height: 6),
                         ],
                       ))

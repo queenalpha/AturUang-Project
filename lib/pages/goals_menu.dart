@@ -69,7 +69,7 @@ class _GoalsDetail extends State<GoalsMenu> {
     } else {
       await ds.insertNabung(
         appid,
-        '-',
+        '651bc4399b493f4b9fe24867_656839c21e965436b80825ca_lKWoiGMCrTsQxUxhRCATwApDPP6jFGWQ.jpg',
         _goalsTextController.text,
         _targetTextController.text,
         widget.selectedOption,

@@ -105,10 +105,10 @@ class _ProfilePageState extends State<ProfilePage> {
         await ds.updateId(
             'foto', file['file_name'], token, project, 'user', appid, id);
 
-        profpic = file['file_name'];
-        print(file['file_name']);
-
         _notifier.value++;
+        setState(() {
+          profpic = file['file_name'];
+        });
       }
     } on PlatformException catch (e) {
       if (kDebugMode) {
