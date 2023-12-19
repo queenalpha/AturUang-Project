@@ -93,8 +93,6 @@ class _HomePageState extends State<HomePage> {
     if (nabung.isEmpty) {
       statusNabung = false;
     }
-    // print("nabung:" + nabung.toString());
-    // print("COLECTED array" + collectedArray.toString());
   }
 
   Future<void> _initializeFirebase() async {
@@ -171,7 +169,6 @@ class _HomePageState extends State<HomePage> {
                     return Text('${snapshot.error}',
                         style: const TextStyle(color: Colors.red));
                   } else {
-                    print(id_goals.length.toString());
                     return SafeArea(
                       child: Column(
                         children: [

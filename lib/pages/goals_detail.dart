@@ -31,6 +31,7 @@ class _GoalsDetail extends State<GoalsDetail> {
   List<NabungModel> tabungan = [];
   List<int> collected = [];
   final _amountTextController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   final _focusAmount = FocusNode();
@@ -281,21 +282,26 @@ class _GoalsDetail extends State<GoalsDetail> {
                             SizedBox(height: 18),
                             Row(
                               children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                      prefixText: 'Rp.  ',
-                                      prefixStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
+                                Form(
+                                    key: _formKey,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          prefixText: 'Rp.  ',
+                                          prefixStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          hintText: 'Enter the amount of money',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        focusNode: _focusAmount,
+                                        controller: _amountTextController,
+                                        validator: (value) => value == ''
+                                            ? 'Masukkan nomila!'
+                                            : null,
                                       ),
-                                      hintText: 'Enter the amount of money',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    focusNode: _focusAmount,
-                                    controller: _amountTextController,
-                                  ),
-                                ),
+                                    )),
                                 SizedBox(width: 8),
                                 RoundedButton(
                                   color: primaryColor,
@@ -304,58 +310,68 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     _focusAmount.unfocus();
                                     collectedArray.clear();
                                     collectedDate.clear();
+                                    if (_formKey.currentState!.validate()) {
+                                      List data = [];
+                                      data = jsonDecode(await ds.selectId(token,
+                                          project, "nabung", appid, args[0]));
+                                      nabung = data
+                                          .map((e) => NabungModel.fromJson(e))
+                                          .toList();
+                                      DateTime date;
+                                      String stringDate = '';
+                                      collectedArray =
+                                          jsonDecode(nabung[0].nominal)
+                                              .cast<int>();
+                                      collected.add(collectedArray.fold(
+                                          0,
+                                          (previousValue, element) =>
+                                              previousValue + element));
+                                      stringDate = nabung[0].tanggal;
+                                      List<String> dateStrings = stringDate
+                                          .replaceAll("[", "")
+                                          .replaceAll("]", "")
+                                          .split(",");
 
-                                    List data = [];
-                                    data = jsonDecode(await ds.selectId(token,
-                                        project, "nabung", appid, args[0]));
-                                    nabung = data
-                                        .map((e) => NabungModel.fromJson(e))
-                                        .toList();
-                                    DateTime date;
-                                    String stringDate = '';
-                                    collectedArray =
-                                        jsonDecode(nabung[0].nominal)
-                                            .cast<int>();
-                                    stringDate = nabung[0].tanggal;
-                                    List<String> dateStrings = stringDate
-                                        .replaceAll("[", "")
-                                        .replaceAll("]", "")
-                                        .split(",");
+                                      for (String dateString in dateStrings) {
+                                        String trimmedDateString = dateString
+                                            .trim()
+                                            .replaceAll("'", "");
+                                        DateTime dateTime =
+                                            DateTime.parse(trimmedDateString);
+                                        collectedDate.add(dateTime);
+                                      }
 
-                                    for (String dateString in dateStrings) {
-                                      String trimmedDateString =
-                                          dateString.trim().replaceAll("'", "");
-                                      DateTime dateTime =
-                                          DateTime.parse(trimmedDateString);
-                                      collectedDate.add(dateTime);
+                                      collectedArray.add(int.parse(
+                                          _amountTextController.text));
+                                      await ds.updateId(
+                                          "nominal",
+                                          collectedArray.toString(),
+                                          token,
+                                          project,
+                                          "nabung",
+                                          appid,
+                                          args[0]);
+
+                                      collectedDate.add(DateTime.now());
+
+                                      await ds.updateId(
+                                          "tanggal",
+                                          collectedDate.toString(),
+                                          token,
+                                          project,
+                                          "nabung",
+                                          appid,
+                                          args[0]);
+                                      collectedArray.clear();
+                                      collectedDate.clear();
+                                      _amountTextController.text = '';
+                                      setState(() {
+                                        currentAmount = double.parse(
+                                            collected[0].toString());
+                                        targetAmount =
+                                            double.parse(nabung[0].target);
+                                      });
                                     }
-
-                                    collectedArray.add(
-                                        int.parse(_amountTextController.text));
-                                    await ds.updateId(
-                                        "nominal",
-                                        collectedArray.toString(),
-                                        token,
-                                        project,
-                                        "nabung",
-                                        appid,
-                                        args[0]);
-
-                                    collectedDate.add(DateTime.now());
-
-                                    await ds.updateId(
-                                        "tanggal",
-                                        collectedDate.toString(),
-                                        token,
-                                        project,
-                                        "nabung",
-                                        appid,
-                                        args[0]);
-                                    // setState(() {});
-                                    // _notifier.value++;
-                                    collectedArray.clear();
-                                    collectedDate.clear();
-                                    _amountTextController.text = '';
                                   },
                                   width: 96,
                                   height: 60,

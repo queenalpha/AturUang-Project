@@ -74,7 +74,6 @@ class _CountingScreenState extends State<CountingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(selectedFinancialCategory);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 100,
