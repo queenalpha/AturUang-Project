@@ -220,6 +220,26 @@ class _ReportingPageState extends State<ReportingPage> {
                     nominal: 'Rp100.000'),
               ),
             ),
+
+            SizedBox(height: 9),
+
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'reportList');
+                },
+                child: Text(
+                  "See More",
+                  style: TextStyle(
+                    fontFamily: 'Poppins-Reguler',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w200,
+                    color: primaryColor,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
