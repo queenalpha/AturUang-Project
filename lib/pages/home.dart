@@ -468,11 +468,14 @@ class _HomePageState extends State<HomePage> {
                                                   color: primaryColor)),
                                           SizedBox(height: 9),
                                           ListGoals(
-                                              id_goal: id_goals[0],
-                                              goals: goals[0],
-                                              collected:
-                                                  collected[0].toString(),
-                                              target: target[0].toString(),
+                                              id_goal:
+                                                  id_goals[id_goals.length - 1],
+                                              goals: goals[goals.length - 1],
+                                              collected: collected[
+                                                      collected.length - 1]
+                                                  .toString(),
+                                              target: target[target.length - 1]
+                                                  .toString(),
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,
@@ -483,7 +486,7 @@ class _HomePageState extends State<HomePage> {
                                                       title:
                                                           const Text("Warning"),
                                                       content: Text(
-                                                          "Remove ${goals[0]} from your Goals?"),
+                                                          "Remove ${goals[goals.length - 1]} from your Goals?"),
                                                       actions: <Widget>[
                                                         TextButton(
                                                           child: const Text(
@@ -507,7 +510,7 @@ class _HomePageState extends State<HomePage> {
                                                                     project,
                                                                     'nabung',
                                                                     appid,
-                                                                    '${idTabungan[0]}');
+                                                                    '${idTabungan[idTabungan.length - 1]}');
 
                                                             if (response) {
                                                               Navigator.pop(
@@ -523,15 +526,21 @@ class _HomePageState extends State<HomePage> {
                                                   },
                                                 );
                                               },
-                                              imagePath: "${fotoTabungan[0]}"),
+                                              imagePath:
+                                                  "${fotoTabungan[fotoTabungan.length - 1]}"),
                                           SizedBox(height: 9),
                                           (id_goals.length / 4) >= 2
                                               ? ListGoals(
-                                                  id_goal: id_goals[1],
-                                                  goals: goals[1],
-                                                  collected:
-                                                      collected[1].toString(),
-                                                  target: target[1].toString(),
+                                                  id_goal: id_goals[
+                                                      id_goals.length - 2],
+                                                  goals:
+                                                      goals[goals.length - 2],
+                                                  collected: collected[
+                                                          collected.length - 2]
+                                                      .toString(),
+                                                  target:
+                                                      target[target.length - 2]
+                                                          .toString(),
                                                   onPressed: () {
                                                     showDialog(
                                                       context: context,
@@ -542,7 +551,7 @@ class _HomePageState extends State<HomePage> {
                                                           title: const Text(
                                                               "Warning"),
                                                           content: Text(
-                                                              "Remove ${goals[1]} from your Goals?"),
+                                                              "Remove ${goals[goals.length - 2]} from your Goals?"),
                                                           actions: <Widget>[
                                                             TextButton(
                                                               child: const Text(
@@ -567,7 +576,7 @@ class _HomePageState extends State<HomePage> {
                                                                         project,
                                                                         'nabung',
                                                                         appid,
-                                                                        '${idTabungan[1]}');
+                                                                        '${idTabungan[idTabungan.length - 2]}');
 
                                                                 if (response) {
                                                                   Navigator.pop(
@@ -584,7 +593,7 @@ class _HomePageState extends State<HomePage> {
                                                     );
                                                   },
                                                   imagePath:
-                                                      "${fotoTabungan[1]}",
+                                                      "${fotoTabungan[fotoTabungan.length - 2]}",
                                                 )
                                               : SizedBox(height: 9),
 

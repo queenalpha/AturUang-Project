@@ -22,7 +22,11 @@ class GoalsDetail extends StatefulWidget {
 
 class _GoalsDetail extends State<GoalsDetail> {
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    _notifier = ValueNotifier<int>(0);
+  }
+
   int numberOfDates = 0;
   DataService ds = DataService();
   List<int> collectedArray = [];
@@ -43,6 +47,8 @@ class _GoalsDetail extends State<GoalsDetail> {
 
   double targetAmount = 0.0;
   double currentAmount = 0.0;
+
+  late ValueKey<double> progressIndicatorKey = ValueKey<double>(currentAmount);
 
   selectIdGoal(String id) async {
     List data = [];
@@ -82,6 +88,13 @@ class _GoalsDetail extends State<GoalsDetail> {
     );
 
     return formatter.format(amount);
+  }
+
+  Future reloadDataGoal(dynamic value) async {
+    setState(() {
+      final args = ModalRoute.of(context)?.settings.arguments as List<String>;
+      selectIdGoal(args[0]);
+    });
   }
 
   String getMonthName(int month) {
@@ -215,8 +228,9 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.pushNamed(
-                                            context, 'goals_edit',
-                                            arguments: [args[0]]);
+                                                context, 'goals_edit',
+                                                arguments: [args[0]])
+                                            .then(reloadDataGoal);
                                       },
                                       child: Icon(
                                         Icons.edit_square,
@@ -273,6 +287,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           child: LinearProgressIndicator(
+                                            key: progressIndicatorKey,
                                             value: currentAmount / targetAmount,
                                             backgroundColor: Colors.transparent,
                                             valueColor:
@@ -361,22 +376,22 @@ class _GoalsDetail extends State<GoalsDetail> {
 
                                       collectedDate.add(DateTime.now());
 
-                                      await ds.updateId(
-                                          "tanggal",
-                                          collectedDate.toString(),
-                                          token,
-                                          project,
-                                          "nabung",
-                                          appid,
-                                          args[0]);
+                                      await ds
+                                          .updateId(
+                                              "tanggal",
+                                              collectedDate.toString(),
+                                              token,
+                                              project,
+                                              "nabung",
+                                              appid,
+                                              args[0])
+                                          .then(reloadDataGoal);
                                       collectedArray.clear();
                                       collectedDate.clear();
                                       _amountTextController.text = '';
                                       setState(() {
-                                        currentAmount = double.parse(
-                                            collected[0].toString());
-                                        targetAmount =
-                                            double.parse(nabung[0].target);
+                                        progressIndicatorKey =
+                                            ValueKey<double>(currentAmount);
                                       });
                                     }
                                   },
