@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:intl/intl.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
 
 class LegendItem extends StatelessWidget {
   final Color color;
@@ -121,9 +122,9 @@ class _ReportingPageState extends State<ReportingPage> {
     return formatter.format(amount);
   }
 
+  String selectedFilter = 'Option 1';
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: FutureBuilder<dynamic>(
         future: selectWhereLaporan(),
@@ -333,6 +334,21 @@ class _ReportingPageState extends State<ReportingPage> {
                                             '${formatCurrency(int.parse(lapKeu[index].nominal))}'),
                                   );
                                 })),
+                        Center(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, 'reportList');
+                                },
+                                child: Text(
+                                  "See More",
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-Reguler',
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w200,
+                                    color: primaryColor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ))),
                       ],
                     ),
                   );
@@ -343,5 +359,43 @@ class _ReportingPageState extends State<ReportingPage> {
       ),
       // bottomNavigationBar: NavigationBarDemo(),
     );
+  }
+
+  // VALUE FILTER
+  Widget _buildFilterDropdown() {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.filter_list,
+        color: Colors.black,
+      ),
+      // color: Colors.black,
+      onSelected: (value) {
+        _selectFilterOption(value.toString());
+      },
+      itemBuilder: (BuildContext context) => [
+        PopupMenuItem(
+          value: 'Option 1',
+          child: Row(
+            children: [
+              Text('Option 1'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'Option 2',
+          child: Row(
+            children: [
+              Text('Option 2'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _selectFilterOption(String option) {
+    setState(() {
+      selectedFilter = option;
+    });
   }
 }

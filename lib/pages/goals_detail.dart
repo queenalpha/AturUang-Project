@@ -208,14 +208,21 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         fontFamily: 'Poppins-Bold',
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     SizedBox(width: 21),
-                                    const Icon(
-                                      Icons.edit_square,
-                                      size: 20.0,
-                                      color: Colors.white,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, 'goals_edit',
+                                            arguments: [args[0]]);
+                                      },
+                                      child: Icon(
+                                        Icons.edit_square,
+                                        size: 20.0,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ))
