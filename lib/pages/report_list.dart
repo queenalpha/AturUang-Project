@@ -31,34 +31,43 @@ class _ReportList extends State<ReportList> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        "All List", //dibuat per list category
-                        style: TextStyle(
-                          fontFamily: 'Poppins-Reguler',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                      // all list
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'All list',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins-Medium',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            _buildFilterDropdown(),
+                          ],
                         ),
                       ),
-                      _buildFilterDropdown(),
+                      ListReporting(
+                        title: 'Salary',
+                        time: '12:00',
+                        date: '23 November 2023',
+                        nominal: 'Rp100.000',
+                      ),
                     ],
                   ),
-                  ListReporting(
-                    title: 'Salary',
-                    time: '12:00',
-                    date: '23 November 2023',
-                    nominal: 'Rp100.000',
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

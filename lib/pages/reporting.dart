@@ -47,6 +47,7 @@ class ReportingPage extends StatefulWidget {
 }
 
 class _ReportingPageState extends State<ReportingPage> {
+  String selectedFilter = 'Option 1';
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -195,16 +196,19 @@ class _ReportingPageState extends State<ReportingPage> {
                   // all list
                   Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),
-                    child: Text(
-                      'All list',
-                      style: TextStyle(
-                          fontFamily: 'Poppins-Medium',
-                          fontSize: 15,
-                          color: Colors.black),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'All list',
+                          style: TextStyle(
+                              fontFamily: 'Poppins-Medium',
+                              fontSize: 15,
+                              color: Colors.black),
+                        ),
+                        _buildFilterDropdown(),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 6.0,
                   ),
                 ],
               ),
@@ -244,5 +248,43 @@ class _ReportingPageState extends State<ReportingPage> {
         ),
       ),
     );
+  }
+
+  // VALUE FILTER
+  Widget _buildFilterDropdown() {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.filter_list,
+        color: Colors.black,
+      ),
+      // color: Colors.black,
+      onSelected: (value) {
+        _selectFilterOption(value.toString());
+      },
+      itemBuilder: (BuildContext context) => [
+        PopupMenuItem(
+          value: 'Option 1',
+          child: Row(
+            children: [
+              Text('Option 1'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'Option 2',
+          child: Row(
+            children: [
+              Text('Option 2'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _selectFilterOption(String option) {
+    setState(() {
+      selectedFilter = option;
+    });
   }
 }
