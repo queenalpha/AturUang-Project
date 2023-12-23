@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           'goalist': (context) => const GoalsList(),
           'goals_menu': (context) => GoalsMenu(),
           'goals_edit': (context) => GoalsEdit(),
-          'goals_detail': (context) => const GoalsDetail(),
+          'goals_detail': (context) => GoalsDetail(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => CountingScreen(),
           'reporting': (context) => const ReportingPage(),

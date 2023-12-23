@@ -323,15 +323,18 @@ class _ReportingPageState extends State<ReportingPage> {
                                 shrinkWrap: true,
                                 itemCount: lapKeu.length,
                                 itemBuilder: (context, index) {
+                                  final reversedIndex =
+                                      lapKeu.length - 1 - index;
                                   return Container(
                                     child: ListReporting(
-                                        title: '${lapKeu[index].kategori}',
+                                        title:
+                                            '${lapKeu[reversedIndex].kategori}',
                                         time:
-                                            '${DateTime.parse(lapKeu[index].tanggal).hour}:${DateTime.parse(lapKeu[index].tanggal).minute}',
+                                            '${DateTime.parse(lapKeu[reversedIndex].tanggal).hour}:${DateTime.parse(lapKeu[reversedIndex].tanggal).minute}',
                                         date:
-                                            '${DateTime.parse(lapKeu[index].tanggal).day} ${getMonthName(DateTime.parse(lapKeu[index].tanggal).month)} ${DateTime.parse(lapKeu[index].tanggal).year}',
+                                            '${DateTime.parse(lapKeu[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(lapKeu[reversedIndex].tanggal).month)} ${DateTime.parse(lapKeu[reversedIndex].tanggal).year}',
                                         nominal:
-                                            '${formatCurrency(int.parse(lapKeu[index].nominal))}'),
+                                            '${formatCurrency(int.parse(lapKeu[reversedIndex].nominal))}'),
                                   );
                                 })),
                         Center(

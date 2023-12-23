@@ -47,7 +47,7 @@ class _ReportList extends State<ReportList> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'All list',
+                              'All List',
                               style: TextStyle(
                                   fontFamily: 'Poppins-Medium',
                                   fontSize: 15,
@@ -88,21 +88,45 @@ class _ReportList extends State<ReportList> {
       },
       itemBuilder: (BuildContext context) => [
         PopupMenuItem(
-          value: 'Option 1',
+          value: 'All List',
           child: Row(
             children: [
-              Text('Option 1'),
+              Text('All List'),
             ],
           ),
         ),
         PopupMenuItem(
-          value: 'Option 2',
+          value: 'Salary',
           child: Row(
             children: [
-              Text('Option 2'),
+              Text('Salary'),
             ],
           ),
         ),
+        PopupMenuItem(
+          value: 'Invest',
+          child: Row(
+            children: [
+              Text('Invest'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'Daily',
+          child: Row(
+            children: [
+              Text('Daily'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'Other',
+          child: Row(
+            children: [
+              Text('Other'),
+            ],
+          ),
+        )
       ],
     );
   }

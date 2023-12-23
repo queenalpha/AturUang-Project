@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class GoalsDetail extends StatefulWidget {
-  const GoalsDetail({Key? key}) : super(key: key);
+  GoalsDetail({Key? key}) : super(key: key);
   @override
   _GoalsDetail createState() => _GoalsDetail();
 }
@@ -415,14 +415,16 @@ class _GoalsDetail extends State<GoalsDetail> {
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
+                                    final reversedIndex =
+                                        numberOfDates - 1 - index;
                                     return ListReporting(
                                         title: 'Saving',
                                         time:
-                                            '${collectedDate[index + 1].hour}.${collectedDate[index + 1].minute}',
+                                            '${collectedDate[reversedIndex].hour}.${collectedDate[reversedIndex].minute}',
                                         date:
-                                            '${collectedDate[index + 1].day} ${getMonthName(collectedDate[index + 1].month)} ${collectedDate[index + 1].year}',
+                                            '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
                                         nominal: formatCurrency(
-                                            collectedArray[index + 1]));
+                                            collectedArray[reversedIndex]));
                                   },
                                   itemCount: numberOfDates - 1,
                                 )

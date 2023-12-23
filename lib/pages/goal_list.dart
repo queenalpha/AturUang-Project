@@ -177,8 +177,9 @@ class _TabunganSectionState extends State<TabunganSection> {
             shrinkWrap: true,
             itemCount: widget.tabunganList.length,
             itemBuilder: (context, index) {
+              final reversedIndex = widget.tabunganList.length - 1 - index;
               DataService ds = DataService();
-              NabungModel tabungan = widget.tabunganList[index];
+              NabungModel tabungan = widget.tabunganList[reversedIndex];
               List<int> collected = [];
               collected.add(jsonDecode(tabungan.nominal).cast<int>().fold(
                   0, (previousValue, element) => previousValue + element));
