@@ -148,7 +148,6 @@ class _ReportingPageState extends State<ReportingPage> {
                       style: const TextStyle(color: Colors.red));
                 } else {
                   return SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Container(
@@ -190,67 +189,62 @@ class _ReportingPageState extends State<ReportingPage> {
                               ),
 
                               //Chart Start
-                              Padding(
-                                padding: const EdgeInsets.all(45.0),
-                                child: Center(
-                                  child: PieChart(
-                                    chartStyle: RadialChartStyle(
-                                        backgroundColor: Colors.transparent),
-                                    animationDuration:
-                                        const Duration(milliseconds: 500),
-                                    height: 350,
-                                    width: 350,
-                                    // animateOnUpdate: true,
-                                    // animateOnLoad: true,
-                                    data: PieSeries(
-                                      donutRadius: 70.0,
-                                      donutSpaceColor: Colors.transparent,
-                                      donutLabel: () =>
-                                          '${formatCurrency(total)}',
-                                      donutLabelStyle: ChartTextStyle(
-                                          textStyle: TextStyle(
-                                              fontFamily: 'Poppins-SemiBold',
-                                              fontSize: 19,
-                                              color: Colors.white)),
-                                      slices: <SliceData>[
-                                        SliceData(
-                                            style: SliceDataStyle(
-                                              radius: 100,
-                                              color: Color.fromARGB(
-                                                  255, 38, 243, 169),
-                                              labelPosition: 150,
-                                              strokeWidth: 0.0,
-                                              strokeColor: Colors.white,
-                                            ),
-                                            label: (_, value) =>
-                                                '${formatCurrency(totalIncome)}',
-                                            labelStyle: ChartTextStyle(
-                                                textStyle: TextStyle(
-                                                    fontFamily:
-                                                        'Poppins-Medium',
-                                                    fontSize: 18,
-                                                    color: Colors.white)),
-                                            value: totalIncome),
-                                        SliceData(
-                                            style: SliceDataStyle(
-                                              radius: 100,
-                                              color: Color.fromARGB(
-                                                  255, 255, 84, 71),
-                                              labelPosition: 150,
-                                              strokeWidth: 0.0,
-                                              strokeColor: Colors.white,
-                                            ),
-                                            label: (_, value) =>
-                                                '${formatCurrency(totalSpending)}',
-                                            labelStyle: ChartTextStyle(
-                                                textStyle: TextStyle(
-                                                    fontFamily:
-                                                        'Poppins-Medium',
-                                                    fontSize: 18,
-                                                    color: Colors.white)),
-                                            value: totalSpending),
-                                      ],
-                                    ),
+                              Center(
+                                child: PieChart(
+                                  chartStyle: RadialChartStyle(
+                                      backgroundColor: Colors.transparent),
+                                  animationDuration:
+                                      const Duration(milliseconds: 500),
+                                  height: 350,
+                                  width: 350,
+                                  // animateOnUpdate: true,
+                                  // animateOnLoad: true,
+                                  data: PieSeries(
+                                    donutRadius: 70.0,
+                                    donutSpaceColor: Colors.transparent,
+                                    donutLabel: () =>
+                                        '${formatCurrency(total)}',
+                                    donutLabelStyle: ChartTextStyle(
+                                        textStyle: TextStyle(
+                                            fontFamily: 'Poppins-SemiBold',
+                                            fontSize: 19,
+                                            color: Colors.white)),
+                                    slices: <SliceData>[
+                                      SliceData(
+                                          style: SliceDataStyle(
+                                            radius: 100,
+                                            color: Color.fromARGB(
+                                                255, 38, 243, 169),
+                                            labelPosition: 150,
+                                            strokeWidth: 0.0,
+                                            strokeColor: Colors.white,
+                                          ),
+                                          label: (_, value) =>
+                                              '${formatCurrency(totalIncome)}',
+                                          labelStyle: ChartTextStyle(
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Poppins-Medium',
+                                                  fontSize: 18,
+                                                  color: Colors.white)),
+                                          value: totalIncome),
+                                      SliceData(
+                                          style: SliceDataStyle(
+                                            radius: 100,
+                                            color: Color.fromARGB(
+                                                255, 255, 84, 71),
+                                            labelPosition: 150,
+                                            strokeWidth: 0.0,
+                                            strokeColor: Colors.white,
+                                          ),
+                                          label: (_, value) =>
+                                              '${formatCurrency(totalSpending)}',
+                                          labelStyle: ChartTextStyle(
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Poppins-Medium',
+                                                  fontSize: 18,
+                                                  color: Colors.white)),
+                                          value: totalSpending),
+                                    ],
                                   ),
                                 ),
                               ),

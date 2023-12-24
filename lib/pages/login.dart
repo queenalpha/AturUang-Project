@@ -6,8 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// ignore: unused_import
-import 'package:google_fonts/google_fonts.dart';
 
 const kTextFieldDecoration = InputDecoration(
   filled: true,
@@ -207,7 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 'Your email or password is incorrect!';
                                           }
                                         }
-                                      }, width: 200.0, height: 50.0,
+                                      },
+                                      width: 200.0,
+                                      height: 50.0,
                                     )
                                   ]),
                       ])),
@@ -243,6 +243,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   )
                 ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        Navigator.pushReplacementNamed(
+                            context, 'forget_password');
+                      });
+                    },
+                    child: Text(
+                      "forget password",
+                      style: TextStyle(
+                        fontSize: 11.0,
+                        color: Colors.black,
+                        fontFamily: 'Poppins-Regular',
+                      ),
+                    ),
+                  ),
+                ),
               )
             ]),
       ),
