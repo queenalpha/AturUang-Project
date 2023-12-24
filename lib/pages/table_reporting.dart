@@ -9,6 +9,7 @@ class ReportingTable extends StatefulWidget {
   _ReportingTable createState() => _ReportingTable();
 }
 
+//ini buat bikin data static tapi datanya blum dibikin
 class Report {
   String? date;
   String? category;
@@ -42,16 +43,15 @@ class _ReportingTable extends State<ReportingTable> {
               style: TextStyle(color: Colors.black)),
           centerTitle: true,
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: SizedBox(
-            width: 385,
             child: DataTable(
               columns: [
                 DataColumn(label: Text('Date')),
                 DataColumn(label: Text('Category')),
                 DataColumn(
                   label: Text('Description'),
-                  numeric: false,
                 ),
                 DataColumn(label: Text('Amount')),
               ],
@@ -62,13 +62,16 @@ class _ReportingTable extends State<ReportingTable> {
                   DataCell(
                     Expanded(
                       child: Text(
-                        "Salary in november",
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
+                        "Salary in novembery",
+                        maxLines: 4, //kalo teksnya panjang dibatasi
+                        overflow:
+                            TextOverflow.ellipsis, // jjadi dot (contoh...)
                       ),
                     ),
                   ),
-                  DataCell(Center(child: Text("1.000.000"))),
+                  DataCell(Center(
+                      child:
+                          Text("1.000.000"))), //dibuat to string kalo ga kebaca
                 ]),
               ],
             ),
