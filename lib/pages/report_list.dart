@@ -58,12 +58,16 @@ class _ReportList extends State<ReportList> {
                           ],
                         ),
                       ),
-                      ListReporting(
-                        title: 'Salary',
-                        time: '12:00',
-                        date: '23 November 2023',
-                        nominal: 'Rp100.000',
-                      ),
+                      GestureDetector(
+                        onTap: () =>
+                            Navigator.pushNamed(context, 'reportTable'),
+                        child: ListReporting(
+                          title: 'Salary',
+                          time: '12:00',
+                          date: '23 November 2023',
+                          nominal: 'Rp100.000',
+                        ),
+                      )
                     ],
                   ),
                 ),
