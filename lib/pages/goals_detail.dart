@@ -169,7 +169,7 @@ class _GoalsDetail extends State<GoalsDetail> {
               Icons.arrow_back,
               color: primaryColor,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushReplacementNamed(context, 'home'),
           ),
           title: Text(
             "Goals Detail",
@@ -320,7 +320,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         focusNode: _focusAmount,
                                         controller: _amountTextController,
                                         validator: (value) => value == ''
-                                            ? 'Masukkan nomila!'
+                                            ? 'Masukkan nominal!'
                                             : null,
                                       ),
                                     )),
@@ -393,6 +393,9 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         progressIndicatorKey =
                                             ValueKey<double>(currentAmount);
                                       });
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          'goals_detail', (route) => false,
+                                          arguments: [args[0]]);
                                     }
                                   },
                                   width: 96,

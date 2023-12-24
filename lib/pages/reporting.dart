@@ -321,7 +321,7 @@ class _ReportingPageState extends State<ReportingPage> {
                             // sengaja dikasih ini biar kalo banyak ngga overflow
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: lapKeu.length,
+                                itemCount: 3,
                                 itemBuilder: (context, index) {
                                   final reversedIndex =
                                       lapKeu.length - 1 - index;
