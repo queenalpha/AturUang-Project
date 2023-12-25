@@ -1,5 +1,6 @@
 // exporting_pdf.dart
 import 'dart:io';
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -68,7 +69,7 @@ class ExportingPDF {
                   context: context,
                   cellAlignment: pw.Alignment.centerLeft,
                   headerDecoration: pw.BoxDecoration(
-                    color: PdfColors.blue,
+                    color: PdfColor.fromHex('14A5B6'),
                   ),
                   cellStyle: pw.TextStyle(fontSize: 10),
                   headerStyle: pw.TextStyle(
