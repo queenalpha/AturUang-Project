@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../configuration/list_configuration.dart';
 import '../configuration/theme_config.dart';
 
 class ReportingTable extends StatefulWidget {
   const ReportingTable({Key? key}) : super(key: key);
+
   @override
-  _ReportingTable createState() => _ReportingTable();
+  _ReportingTableState createState() => _ReportingTableState();
 }
 
-//ini buat bikin data static tapi datanya blum dibikin
 class Report {
   String? date;
   String? category;
@@ -24,62 +23,98 @@ class Report {
   });
 }
 
-class _ReportingTable extends State<ReportingTable> {
+class _ReportingTableState extends State<ReportingTable> {
+  List<Report> reports = [
+    Report(
+      date: '11/12/2023',
+      category: 'Salary',
+      description: 'Gajian di bulan November kemarin.',
+      amount: 1100000.0,
+    ),
+    Report(
+      date: '12/12/2023',
+      category: 'Salary',
+      description: 'Ini gajian di bulan Desember',
+      amount: 1000000.0,
+    ),
+    Report(
+      date: '12/12/2023',
+      category: 'Salary',
+      description: 'Ini gajian di bulan Desember',
+      amount: 1000000.0,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: primaryColor,
-            ),
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context, 'reporting', (route) => false),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: primaryColor,
           ),
-          title: Text(
-              "Reporting Salary", //Title berdasarkan category ("Reporting ${"category"}")
-              style: TextStyle(color: Colors.black)),
-          centerTitle: true,
+          onPressed: () => Navigator.pop(context),
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            child: DataTable(
-              columns: [
-                DataColumn(label: Text('Date')),
-                DataColumn(label: Text('Category')),
-                DataColumn(
-                  label: Text('Description'),
-                ),
-                DataColumn(label: Text('Amount')),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text("12/12/2023")),
-                  DataCell(Text("Salary")),
+        title: Text(
+          "Reporting Salary",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: DataTable(
+            headingRowColor: MaterialStateColor.resolveWith((states) =>
+                Color.fromARGB(255, 20, 165, 182)), // Header row color
+            dataRowColor:
+                MaterialStateColor.resolveWith((states) => Colors.white),
+            columns: [
+              DataColumn(
+                label: Text('Date',
+                    style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      color: Colors.white,
+                    )),
+                numeric: false,
+              ),
+              DataColumn(
+                label: Text('Description',
+                    style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      color: Colors.white,
+                    )),
+                numeric: false,
+              ),
+              DataColumn(
+                label: Text('Amount',
+                    style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      color: Colors.white,
+                    )),
+                numeric: false,
+              ),
+            ],
+            rows: [
+              ...reports.map(
+                (report) => DataRow(cells: [
+                  DataCell(Text(report.date ?? '')),
                   DataCell(
-                    Expanded(
+                    Flexible(
                       child: Text(
-                        "Salary in novembery",
-                        maxLines: 4, //kalo teksnya panjang dibatasi
-                        overflow:
-                            TextOverflow.ellipsis, // jjadi dot (contoh...)
+                        report.description ?? '',
                       ),
                     ),
                   ),
-                  DataCell(Center(
-                      child:
-                          Text("1.000.000"))), //dibuat to string kalo ga kebaca
+                  DataCell(Text('Rp${report.amount.toString()}')),
                 ]),
-              ],
-            ),
+              ),
+            ],
           ),
-        )
-
-        // scrollDirection: Axis.horizontal,
-        //
-        );
+        ),
+      ),
+    );
   }
 }
