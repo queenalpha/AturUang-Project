@@ -47,7 +47,7 @@ class ReportingPage extends StatefulWidget {
 }
 
 class _ReportingPageState extends State<ReportingPage> {
-  String selectedFilter = 'Option 1';
+  String selectedFilter = 'Option 1z';
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

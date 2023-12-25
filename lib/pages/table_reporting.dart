@@ -1,6 +1,9 @@
+// main file
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:flutter/material.dart';
-
-import '../configuration/theme_config.dart';
+import 'package:aturuang_project/configuration/exporting_pdf.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/exporting_pdf.dart'; // Import the Report class
 
 class ReportingTable extends StatefulWidget {
   const ReportingTable({Key? key}) : super(key: key);
@@ -24,24 +27,31 @@ class Report {
 }
 
 class _ReportingTableState extends State<ReportingTable> {
+  //Contoh Data
   List<Report> reports = [
     Report(
-      date: '11/12/2023',
+      date: '10/12/2023',
       category: 'Salary',
-      description: 'Gajian di bulan November kemarin.',
+      description: 'Gajian di bulan Oktober kemarin.',
       amount: 1100000.0,
     ),
     Report(
-      date: '12/12/2023',
+      date: '11/12/2023',
       category: 'Salary',
-      description: 'Ini gajian di bulan Desember',
-      amount: 1000000.0,
+      description: 'Ini gajian di bulan November',
+      amount: 1500000.0,
     ),
     Report(
       date: '12/12/2023',
       category: 'Salary',
       description: 'Ini gajian di bulan Desember',
-      amount: 1000000.0,
+      amount: 1800000.0,
+    ),
+    Report(
+      date: '12/01/2024',
+      category: 'Salary',
+      description: 'Ini gajian di bulan Januari',
+      amount: 2000000.0,
     ),
   ];
 
@@ -65,54 +75,70 @@ class _ReportingTableState extends State<ReportingTable> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: DataTable(
-            headingRowColor: MaterialStateColor.resolveWith((states) =>
-                Color.fromARGB(255, 20, 165, 182)), // Header row color
-            dataRowColor:
-                MaterialStateColor.resolveWith((states) => Colors.white),
-            columns: [
-              DataColumn(
-                label: Text('Date',
-                    style: TextStyle(
-                      fontFamily: 'Poppins-Regular',
-                      color: Colors.white,
-                    )),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text('Description',
-                    style: TextStyle(
-                      fontFamily: 'Poppins-Regular',
-                      color: Colors.white,
-                    )),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text('Amount',
-                    style: TextStyle(
-                      fontFamily: 'Poppins-Regular',
-                      color: Colors.white,
-                    )),
-                numeric: false,
-              ),
-            ],
-            rows: [
-              ...reports.map(
-                (report) => DataRow(cells: [
-                  DataCell(Text(report.date ?? '')),
-                  DataCell(
-                    Flexible(
-                      child: Text(
-                        report.description ?? '',
-                      ),
-                    ),
+        child: Column(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: DataTable(
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Color.fromARGB(255, 20, 165, 182)),
+                dataRowColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white),
+                columns: [
+                  DataColumn(
+                    label: Text('Date',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
+                        )),
+                    numeric: false,
                   ),
-                  DataCell(Text('Rp${report.amount.toString()}')),
-                ]),
+                  DataColumn(
+                    label: Text('Description',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
+                        )),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text('Amount',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
+                        )),
+                    numeric: false,
+                  ),
+                ],
+                rows: [
+                  ...reports.map(
+                    (report) => DataRow(cells: [
+                      DataCell(Text(report.date ?? '')),
+                      DataCell(
+                        Flexible(
+                          child: Text(
+                            report.description ?? '',
+                          ),
+                        ),
+                      ),
+                      DataCell(Text('Rp${report.amount.toString()}')),
+                    ]),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: RoundedButton(
+                title: 'Export',
+                onPressed: () {
+                  ExportingPDF.exportToUserSelectedDirectory(reports);
+                },
+                width: 336,
+                height: 51,
+                color: primaryColor,
+              ),
+            )
+          ],
         ),
       ),
     );
