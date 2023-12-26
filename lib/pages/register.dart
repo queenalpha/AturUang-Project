@@ -150,6 +150,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       validator: (value) => Validator.validatePassword(
                         password: value,
+                        confirmPassword: _passwordTextController.text,
                       ),
                       decoration: kTextFieldDecoration.copyWith(
                         hintText: 'Enter your password',
@@ -174,7 +175,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ? [const CircularProgressIndicator()]
                           : [
                               RoundedButton(
-                                color : primaryColor,
+                                color: primaryColor,
                                 title: 'Sign Up',
                                 onPressed: () async {
                                   _focusUsername.unfocus();
@@ -209,7 +210,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       );
                                     }
                                   }
-                                }, width: 200.0, height: 50.0,
+                                },
+                                width: 200.0,
+                                height: 50.0,
                               ),
                             ],
                     ),

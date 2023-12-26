@@ -1,4 +1,5 @@
 import 'package:aturuang_project/configuration/navBottom.dart';
+import 'package:aturuang_project/pages/forget_password.dart';
 import 'package:aturuang_project/pages/goal_list.dart';
 import 'package:aturuang_project/pages/goals_detail.dart';
 import 'package:aturuang_project/pages/goals_edit.dart';
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
           'profile': (context) => const ProfilePage(),
           'counting': (context) => CountingScreen(),
           'reporting': (context) => const ReportingPage(),
-          'reportList': (context) => const ReportList()
+          'reportList': (context) => const ReportList(),
+          'forget_password' : (context) => const ForgetPassword(),
         });
   }
 }

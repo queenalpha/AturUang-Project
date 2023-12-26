@@ -1,3 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:aturuang_project/configuration/api_configuration.dart';
+import 'package:aturuang_project/models/laporan_model.dart';
+import 'package:aturuang_project/utils/restapi.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../configuration/list_configuration.dart';
@@ -10,7 +17,52 @@ class ReportList extends StatefulWidget {
 }
 
 class _ReportList extends State<ReportList> {
-  String selectedFilter = 'Option 1';
+  final StreamController<List<LaporanKeuanganModel>> _streamController =
+      StreamController<List<LaporanKeuanganModel>>();
+  String selectedFilter = 'All List';
+
+  List data = [];
+  List<LaporanKeuanganModel> lapKeu = [];
+  DataService ds = DataService();
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  List<LaporanKeuanganModel> search_data = [];
+  List<LaporanKeuanganModel> search_data_pre = [];
+
+  selectWhereLaporan() async {
+    data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
+        appid, 'user_id', currentUser!.uid));
+    lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
+  }
+
+  void filterLaporan(String category) {
+    if (category == 'All List') {
+      search_data = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
+    } else {
+      search_data_pre =
+          data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
+      search_data = search_data_pre
+          .where((lapkeu) =>
+              lapkeu.kategori.toLowerCase().contains(category.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      lapKeu = search_data;
+      _streamController.add(search_data);
+    });
+  }
+
+  Future reloadDataLaporan(dynamic value) async {
+    setState(() {
+      selectWhereLaporan();
+    });
+  }
+
+  @override
+  void initState() {
+    selectWhereLaporan();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,29 +93,75 @@ class _ReportList extends State<ReportList> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // all list
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'All List',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-Medium',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                            _buildFilterDropdown(),
-                          ],
-                        ),
-                      ),
-                      ListReporting(
-                        title: 'Salary',
-                        time: '12:00',
-                        date: '23 November 2023',
-                        nominal: 'Rp100.000',
-                      ),
+                      FutureBuilder<dynamic>(
+                          future: selectWhereLaporan(),
+                          builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                                {
+                                  return const Text('none');
+                                }
+                              case ConnectionState.waiting:
+                                {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              case ConnectionState.active:
+                                {
+                                  return const Text('Active');
+                                }
+                              case ConnectionState.done:
+                                {
+                                  if (snapshot.hasError) {
+                                    return Text('${snapshot.error}',
+                                        style:
+                                            const TextStyle(color: Colors.red));
+                                    // } else if (!snapshot.hasData ||
+                                    //     snapshot.data!.isEmpty) {
+                                    //   return Center(
+                                    //     child: Text('you do not have goals yet.'),
+                                    //   );
+                                  } else {
+                                    filterLaporan(selectedFilter);
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 30, right: 30),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${selectedFilter}',
+                                            style: TextStyle(
+                                                fontFamily: 'Poppins-Medium',
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                          _buildFilterDropdown(),
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return ListReporting(
+                                                title:
+                                                    '${search_data[index].kategori}',
+                                                time:
+                                                    '${search_data[index].tanggal}',
+                                                date:
+                                                    '${search_data[index].tanggal}',
+                                                nominal:
+                                                    '${search_data[index].nominal}',
+                                              );
+                                            },
+                                            itemCount: search_data.length,
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                }
+                            }
+                          }),
                     ],
                   ),
                 ),
@@ -82,9 +180,9 @@ class _ReportList extends State<ReportList> {
         Icons.filter_list,
         color: Colors.black,
       ),
-      // color: Colors.black,
       onSelected: (value) {
         _selectFilterOption(value.toString());
+        print(selectedFilter);
       },
       itemBuilder: (BuildContext context) => [
         PopupMenuItem(
