@@ -54,9 +54,9 @@ class _GoalsDetail extends State<GoalsMenu> {
               padding: EdgeInsets.symmetric(horizontal: 29),
               child: Column(
                 children: [
-                  ToggleButton(
-                      isSelected: [false, false, false],
-                      buttonLabels: ["Day", "Week", "Month"]),
+                  // ToggleButton(
+                  //     isSelected: [false, false, false],
+                  //     buttonLabels: ["Day", "Week", "Month"]),
                   SizedBox(height: 31),
                   TextFormField(
                     decoration: kTextFieldDecoration.copyWith(
@@ -143,7 +143,7 @@ class _GoalsDetail extends State<GoalsMenu> {
                                   //       ),
                                   //     ],
                                   //   ),
-                                  // ),
+                                  // ), 
                                 )
                               ]),
                             );
