@@ -8,12 +8,14 @@ class ListReporting extends StatelessWidget {
   final String time;
   final String date;
   final String nominal;
+  final bool isIncome;
 
   ListReporting({
     required this.title,
     required this.time,
     required this.date,
     required this.nominal,
+    required this.isIncome,
   });
 
   @override
@@ -32,8 +34,9 @@ class ListReporting extends StatelessWidget {
           leading: InkWell(
             onTap: () {},
             child: Icon(
-              Icons.arrow_upward_outlined,
-              // color: reportIncome,
+              // Tampilkan ikon panah sesuai dengan jenis transaksi
+              isIncome ? Icons.arrow_upward : Icons.arrow_downward,
+              color: isIncome ? arrowUp : arrowDown,
               size: 30,
             ),
           ),

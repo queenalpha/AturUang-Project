@@ -8,6 +8,7 @@ import 'package:aturuang_project/pages/profile.dart';
 import 'package:aturuang_project/pages/counting.dart';
 import 'package:aturuang_project/pages/report_list.dart';
 import 'package:aturuang_project/pages/reporting.dart';
+import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:aturuang_project/welcoming-pages/Splashscreen.dart';
 import 'package:aturuang_project/pages/login.dart';
 import 'package:aturuang_project/pages/register.dart';
@@ -44,9 +45,10 @@ class MyApp extends StatelessWidget {
           'goals_detail': (context) => GoalsDetail(),
           'profile': (context) => const ProfilePage(),
           'counting': (context) => CountingScreen(),
-          'reporting': (context) => const ReportingPage(),
-          'reportList': (context) => const ReportList(),
+          'reporting': (context) => ReportingPage(),
           'forget_password': (context) => const ForgetPassword(),
+          'reportList': (context) => ReportList(),
+          'reportTable': (context) => const ReportingTable(),
         });
   }
 }

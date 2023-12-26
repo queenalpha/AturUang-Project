@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 import 'package:aturuang_project/configuration/list_configuration.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:chart_it/chart_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:intl/intl.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
 
 class LegendItem extends StatelessWidget {
   final Color color;
@@ -44,9 +43,12 @@ class LegendItem extends StatelessWidget {
 }
 
 class ReportingPage extends StatefulWidget {
-  const ReportingPage({Key? key}) : super(key: key);
   @override
   _ReportingPageState createState() => _ReportingPageState();
+  List<bool> isSelected = [true, false, false];
+  List<String> buttonLabels = ['All', 'Income', 'Spending'];
+  String selectedOption = 'All';
+  ReportingPage({Key? key}) : super(key: key);
 }
 
 class _ReportingPageState extends State<ReportingPage> {
@@ -56,6 +58,16 @@ class _ReportingPageState extends State<ReportingPage> {
   List<LaporanKeuanganModel> lapKeu = [];
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
+
+  List<LaporanKeuanganModel> filteredLapKeu() {
+    if (widget.selectedOption == 'All') {
+      return lapKeu;
+    } else {
+      return lapKeu
+          .where((keuangan) => keuangan.tipe_keuangan == widget.selectedOption)
+          .toList();
+    }
+  }
 
   selectWhereLaporan() async {
     List data = [];
@@ -191,67 +203,62 @@ class _ReportingPageState extends State<ReportingPage> {
                               ),
 
                               //Chart Start
-                              Padding(
-                                padding: const EdgeInsets.all(45.0),
-                                child: Center(
-                                  child: PieChart(
-                                    chartStyle: RadialChartStyle(
-                                        backgroundColor: Colors.transparent),
-                                    animationDuration:
-                                        const Duration(milliseconds: 500),
-                                    height: 350,
-                                    width: 350,
-                                    // animateOnUpdate: true,
-                                    // animateOnLoad: true,
-                                    data: PieSeries(
-                                      donutRadius: 70.0,
-                                      donutSpaceColor: Colors.transparent,
-                                      donutLabel: () =>
-                                          '${formatCurrency(total)}',
-                                      donutLabelStyle: ChartTextStyle(
-                                          textStyle: TextStyle(
-                                              fontFamily: 'Poppins-SemiBold',
-                                              fontSize: 19,
-                                              color: Colors.white)),
-                                      slices: <SliceData>[
-                                        SliceData(
-                                            style: SliceDataStyle(
-                                              radius: 100,
-                                              color: Color.fromARGB(
-                                                  255, 38, 243, 169),
-                                              labelPosition: 150,
-                                              strokeWidth: 0.0,
-                                              strokeColor: Colors.white,
-                                            ),
-                                            label: (_, value) =>
-                                                '${formatCurrency(totalIncome)}',
-                                            labelStyle: ChartTextStyle(
-                                                textStyle: TextStyle(
-                                                    fontFamily:
-                                                        'Poppins-Medium',
-                                                    fontSize: 18,
-                                                    color: Colors.white)),
-                                            value: totalIncome),
-                                        SliceData(
-                                            style: SliceDataStyle(
-                                              radius: 100,
-                                              color: Color.fromARGB(
-                                                  255, 255, 84, 71),
-                                              labelPosition: 150,
-                                              strokeWidth: 0.0,
-                                              strokeColor: Colors.white,
-                                            ),
-                                            label: (_, value) =>
-                                                '${formatCurrency(totalSpending)}',
-                                            labelStyle: ChartTextStyle(
-                                                textStyle: TextStyle(
-                                                    fontFamily:
-                                                        'Poppins-Medium',
-                                                    fontSize: 18,
-                                                    color: Colors.white)),
-                                            value: totalSpending),
-                                      ],
-                                    ),
+                              Center(
+                                child: PieChart(
+                                  chartStyle: RadialChartStyle(
+                                      backgroundColor: Colors.transparent),
+                                  animationDuration:
+                                      const Duration(milliseconds: 500),
+                                  height: 400,
+                                  width: 350,
+                                  // animateOnUpdate: true,
+                                  // animateOnLoad: true,
+                                  data: PieSeries(
+                                    donutRadius: 70.0,
+                                    donutSpaceColor: Colors.transparent,
+                                    donutLabel: () =>
+                                        '${formatCurrency(total)}',
+                                    donutLabelStyle: ChartTextStyle(
+                                        textStyle: TextStyle(
+                                            fontFamily: 'Poppins-SemiBold',
+                                            fontSize: 15,
+                                            color: Colors.white)),
+                                    slices: <SliceData>[
+                                      SliceData(
+                                          style: SliceDataStyle(
+                                            radius: 100,
+                                            color: Color.fromARGB(
+                                                255, 38, 243, 169),
+                                            labelPosition: 130,
+                                            strokeWidth: 0.0,
+                                            strokeColor: Colors.white,
+                                          ),
+                                          label: (_, value) =>
+                                              '${formatCurrency(totalIncome)}',
+                                          labelStyle: ChartTextStyle(
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Poppins-Medium',
+                                                  fontSize: 12,
+                                                  color: Colors.white)),
+                                          value: totalIncome),
+                                      SliceData(
+                                          style: SliceDataStyle(
+                                            radius: 100,
+                                            color: Color.fromARGB(
+                                                255, 255, 84, 71),
+                                            labelPosition: 130,
+                                            strokeWidth: 0.0,
+                                            strokeColor: Colors.white,
+                                          ),
+                                          label: (_, value) =>
+                                              '${formatCurrency(totalSpending)}',
+                                          labelStyle: ChartTextStyle(
+                                              textStyle: TextStyle(
+                                                  fontFamily: 'Poppins-Medium',
+                                                  fontSize: 12,
+                                                  color: Colors.white)),
+                                          value: totalSpending),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -283,9 +290,40 @@ class _ReportingPageState extends State<ReportingPage> {
                         //Toggle Button
                         Container(
                           child: Center(
-                            child: ToggleButton(
-                              isSelected: [true, false, false],
-                              buttonLabels: ["All", "Income", "Spending"],
+                            child: Card(
+                              color: primaryColor,
+                              child: ToggleButtons(
+                                isSelected: widget.isSelected,
+                                onPressed: (index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0;
+                                        buttonIndex < widget.isSelected.length;
+                                        buttonIndex++) {
+                                      widget.isSelected[buttonIndex] =
+                                          buttonIndex == index;
+                                    }
+                                    widget.selectedOption =
+                                        widget.buttonLabels[index];
+                                  });
+                                },
+                                selectedColor: secondaryColor,
+                                fillColor: secondaryColor,
+                                children: List.generate(
+                                  widget.buttonLabels.length,
+                                  (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 35),
+                                    child: Text(
+                                      widget.buttonLabels[index],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins-SemiBold',
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -303,7 +341,7 @@ class _ReportingPageState extends State<ReportingPage> {
                                 padding:
                                     const EdgeInsets.only(left: 30, right: 30),
                                 child: Text(
-                                  'All list',
+                                  '${widget.selectedOption}',
                                   style: TextStyle(
                                       fontFamily: 'Poppins-Medium',
                                       fontSize: 15,
@@ -318,40 +356,49 @@ class _ReportingPageState extends State<ReportingPage> {
                         ),
 
                         SingleChildScrollView(
-                            // sengaja dikasih ini biar kalo banyak ngga overflow
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: 3,
+                                itemCount: filteredLapKeu().length > 4
+                                    ? 4
+                                    : filteredLapKeu().length,
                                 itemBuilder: (context, index) {
                                   final reversedIndex =
-                                      lapKeu.length - 1 - index;
+                                      filteredLapKeu().length - 1 - index;
                                   return Container(
                                     child: ListReporting(
-                                        title:
-                                            '${lapKeu[reversedIndex].kategori}',
-                                        time:
-                                            '${DateTime.parse(lapKeu[reversedIndex].tanggal).hour}:${DateTime.parse(lapKeu[reversedIndex].tanggal).minute}',
-                                        date:
-                                            '${DateTime.parse(lapKeu[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(lapKeu[reversedIndex].tanggal).month)} ${DateTime.parse(lapKeu[reversedIndex].tanggal).year}',
-                                        nominal:
-                                            '${formatCurrency(int.parse(lapKeu[reversedIndex].nominal))}'),
+                                      title:
+                                          '${filteredLapKeu()[reversedIndex].kategori}',
+                                      time:
+                                          '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).hour}:${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).minute}',
+                                      date:
+                                          '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).month)} ${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).year}',
+                                      nominal:
+                                          '${formatCurrency(int.parse(filteredLapKeu()[reversedIndex].nominal))}',
+                                      isIncome: filteredLapKeu()[reversedIndex]
+                                              .tipe_keuangan ==
+                                          "Income",
+                                    ),
                                   );
                                 })),
+                        SizedBox(height: 9),
+
                         Center(
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, 'reportList');
-                                },
-                                child: Text(
-                                  "See More",
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins-Reguler',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w200,
-                                    color: primaryColor,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ))),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, 'reportList');
+                            },
+                            child: Text(
+                              "See More",
+                              style: TextStyle(
+                                fontFamily: 'Poppins-Reguler',
+                                fontSize: 15,
+                                fontWeight: FontWeight.w200,
+                                color: primaryColor,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   );

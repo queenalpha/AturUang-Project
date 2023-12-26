@@ -6,8 +6,9 @@ class ToggleButton extends StatefulWidget {
   _ToggleButtonState createState() => _ToggleButtonState();
   final List<bool> isSelected;
   final List<String> buttonLabels;
+  final Function(int) onPressed;
 
-  ToggleButton({required this.isSelected, required this.buttonLabels});
+  ToggleButton({required this.isSelected, required this.buttonLabels, required this.onPressed});
 }
 
 class _ToggleButtonState extends State<ToggleButton> {
@@ -76,12 +77,12 @@ const kTextFieldDecoration = InputDecoration(
 );
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton({
-    required this.title,
-    required this.onPressed,
-    required this.width,
-    required this.height, required Color color
-  });
+  RoundedButton(
+      {required this.title,
+      required this.onPressed,
+      required this.width,
+      required this.height,
+      required Color color});
   final String title;
   final VoidCallback onPressed;
 
@@ -98,7 +99,7 @@ class RoundedButton extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPressed,
           minWidth: width,
-          height:height,
+          height: height,
           child: Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 20),

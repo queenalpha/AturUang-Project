@@ -427,7 +427,8 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         date:
                                             '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
                                         nominal: formatCurrency(
-                                            collectedArray[reversedIndex]));
+                                            collectedArray[reversedIndex]),
+                                        isIncome: true);
                                   },
                                   itemCount: numberOfDates - 1,
                                 )
