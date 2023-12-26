@@ -17,7 +17,6 @@ class _NavigationBarDemoState extends State<NavigationBarDemo> {
   final List<Widget> _page = [
     const HomePage(),
     const ProfilePage(),
-    const ReportingPage()
   ];
 
   void onTabTapped(int index) {

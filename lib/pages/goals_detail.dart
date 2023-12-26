@@ -394,13 +394,15 @@ class _GoalsDetail extends State<GoalsDetail> {
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
                                     return ListReporting(
-                                        title: 'Saving',
-                                        time:
-                                            '${collectedDate[index + 1].hour}.${collectedDate[index + 1].minute}',
-                                        date:
-                                            '${collectedDate[index + 1].day} ${getMonthName(collectedDate[index + 1].month)} ${collectedDate[index + 1].year}',
-                                        nominal: formatCurrency(
-                                            collectedArray[index + 1]));
+                                      title: 'Saving',
+                                      time:
+                                          '${collectedDate[index + 1].hour}.${collectedDate[index + 1].minute}',
+                                      date:
+                                          '${collectedDate[index + 1].day} ${getMonthName(collectedDate[index + 1].month)} ${collectedDate[index + 1].year}',
+                                      nominal: formatCurrency(
+                                          collectedArray[index + 1]),
+                                      isIncome: true,
+                                    );
                                   },
                                   itemCount: numberOfDates - 1,
                                 )
