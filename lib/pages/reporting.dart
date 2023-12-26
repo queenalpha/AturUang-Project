@@ -48,6 +48,7 @@ class ReportingPage extends StatefulWidget {
   List<bool> isSelected = [true, false, false];
   List<String> buttonLabels = ['All', 'Income', 'Spending'];
   String selectedOption = 'All';
+  String selectedCategory = 'All';
   ReportingPage({Key? key}) : super(key: key);
 }
 
@@ -56,15 +57,39 @@ class _ReportingPageState extends State<ReportingPage> {
   int totalSpending = 0;
   int total = 0;
   List<LaporanKeuanganModel> lapKeu = [];
+  List<String> availableCategories = ['All', 'Salary', 'Invest', 'Daily'];
+  List<String> getOtherCategories() {
+    List<String> otherCategories = [];
+    for (LaporanKeuanganModel keuangan in lapKeu) {
+      if (!availableCategories.contains(keuangan.kategori)) {
+        otherCategories.add(keuangan.kategori);
+      }
+    }
+    return otherCategories.toSet().toList(); // Menghapus duplikat jika ada
+  }
+
+  List<String> getDropdownCategories() {
+    List<String> dropdownCategories = [...availableCategories];
+    dropdownCategories.addAll(getOtherCategories());
+    return dropdownCategories;
+  }
+
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   List<LaporanKeuanganModel> filteredLapKeu() {
-    if (widget.selectedOption == 'All') {
+    if (widget.selectedOption == 'All' && widget.selectedCategory == 'All') {
       return lapKeu;
+    } else if (widget.selectedOption == 'All') {
+      return lapKeu
+          .where((keuangan) => keuangan.kategori == widget.selectedCategory)
+          .toList();
     } else {
       return lapKeu
-          .where((keuangan) => keuangan.tipe_keuangan == widget.selectedOption)
+          .where((keuangan) =>
+              keuangan.tipe_keuangan == widget.selectedOption &&
+              (widget.selectedCategory == 'All' ||
+                  keuangan.kategori == widget.selectedCategory))
           .toList();
     }
   }
@@ -356,7 +381,41 @@ class _ReportingPageState extends State<ReportingPage> {
 
                         SingleChildScrollView(
                             // sengaja dikasih ini biar kalo banyak ngga overflow
-                            child: ListView.builder(
+                            child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  DropdownButton<String>(
+                                    value: widget.selectedCategory,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        widget.selectedCategory = newValue!;
+                                      });
+                                    },
+                                    items: getDropdownCategories()
+                                        .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-SemiBold',
+                                              fontSize: 15,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: filteredLapKeu().length,
                                 itemBuilder: (context, index) {
@@ -375,7 +434,9 @@ class _ReportingPageState extends State<ReportingPage> {
                                           "Income",
                                     ),
                                   );
-                                })),
+                                }),
+                          ],
+                        )),
                         SizedBox(height: 9),
 
                         Center(
