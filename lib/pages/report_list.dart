@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
+import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -115,16 +116,30 @@ class _ReportListState extends State<ReportList> {
           itemCount: widget.lapKeuFiltered.length,
           itemBuilder: (context, index) {
             final reversedIndex = widget.lapKeuFiltered.length - 1 - index;
-            return ListReporting(
-                title: '${widget.lapKeuFiltered[reversedIndex].kategori}',
-                time:
-                    '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).hour}:${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).minute}',
-                date:
-                    '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).month)} ${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).year}',
-                nominal:
-                    '${formatCurrency(int.parse(widget.lapKeuFiltered[reversedIndex].nominal))}',
-                isIncome: widget.lapKeuFiltered[reversedIndex].tipe_keuangan ==
-                    'Income');
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReportingTable(
+                        lapKeuFiltered: widget.lapKeuFiltered,
+                        kategori: widget.lapKeuFiltered[reversedIndex].kategori,
+                        tipe: widget.selectedTipe,
+                      ),
+                    ),
+                  );
+                },
+                child: ListReporting(
+                    title: '${widget.lapKeuFiltered[reversedIndex].kategori}',
+                    time:
+                        '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).hour}:${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).minute}',
+                    date:
+                        '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).month)} ${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).year}',
+                    nominal:
+                        '${formatCurrency(int.parse(widget.lapKeuFiltered[reversedIndex].nominal))}',
+                    isIncome:
+                        widget.lapKeuFiltered[reversedIndex].tipe_keuangan ==
+                            'Income'));
           }),
     );
   }

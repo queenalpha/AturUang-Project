@@ -366,7 +366,22 @@ class _ReportingPageState extends State<ReportingPage> {
                                 itemBuilder: (context, index) {
                                   final reversedIndex =
                                       filteredLapKeu().length - 1 - index;
-                                  return Container(
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ReportingTable(
+                                            lapKeuFiltered: filteredLapKeu(),
+                                            kategori:
+                                                filteredLapKeu()[reversedIndex]
+                                                    .kategori,
+                                                    tipe: filteredLapKeu()[reversedIndex]
+                                                    .tipe_keuangan,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                     child: ListReporting(
                                       title:
                                           '${filteredLapKeu()[reversedIndex].kategori}',
@@ -387,9 +402,6 @@ class _ReportingPageState extends State<ReportingPage> {
                         Center(
                           child: GestureDetector(
                             onTap: () {
-                              print("TAHU : ${lapKeu.last.kategori}");
-                              print("TEMPE: ${widget.selectedOption}");
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -47,8 +47,6 @@ class MyApp extends StatelessWidget {
           'counting': (context) => CountingScreen(),
           'reporting': (context) => ReportingPage(),
           'forget_password': (context) => const ForgetPassword(),
-          // 'reportList': (context) => ReportList(),
-          'reportTable': (context) => const ReportingTable(),
         });
   }
 }

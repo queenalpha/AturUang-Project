@@ -1,11 +1,25 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:aturuang_project/configuration/exporting_pdf.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/exporting_pdf.dart'; 
+import 'package:aturuang_project/configuration/exporting_pdf.dart';
+import 'package:intl/intl.dart';
 
 class ReportingTable extends StatefulWidget {
-  const ReportingTable({Key? key}) : super(key: key);
+  List<LaporanKeuanganModel> lapKeuFiltered = [];
+  String kategori = '';
+  String tipe = '';
+  ReportingTable(
+      {Key? key,
+      required List<LaporanKeuanganModel> lapKeuFiltered,
+      required String kategori,
+      required String tipe})
+      : super(key: key) {
+    this.lapKeuFiltered = lapKeuFiltered;
+    this.kategori = kategori;
+    this.tipe = tipe;
+  }
 
   @override
   _ReportingTableState createState() => _ReportingTableState();
@@ -26,36 +40,40 @@ class Report {
 }
 
 class _ReportingTableState extends State<ReportingTable> {
-  //Contoh Data
-  List<Report> reports = [
-    Report(
-      date: '10/12/2023',
-      category: 'Salary',
-      description: 'Gajian di bulan Oktober kemarin.',
-      amount: 1100000.0,
-    ),
-    Report(
-      date: '11/12/2023',
-      category: 'Salary',
-      description: 'Ini gajian di bulan November',
-      amount: 1500000.0,
-    ),
-    Report(
-      date: '12/12/2023',
-      category: 'Salary',
-      description: 'Ini gajian di bulan Desember',
-      amount: 1800000.0,
-    ),
-    Report(
-      date: '12/01/2024',
-      category: 'Salary',
-      description: 'Ini gajian di bulan Januari',
-      amount: 2000000.0,
-    ),
-  ];
+  List<Report> reports = [];
+  @override
+  void initState() {
+    super.initState();
+    convertDataToReports();
+  }
+
+  void convertDataToReports() {
+    for (var data in widget.lapKeuFiltered) {
+      if (data.kategori == widget.kategori) {
+        Report report = Report(
+          date: data.tanggal,
+          category: data.kategori,
+          description: data.deskripsi,
+          amount: double.parse(data.nominal),
+        );
+        reports.add(report);
+      }
+    }
+  }
+
+  String formatCurrency(int amount) {
+    final NumberFormat formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+
+    return formatter.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("WOIII: " + reports.first.toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -67,7 +85,7 @@ class _ReportingTableState extends State<ReportingTable> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Reporting Salary",
+          "${widget.tipe} Reporting (${widget.kategori})",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -111,7 +129,12 @@ class _ReportingTableState extends State<ReportingTable> {
                 rows: [
                   ...reports.map(
                     (report) => DataRow(cells: [
-                      DataCell(Text(report.date ?? '')),
+                      DataCell(Text(
+                        report.date != null
+                            ? DateFormat('dd/MM/yy')
+                                .format(DateTime.parse(report.date!))
+                            : '',
+                      )),
                       DataCell(
                         Flexible(
                           child: Text(
@@ -119,7 +142,8 @@ class _ReportingTableState extends State<ReportingTable> {
                           ),
                         ),
                       ),
-                      DataCell(Text('Rp${report.amount.toString()}')),
+                      DataCell(Text(
+                          '${formatCurrency(int.parse(report.amount.toString()))}')),
                     ]),
                   ),
                 ],
@@ -129,8 +153,23 @@ class _ReportingTableState extends State<ReportingTable> {
               padding: const EdgeInsets.only(top: 500),
               child: RoundedButton(
                 title: 'Export',
-                onPressed: () {
-                  ExportingPDF.exportToUserSelectedDirectory(reports);
+                onPressed: () async {
+                  try {
+                    await ExportingPDF.exportToUserSelectedDirectory(reports);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Export PDF berhasil.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Gagal melakukan ekspor PDF'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 },
                 width: 336,
                 height: 51,
