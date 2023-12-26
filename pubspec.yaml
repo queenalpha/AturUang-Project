@@ -51,6 +51,7 @@ dependencies:
   get: ^4.6.6
   url_launcher: ^6.0.16
   open_file: ^3.3.2
+  downloads_path_provider_28: ^0.1.2
 
 dev_dependencies:
   flutter_test:

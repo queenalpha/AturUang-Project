@@ -14,16 +14,20 @@ import '../configuration/theme_config.dart';
 class ReportList extends StatefulWidget {
   List<LaporanKeuanganModel> lapKeuFiltered = [];
   String selectedTipe = '';
+  String kategori = '';
+
   @override
   _ReportListState createState() => _ReportListState();
   // String selectedOption = 'All List';
   ReportList(
       {Key? key,
       required List<LaporanKeuanganModel> lapKeuFiltered,
-      required String selectedTipe})
+      required String selectedTipe,
+      required String kategori})
       : super(key: key) {
     this.lapKeuFiltered = lapKeuFiltered;
     this.selectedTipe = selectedTipe;
+    this.kategori = kategori;
   }
 }
 
@@ -108,7 +112,8 @@ class _ReportListState extends State<ReportList> {
           onPressed: () => Navigator.pushNamedAndRemoveUntil(
               context, 'reporting', (route) => false),
         ),
-        title: Text("${widget.selectedTipe} Reporting",
+        title: Text(
+            "${widget.kategori} Reporting ${widget.selectedTipe == 'All' ? '' : '(${widget.selectedTipe})'}",
             style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),

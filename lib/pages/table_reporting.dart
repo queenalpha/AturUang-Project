@@ -85,7 +85,7 @@ class _ReportingTableState extends State<ReportingTable> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "${widget.tipe} Reporting (${widget.kategori})",
+          "Export ${widget.kategori} Reporting",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

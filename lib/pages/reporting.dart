@@ -50,6 +50,7 @@ class ReportingPage extends StatefulWidget {
   List<bool> isSelected = [true, false, false];
   List<String> buttonLabels = ['All', 'Income', 'Spending'];
   String selectedOption = 'All';
+  String selectedCategory = 'All';
   ReportingPage({Key? key}) : super(key: key);
 }
 
@@ -58,15 +59,39 @@ class _ReportingPageState extends State<ReportingPage> {
   int totalSpending = 0;
   int total = 0;
   List<LaporanKeuanganModel> lapKeu = [];
+  List<String> availableCategories = ['All', 'Salary', 'Invest', 'Daily'];
+  List<String> getOtherCategories() {
+    List<String> otherCategories = [];
+    for (LaporanKeuanganModel keuangan in lapKeu) {
+      if (!availableCategories.contains(keuangan.kategori)) {
+        otherCategories.add(keuangan.kategori);
+      }
+    }
+    return otherCategories.toSet().toList(); // Menghapus duplikat jika ada
+  }
+
+  List<String> getDropdownCategories() {
+    List<String> dropdownCategories = [...availableCategories];
+    dropdownCategories.addAll(getOtherCategories());
+    return dropdownCategories;
+  }
+
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   List<LaporanKeuanganModel> filteredLapKeu() {
-    if (widget.selectedOption == 'All') {
+    if (widget.selectedOption == 'All' && widget.selectedCategory == 'All') {
       return lapKeu;
+    } else if (widget.selectedOption == 'All') {
+      return lapKeu
+          .where((keuangan) => keuangan.kategori == widget.selectedCategory)
+          .toList();
     } else {
       return lapKeu
-          .where((keuangan) => keuangan.tipe_keuangan == widget.selectedOption)
+          .where((keuangan) =>
+              keuangan.tipe_keuangan == widget.selectedOption &&
+              (widget.selectedCategory == 'All' ||
+                  keuangan.kategori == widget.selectedCategory))
           .toList();
     }
   }
@@ -330,7 +355,7 @@ class _ReportingPageState extends State<ReportingPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 5,
                         ),
                         Container(
                           width: double.infinity,
@@ -339,64 +364,114 @@ class _ReportingPageState extends State<ReportingPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               // all list
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 30, right: 30),
-                                child: Text(
-                                  '${widget.selectedOption}',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      fontSize: 15,
-                                      color: Colors.black),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 6.0,
-                              ),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(left: 30, right: 30),
+                              //   child: Text(
+                              //     '${widget.selectedCategory}',
+                              //     style: TextStyle(
+                              //         fontFamily: 'Poppins-Medium',
+                              //         fontSize: 15,
+                              //         color: Colors.black),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 6.0,
+                              // ),
                             ],
                           ),
                         ),
 
                         SingleChildScrollView(
-                            child: ListView.builder(
+                            // sengaja dikasih ini biar kalo banyak ngga overflow
+                            child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  DropdownButton<String>(
+                                    value: widget.selectedCategory,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        widget.selectedCategory = newValue!;
+                                      });
+                                    },
+                                    items: getDropdownCategories()
+                                        .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins-SemiBold',
+                                              fontSize: 15,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: filteredLapKeu().length > 4
                                     ? 4
-                                    : filteredLapKeu().length,
+                                    : filteredLapKeu().length < 1
+                                        ? 1
+                                        : filteredLapKeu().length,
                                 itemBuilder: (context, index) {
                                   final reversedIndex =
                                       filteredLapKeu().length - 1 - index;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReportingTable(
-                                            lapKeuFiltered: filteredLapKeu(),
-                                            kategori:
+                                  return filteredLapKeu().isNotEmpty
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ReportingTable(
+                                                  lapKeuFiltered:
+                                                      filteredLapKeu(),
+                                                  kategori: filteredLapKeu()[
+                                                          reversedIndex]
+                                                      .kategori,
+                                                  tipe: filteredLapKeu()[
+                                                          reversedIndex]
+                                                      .tipe_keuangan,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: ListReporting(
+                                            title:
+                                                '${filteredLapKeu()[reversedIndex].kategori}',
+                                            time:
+                                                '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).hour}:${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).minute}',
+                                            date:
+                                                '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).month)} ${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).year}',
+                                            nominal:
+                                                '${formatCurrency(int.parse(filteredLapKeu()[reversedIndex].nominal))}',
+                                            isIncome:
                                                 filteredLapKeu()[reversedIndex]
-                                                    .kategori,
-                                                    tipe: filteredLapKeu()[reversedIndex]
-                                                    .tipe_keuangan,
+                                                        .tipe_keuangan ==
+                                                    "Income",
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: ListReporting(
-                                      title:
-                                          '${filteredLapKeu()[reversedIndex].kategori}',
-                                      time:
-                                          '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).hour}:${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).minute}',
-                                      date:
-                                          '${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).month)} ${DateTime.parse(filteredLapKeu()[reversedIndex].tanggal).year}',
-                                      nominal:
-                                          '${formatCurrency(int.parse(filteredLapKeu()[reversedIndex].nominal))}',
-                                      isIncome: filteredLapKeu()[reversedIndex]
-                                              .tipe_keuangan ==
-                                          "Income",
-                                    ),
-                                  );
-                                })),
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.only(top: 70.0),
+                                          child: Center(
+                                            child: Text("Data tidak tersedia"),
+                                          ),
+                                        );
+                                }),
+                          ],
+                        )),
                         SizedBox(height: 9),
 
                         Center(
@@ -410,20 +485,23 @@ class _ReportingPageState extends State<ReportingPage> {
                                         filteredLapKeu(), // nilai dari lapKeu
                                     selectedTipe: widget
                                         .selectedOption, // nilai dari selectedOption
+                                    kategori: widget.selectedCategory,
                                   ),
                                 ),
                               );
                             },
-                            child: Text(
-                              "See More",
-                              style: TextStyle(
-                                fontFamily: 'Poppins-Reguler',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w200,
-                                color: primaryColor,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
+                            child: filteredLapKeu().isNotEmpty
+                                ? Text(
+                                    "See More",
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-Reguler',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w200,
+                                      color: primaryColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  )
+                                : SizedBox(width: 0, height: 0),
                           ),
                         )
                       ],
