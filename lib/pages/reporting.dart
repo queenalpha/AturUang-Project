@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:aturuang_project/configuration/list_configuration.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
+import 'package:aturuang_project/pages/report_list.dart';
+import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:chart_it/chart_it.dart';
@@ -385,7 +387,20 @@ class _ReportingPageState extends State<ReportingPage> {
                         Center(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, 'reportList');
+                              print("TAHU : ${lapKeu.last.kategori}");
+                              print("TEMPE: ${widget.selectedOption}");
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ReportList(
+                                    lapKeuFiltered:
+                                        filteredLapKeu(), // nilai dari lapKeu
+                                    selectedTipe: widget
+                                        .selectedOption, // nilai dari selectedOption
+                                  ),
+                                ),
+                              );
                             },
                             child: Text(
                               "See More",

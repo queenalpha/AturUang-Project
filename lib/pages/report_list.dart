@@ -11,20 +11,28 @@ import '../configuration/list_configuration.dart';
 import '../configuration/theme_config.dart';
 
 class ReportList extends StatefulWidget {
+  List<LaporanKeuanganModel> lapKeuFiltered = [];
+  String selectedTipe = '';
   @override
-  _ReportList createState() => _ReportList();
+  _ReportListState createState() => _ReportListState();
   // String selectedOption = 'All List';
-  ReportList({Key? key}) : super(key: key);
+  ReportList(
+      {Key? key,
+      required List<LaporanKeuanganModel> lapKeuFiltered,
+      required String selectedTipe})
+      : super(key: key) {
+    this.lapKeuFiltered = lapKeuFiltered;
+    this.selectedTipe = selectedTipe;
+  }
 }
 
-class _ReportList extends State<ReportList> {
+class _ReportListState extends State<ReportList> {
   int totalIncome = 0;
   int totalSpending = 0;
   int total = 0;
-  List<LaporanKeuanganModel> lapKeu = [];
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
-  String selectedFilter = 'All List';
+  // String selectedFilter = 'All List';
 
   List<String> filterOptions = [
     'All List',
@@ -34,39 +42,15 @@ class _ReportList extends State<ReportList> {
     'Other'
   ];
 
-  List<LaporanKeuanganModel> filteredLapKeu() {
-    if (selectedFilter == 'All List') {
-      return lapKeu;
-    } else {
-      return lapKeu
-          .where((keuangan) => keuangan.kategori == selectedFilter)
-          .toList();
-    }
-  }
-
-  selectWhereLaporan() async {
-    List data = [];
-    data = jsonDecode(await ds.selectWhere(token, project, 'laporan_keuangan',
-        appid, 'user_id', currentUser?.uid ?? ''));
-    lapKeu = data.map((e) => LaporanKeuanganModel.fromJson(e)).toList();
-
-    List<LaporanKeuanganModel> income = [];
-    List<LaporanKeuanganModel> spending = [];
-
-    for (LaporanKeuanganModel keuangan in lapKeu) {
-      if (keuangan.tipe_keuangan == "Income") {
-        income.add(keuangan);
-      } else if (keuangan.tipe_keuangan == "Spending") {
-        spending.add(keuangan);
-      }
-    }
-
-    totalIncome =
-        income.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
-    totalSpending =
-        spending.fold(0, (sum, keuangan) => sum + int.parse(keuangan.nominal));
-    total = totalIncome + totalSpending;
-  }
+  // List<LaporanKeuanganModel> filteredLapKeu() {
+  //   if (widget.selectedTipe == 'All List') {
+  //     return widget.lapKeuFiltered;
+  //   } else {
+  //     return widget.lapKeuFiltered
+  //         .where((keuangan) => keuangan.kategori == widget.selectedTipe)
+  //         .toList();
+  //   }
+  // }
 
   String getMonthName(int month) {
     switch (month) {
@@ -111,111 +95,38 @@ class _ReportList extends State<ReportList> {
 
   @override
   Widget build(BuildContext context) {
+    print("TAHU ${widget.lapKeuFiltered.last.kategori}");
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: primaryColor,
-            ),
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context, 'reporting', (route) => false),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: primaryColor,
           ),
-          title: Text("Reporting", style: TextStyle(color: Colors.black)),
-          centerTitle: true,
+          onPressed: () => Navigator.pushNamedAndRemoveUntil(
+              context, 'reporting', (route) => false),
         ),
-        body: FutureBuilder<dynamic>(
-          future: selectWhereLaporan(),
-          builder: (context, AsyncSnapshot<dynamic> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                {
-                  return const Text('none');
-                }
-              case ConnectionState.waiting:
-                {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              case ConnectionState.active:
-                {
-                  return const Text('Active');
-                }
-              case ConnectionState.done:
-                {
-                  if (snapshot.hasError) {
-                    return Text('${snapshot.error}',
-                        style: const TextStyle(color: Colors.red));
-                  } else {
-                    return Column(
-                      children: [
-                        Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  // all list
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 30, right: 30),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '${selectedFilter}',
-                                          style: TextStyle(
-                                              fontFamily: 'Poppins-Medium',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                        _buildFilterDropdown(),
-                                      ],
-                                    ),
-                                  ),
-                                  ListView.builder(
-                                      itemCount: filteredLapKeu().length,
-                                      itemBuilder: (context, index) {
-                                        bool isIncome =
-                                            filteredLapKeu()[index].kategori ==
-                                                    'Income'
-                                                ? true
-                                                : false;
-                                        print("LENGHTT: " +
-                                            filteredLapKeu().length.toString());
-                                        return GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, 'reportTable'),
-                                          child: ListReporting(
-                                            title:
-                                                '${filteredLapKeu()[index].kategori}',
-                                            time:
-                                                '${DateTime.parse(filteredLapKeu()[index].tanggal).hour}:${DateTime.parse(filteredLapKeu()[index].tanggal).minute}',
-                                            date:
-                                                '${DateTime.parse(filteredLapKeu()[index].tanggal).day} ${getMonthName(DateTime.parse(filteredLapKeu()[index].tanggal).month)} ${DateTime.parse(filteredLapKeu()[index].tanggal).year}',
-                                            nominal:
-                                                '${formatCurrency(int.parse(filteredLapKeu()[index].nominal))}',
-                                            isIncome: isIncome,
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  }
-                }
-            }
-          },
-        ));
+        title: Text("${widget.selectedTipe} Reporting",
+            style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+      ),
+      body: ListView.builder(
+          itemCount: widget.lapKeuFiltered.length,
+          itemBuilder: (context, index) {
+            final reversedIndex = widget.lapKeuFiltered.length - 1 - index;
+            return ListReporting(
+                title: '${widget.lapKeuFiltered[reversedIndex].kategori}',
+                time:
+                    '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).hour}:${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).minute}',
+                date:
+                    '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).month)} ${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).year}',
+                nominal:
+                    '${formatCurrency(int.parse(widget.lapKeuFiltered[reversedIndex].nominal))}',
+                isIncome: widget.lapKeuFiltered[reversedIndex].tipe_keuangan ==
+                    'Income');
+          }),
+    );
   }
 
   // VALUE FILTER
@@ -228,7 +139,7 @@ class _ReportList extends State<ReportList> {
       // color: Colors.black,
       onSelected: (value) {
         _selectFilterOption(value.toString());
-        print(selectedFilter);
+        print("SELELCTTEDD: " + widget.selectedTipe.toString());
       },
       itemBuilder: (BuildContext context) => filterOptions
           .map((value) => PopupMenuItem(
@@ -287,7 +198,7 @@ class _ReportList extends State<ReportList> {
 
   void _selectFilterOption(String option) {
     setState(() {
-      selectedFilter = option;
+      widget.selectedTipe = option;
     });
   }
 }
