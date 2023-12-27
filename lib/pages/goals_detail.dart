@@ -410,10 +410,13 @@ class _GoalsDetail extends State<GoalsDetail> {
                                   "History",
                                   style: TextStyle(
                                       fontFamily: 'Poppins-Reguler',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w200),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400),
                                 ),
-                                SizedBox(height: 15),
+                                SizedBox(height: 10),
+                                numberOfDates - 1 == 0
+                                    ? Text("Data Not Avaible!")
+                                    : SizedBox(height: 10),
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {

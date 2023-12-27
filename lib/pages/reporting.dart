@@ -244,7 +244,7 @@ class _ReportingPageState extends State<ReportingPage> {
                                     donutRadius: 70.0,
                                     donutSpaceColor: Colors.transparent,
                                     donutLabel: () =>
-                                        '${formatCurrency(total)}',
+                                        '${(totalIncome == 0 || totalSpending == 0) ? "Chart Not Available!" : formatCurrency(total)}',
                                     donutLabelStyle: ChartTextStyle(
                                         textStyle: TextStyle(
                                             fontFamily: 'Poppins-SemiBold',

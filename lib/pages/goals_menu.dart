@@ -89,6 +89,27 @@ class _GoalsDetail extends State<GoalsMenu> {
         "[${now}]",
       );
     }
+    created();
+  }
+
+  Widget created() {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 36),
+        child: Column(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Your goals has been\ncreated on goals list",
+                  style: TextStyle(
+                    fontFamily: 'Poppins-SemiBold',
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w200,
+                    color: Colors.white,
+                  )),
+              SizedBox(height: 8),
+            ],
+          ),
+        ]));
   }
 
   final _goalsTextController = TextEditingController();

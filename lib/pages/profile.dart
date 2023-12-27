@@ -163,10 +163,11 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 100,
             child: Column(
               children: [
-                Text('Confirm your username before deleting your account:'),
+                Text(
+                    'To Confirm, type: "i want to delete ${currentUser?.displayName} account" in the box below'),
                 TextField(
                   controller: _usernameController,
-                  decoration: InputDecoration(labelText: 'Username'),
+                  decoration: InputDecoration(labelText: 'Type here'),
                 ),
               ],
             ),
@@ -184,11 +185,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   await currentUser?.reload();
                   await currentUser?.getIdToken(true);
 
-                  if (_usernameController.text == currentUser?.displayName) {
+                  if (_usernameController.text ==
+                      'i want to delete ${currentUser?.displayName} account') {
                     await _deleteAccount();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Username not match!'),
+                      content: Text('Your type not match!'),
                     ));
                     Navigator.pop(context);
                   }
