@@ -339,7 +339,6 @@ class _GoalsDetail extends State<GoalsDetail> {
                                       nabung = data
                                           .map((e) => NabungModel.fromJson(e))
                                           .toList();
-                                      DateTime date;
                                       String stringDate = '';
                                       collectedArray =
                                           jsonDecode(nabung[0].nominal)

@@ -1,13 +1,11 @@
-import 'dart:io';
+
 import 'dart:typed_data'; // Add this import for Uint8List
 import 'dart:html' as html; // Add this import for html
-import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:file_picker/file_picker.dart';
 
 class ExportingPDF {
   static User? currentUser = FirebaseAuth.instance.currentUser;

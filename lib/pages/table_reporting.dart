@@ -73,7 +73,6 @@ class _ReportingTableState extends State<ReportingTable> {
 
   @override
   Widget build(BuildContext context) {
-    print("WOIII: " + reports.first.toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

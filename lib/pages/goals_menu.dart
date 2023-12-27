@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/utils/restapi.dart';
-// import 'package:aturuang_project/utils/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +21,6 @@ class GoalsMenu extends StatefulWidget {
 class _GoalsDetail extends State<GoalsMenu> {
   DateTime now = DateTime.now();
   String profpic = "-";
-  late ValueNotifier<int> _notifier;
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 

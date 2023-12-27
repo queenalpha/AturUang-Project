@@ -161,9 +161,6 @@ class TabunganSection extends StatefulWidget {
 
 class _TabunganSectionState extends State<TabunganSection> {
   @override
-  void initState() {}
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
