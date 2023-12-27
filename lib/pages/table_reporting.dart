@@ -1,9 +1,9 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:flutter/material.dart';
-import 'package:aturuang_project/configuration/exporting_pdf.dart';
+// import 'package:aturuang_project/configuration/mobile_exporting.dart';
+import 'package:aturuang_project/configuration/web_exporting.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/exporting_pdf.dart';
 import 'package:intl/intl.dart';
 
 class ReportingTable extends StatefulWidget {
