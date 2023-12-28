@@ -270,7 +270,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         children: [
                                           Text("Target"),
                                           Text(
-                                            "${formatCurrency(int.parse(targetAmount.toString()))}",
+                                            "${formatCurrency(targetAmount.toInt())}",
                                           ),
                                         ],
                                       ),

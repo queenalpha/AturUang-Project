@@ -142,7 +142,7 @@ class _ReportingTableState extends State<ReportingTable> {
                         ),
                       ),
                       DataCell(Text(
-                          '${formatCurrency(int.parse(report.amount.toString()))}')),
+                          '${formatCurrency(report.amount!.toInt())}')),
                     ]),
                   ),
                 ],
