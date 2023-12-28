@@ -1,5 +1,7 @@
-import 'package:aturuang_project/pages/home.dart';
-import 'package:aturuang_project/pages/profile.dart';
+import 'package:Aturuang/configuration/theme_config.dart';
+import 'package:Aturuang/pages/home.dart';
+import 'package:Aturuang/pages/profile.dart';
+import 'package:Aturuang/pages/reporting.dart';
 import 'package:flutter/material.dart';
 
 class NavigationBarDemo extends StatefulWidget {
@@ -42,9 +44,9 @@ class _NavigationBarDemoState extends State<NavigationBarDemo> {
                 backgroundColor: Colors.white,
               )
             ],
-            backgroundColor: Colors.white,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.black,
+            backgroundColor: primaryColor,
+            unselectedItemColor: secondaryColor,
+            selectedItemColor: Colors.white,
             selectedIconTheme: IconThemeData(color: Colors.white)));
   }
 }

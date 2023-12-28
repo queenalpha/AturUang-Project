@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aturuang_project/configuration/api_configuration.dart';
-import 'package:aturuang_project/configuration/list_configuration.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/models/nabung_model.dart';
-import 'package:aturuang_project/utils/restapi.dart';
+import 'package:Aturuang/configuration/api_configuration.dart';
+import 'package:Aturuang/configuration/list_configuration.dart';
+import 'package:Aturuang/configuration/roundedbutton.dart';
+import 'package:Aturuang/configuration/theme_config.dart';
+import 'package:Aturuang/models/nabung_model.dart';
+import 'package:Aturuang/utils/restapi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -68,7 +68,8 @@ class _GoalsDetail extends State<GoalsDetail> {
       DateTime dateTime = DateTime.parse(trimmedDateString);
       collectedDate.add(dateTime);
     }
-    targetAmount = double.parse(nabung[0].target);
+    targetAmount = double.tryParse(nabung[0].target) ?? 0.0;
+
     collectedArray = jsonDecode(nabung[0].nominal).cast<int>();
     collected.add(collectedArray.fold(
         0, (previousValue, element) => previousValue + element));
