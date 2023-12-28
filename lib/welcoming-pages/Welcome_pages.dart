@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../configuration/theme_config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/rounded button.dart';
 
 class onBoardingPage extends StatelessWidget {
   const onBoardingPage({Key? key}) : super(key: key);
@@ -152,7 +152,7 @@ class _HomePageState extends State<WelcomingPage> {
                 color: Colors.white)),
         SizedBox(height: 30),
         RoundedButton(
-          color: primaryColor,
+          colour: primaryColor,
           title: "Sign In",
           onPressed: () {
             Navigator.pushReplacementNamed(context, 'login');
@@ -161,7 +161,7 @@ class _HomePageState extends State<WelcomingPage> {
           height: 57,
         ),
         RoundedButton(
-          color: primaryColor,
+          colour: primaryColor,
           title: "Sign Up",
           onPressed: () {
             Navigator.pushReplacementNamed(context, 'register');

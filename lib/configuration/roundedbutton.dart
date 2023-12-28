@@ -1,15 +1,14 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:flutter/material.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/pages/reporting.dart';
 
 class ToggleButton extends StatefulWidget {
   @override
   _ToggleButtonState createState() => _ToggleButtonState();
   final List<bool> isSelected;
   final List<String> buttonLabels;
+  final Function(int) onPressed;
 
-  ToggleButton({required this.isSelected, required this.buttonLabels});
+  ToggleButton({required this.isSelected, required this.buttonLabels, required this.onPressed});
 }
 
 class _ToggleButtonState extends State<ToggleButton> {
@@ -52,34 +51,6 @@ class _ToggleButtonState extends State<ToggleButton> {
         ),
       ),
     );
-  }
-}
-
-InputDecoration formSavingAdd(String labelText) {
-  if (labelText == 'Rp') {
-    return InputDecoration(
-      filled: true,
-      fillColor: Color.fromARGB(242, 242, 242, 242),
-      hintText: 'Rp',
-      hintStyle: TextStyle(
-          color: Colors.grey, fontFamily: 'Poppins-Reguler', fontSize: 15),
-      // prefixText: 'Rp',
-      // prefixStyle: TextStyle(
-      //   fontFamily: 'Poppins-SemiBold',
-      //   color: Colors.black,
-      //   fontWeight: FontWeight.w400,
-      // ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: primaryColor),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: primaryColor),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      ),
-    );
-  } else {
-    return kTextFieldDecoration.copyWith();
   }
 }
 

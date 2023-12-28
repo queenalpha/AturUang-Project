@@ -55,7 +55,8 @@ class _GoalsList extends State<GoalsList> {
               Icons.arrow_back,
               color: primaryColor,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, 'home', (route) => false),
           ),
           title: Text(
             "Goals List",
@@ -160,9 +161,6 @@ class TabunganSection extends StatefulWidget {
 
 class _TabunganSectionState extends State<TabunganSection> {
   @override
-  void initState() {}
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,8 +175,9 @@ class _TabunganSectionState extends State<TabunganSection> {
             shrinkWrap: true,
             itemCount: widget.tabunganList.length,
             itemBuilder: (context, index) {
+              final reversedIndex = widget.tabunganList.length - 1 - index;
               DataService ds = DataService();
-              NabungModel tabungan = widget.tabunganList[index];
+              NabungModel tabungan = widget.tabunganList[reversedIndex];
               List<int> collected = [];
               collected.add(jsonDecode(tabungan.nominal).cast<int>().fold(
                   0, (previousValue, element) => previousValue + element));
@@ -189,9 +188,9 @@ class _TabunganSectionState extends State<TabunganSection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              height: 6), // Category Goals (DAY, WEEK, YEAR)
+                          SizedBox(height: 6),
                           ListGoals(
+                              id_goal: '${tabungan.id}',
                               goals: '${tabungan.nama}',
                               collected:
                                   '${parseAndConvert(collected.toString())}',
@@ -238,7 +237,7 @@ class _TabunganSectionState extends State<TabunganSection> {
                                   },
                                 );
                               },
-                              imagePath: "assets/Mobil.jpg"),
+                              imagePath: "${tabungan.foto}"),
                           SizedBox(height: 6),
                         ],
                       ))

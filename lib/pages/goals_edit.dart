@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/models/nabung_model.dart';
 import 'package:aturuang_project/utils/restapi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -9,25 +10,29 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 
-class GoalsMenu extends StatefulWidget {
-  GoalsMenu({Key? key}) : super(key: key);
-  List<bool> isSelected = [true, false, false];
+class GoalsEdit extends StatefulWidget {
+  GoalsEdit({Key? key}) : super(key: key);
+  List<bool> isSelected = [false, false, false];
   List<String> buttonLabels = ['Day', 'Week', 'Month'];
-  String selectedOption = 'a';
+  String selectedOption = '-';
   @override
   _GoalsDetail createState() => _GoalsDetail();
 }
 
-class _GoalsDetail extends State<GoalsMenu> {
+class _GoalsDetail extends State<GoalsEdit> {
   DateTime now = DateTime.now();
   String profpic = "-";
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
+  bool loadData = false;
 
   String? imagePath;
   Uint8List? imageBytes;
   MemoryImage? selectedImage;
   String? extImage;
+  List<NabungModel> nabung = [];
+  String foto = "-";
+  String periode = '-';
 
   Future pickImage() async {
     try {
@@ -50,6 +55,27 @@ class _GoalsDetail extends State<GoalsMenu> {
     }
   }
 
+  selectIdGoal(String id) async {
+    List data = [];
+
+    data = jsonDecode(await ds.selectId(token, project, 'nabung', appid, id));
+    nabung = data.map((e) => NabungModel.fromJson(e)).toList();
+    setState(() {
+      _goalsTextController.text = nabung[0].nama;
+      _targetTextController.text = nabung[0].target;
+      foto = nabung[0].foto;
+      periode = nabung[0].periode;
+      widget.selectedOption = nabung[0].periode;
+    });
+    if (nabung[0].periode == "Day") {
+      widget.isSelected = [true, false, false];
+    } else if (nabung[0].periode == "Week") {
+      widget.isSelected = [false, true, false];
+    } else if (nabung[0].periode == "Month") {
+      widget.isSelected = [false, false, true];
+    }
+  }
+
   static String? isNotEmptyValidate(
       {required String? value, required String? field}) {
     if (value == null) {
@@ -63,55 +89,6 @@ class _GoalsDetail extends State<GoalsMenu> {
     return null;
   }
 
-  Future<void> uploadDataAndImage() async {
-    if (imageBytes != null && extImage != null) {
-      var response = await ds.upload(token, project, imageBytes!, extImage!);
-      var file = jsonDecode(response);
-      await ds.insertNabung(
-        appid,
-        file['file_name'],
-        _goalsTextController.text,
-        _targetTextController.text,
-        widget.selectedOption,
-        "[0]",
-        currentUser!.uid,
-        "[${now}]",
-      );
-    } else {
-      await ds.insertNabung(
-        appid,
-        '651bc4399b493f4b9fe24867_656839c21e965436b80825ca_lKWoiGMCrTsQxUxhRCATwApDPP6jFGWQ.jpg',
-        _goalsTextController.text,
-        _targetTextController.text,
-        widget.selectedOption,
-        "[0]",
-        currentUser!.uid,
-        "[${now}]",
-      );
-    }
-    created();
-  }
-
-  Widget created() {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 36),
-        child: Column(children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Your goals has been\ncreated on goals list",
-                  style: TextStyle(
-                    fontFamily: 'Poppins-SemiBold',
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w200,
-                    color: Colors.white,
-                  )),
-              SizedBox(height: 8),
-            ],
-          ),
-        ]));
-  }
-
   final _goalsTextController = TextEditingController();
   final _targetTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -122,6 +99,11 @@ class _GoalsDetail extends State<GoalsMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as List<String>;
+    if (loadData == false) {
+      selectIdGoal(args[0]);
+      loadData = true;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -130,11 +112,10 @@ class _GoalsDetail extends State<GoalsMenu> {
             Icons.arrow_back,
             color: primaryColor,
           ),
-          onPressed: () => Navigator.pushNamedAndRemoveUntil(
-              context, 'home', (route) => false),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Create Your Goals",
+          "Update Goals",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -149,17 +130,15 @@ class _GoalsDetail extends State<GoalsMenu> {
                 child: SizedBox(
                   height: 142,
                   width: 142,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey[300],
-                    backgroundImage: selectedImage,
-                    child: selectedImage == null
-                        ? Icon(
-                            color: Colors.grey[500],
-                            Icons.camera_alt_sharp,
-                            size: 38.5,
-                          )
-                        : SizedBox.shrink(),
-                  ),
+                  child: selectedImage == null
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage(fileUri + foto),
+                          backgroundColor: Colors.grey[300],
+                        )
+                      : CircleAvatar(
+                          backgroundImage: selectedImage,
+                          backgroundColor: Colors.grey[300],
+                        ),
                 ),
               ),
             ),
@@ -245,30 +224,31 @@ class _GoalsDetail extends State<GoalsMenu> {
                         SizedBox(height: 44),
                         RoundedButton(
                           color: primaryColor,
-                          title: 'Create',
+                          title: 'Update',
                           onPressed: () async {
-                            _focusGoals.unfocus();
-                            _focusTarget.unfocus();
-                            if (_formKey.currentState?.validate() ?? false) {
-                              if (widget.isSelected.contains(true)) {
-                                widget.selectedOption = widget.buttonLabels[
-                                    widget.isSelected.indexOf(true)];
-                                await uploadDataAndImage();
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, 'home', (route) => false);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Pilih salah satu periode!'),
-                                  ),
-                                );
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Lengkapi Seluruh data!'),
-                                ),
-                              );
+                            if (selectedImage != null) {
+                              var response = await ds.upload(
+                                  token, project, imageBytes!, extImage!);
+                              var file = jsonDecode(response);
+                              foto = file['file_name'];
+                            }
+
+                            bool updateStatus = await ds.updateId(
+                                'nama~target~periode~foto',
+                                _goalsTextController.text +
+                                    '~' +
+                                    _targetTextController.text +
+                                    '~' +
+                                    widget.selectedOption +
+                                    '~' +
+                                    foto,
+                                token,
+                                project,
+                                'nabung',
+                                appid,
+                                args[0]);
+                            if (updateStatus) {
+                              Navigator.pop(context, true);
                             }
                           },
                           width: 180,

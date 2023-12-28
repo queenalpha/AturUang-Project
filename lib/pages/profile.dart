@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final TextEditingController _usernameController = TextEditingController();
   String profpic = "-";
+  String id = "-";
   late ValueNotifier<int> _notifier;
 
   List<UserModel> user = [];
@@ -47,12 +48,11 @@ class _ProfilePageState extends State<ProfilePage> {
   selectWhereUser() async {
     List data = [];
     data = jsonDecode(await ds.selectWhere(
-        token, project, 'user', appid, 'user_id', currentUser?.uid ?? ''));
+        token, project, 'user', appid, 'user_id', currentUser!.uid));
+    user = data.map((e) => UserModel.fromJson(e)).toList();
 
-    if (data.isNotEmpty) {
-      user = data.map((e) => UserModel.fromJson(e)).toList();
-      profpic = user[0].foto;
-    }
+    profpic = user[0].foto;
+    id = user[0].id.toString();
   }
 
   selectWhereLaporan() async {
@@ -67,9 +67,9 @@ class _ProfilePageState extends State<ProfilePage> {
       List<LaporanKeuanganModel> spending = [];
 
       for (LaporanKeuanganModel keuangan in lapKeu) {
-        if (keuangan.tipe_keuangan == "Pemasukan") {
+        if (keuangan.tipe_keuangan == "Income") {
           income.add(keuangan);
-        } else if (keuangan.tipe_keuangan == "Pengeluaran") {
+        } else if (keuangan.tipe_keuangan == "Spending") {
           spending.add(keuangan);
         }
       }
@@ -102,13 +102,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
         var file = jsonDecode(response);
 
-        await ds.updateId('picture', file['file_name'], token, project,
-            'mahasiswa', appid, id);
+        await ds.updateId(
+            'foto', file['file_name'], token, project, 'user', appid, id);
 
-        profpic = file['file_name'];
-
-        // trigger change valueNotifier
         _notifier.value++;
+        setState(() {
+          profpic = file['file_name'];
+        });
       }
     } on PlatformException catch (e) {
       if (kDebugMode) {
@@ -163,10 +163,11 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 100,
             child: Column(
               children: [
-                Text('Confirm your username before deleting your account:'),
+                Text(
+                    'To Confirm, type: "i want to delete ${currentUser?.displayName} account" in the box below'),
                 TextField(
                   controller: _usernameController,
-                  decoration: InputDecoration(labelText: 'Username'),
+                  decoration: InputDecoration(labelText: 'Type here'),
                 ),
               ],
             ),
@@ -184,11 +185,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   await currentUser?.reload();
                   await currentUser?.getIdToken(true);
 
-                  if (_usernameController.text == currentUser?.displayName) {
+                  if (_usernameController.text ==
+                      'i want to delete ${currentUser?.displayName} account') {
                     await _deleteAccount();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Username not match!'),
+                      content: Text('Your type not match!'),
                     ));
                     Navigator.pop(context);
                   }
@@ -289,31 +291,39 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 24,
                                             fontFamily: 'Poppins-SemiBold'),
                                       )),
-                                  Positioned(
-                                    top: 250 - 220 / 2,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/jhondoe.png'),
-                                      backgroundColor: Colors.transparent,
-                                      radius: 140 / 2,
-                                    ),
-                                  ),
-
-                                  // Icons edit
-                                  Positioned(
-                                    top: 247,
-                                    right: 135,
+                                  profpic == '-'
+                                      ? SizedBox(
+                                          height: 120,
+                                          width: 120,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.grey[300],
+                                            child: Icon(
+                                              color: Colors.grey[500],
+                                              Icons.person,
+                                              size: 90,
+                                            ),
+                                          ),
+                                        )
+                                      : Positioned(
+                                          top: 250 - 220 / 2,
+                                          child: CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(fileUri + profpic),
+                                            backgroundColor: Colors.transparent,
+                                            radius: 140 / 2,
+                                          ),
+                                        ),
+                                  InkWell(
+                                    onTap: () => pickImage(id),
                                     child: Container(
                                       width: 40,
                                       height: 40,
                                       child: Card(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              6.0), // Atur radius sesuai keinginan
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
                                           side: BorderSide(
-                                              color: Colors.black,
-                                              width:
-                                                  0.7), // Atur warna dan lebar border
+                                              color: Colors.black, width: 0.7),
                                         ),
                                         color:
                                             Color.fromARGB(210, 255, 255, 255),

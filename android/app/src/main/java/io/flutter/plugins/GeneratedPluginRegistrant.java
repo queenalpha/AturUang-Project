@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import io.flutter.Log;
 
 import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
 
 /**
  * Generated file. Do not edit.
@@ -15,6 +16,12 @@ import io.flutter.embedding.engine.FlutterEngine;
 public final class GeneratedPluginRegistrant {
   private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
+    ShimPluginRegistry shimPluginRegistry = new ShimPluginRegistry(flutterEngine);
+    try {
+      it.nplace.downloadspathprovider.DownloadsPathProviderPlugin.registerWith(shimPluginRegistry.registrarFor("it.nplace.downloadspathprovider.DownloadsPathProviderPlugin"));
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin downloads_path_provider_28, it.nplace.downloadspathprovider.DownloadsPathProviderPlugin", e);
+    }
     try {
       flutterEngine.getPlugins().add(new com.mr.flutter.plugin.filepicker.FilePickerPlugin());
     } catch (Exception e) {

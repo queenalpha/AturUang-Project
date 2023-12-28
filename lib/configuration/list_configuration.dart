@@ -1,18 +1,21 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/pages/goals_detail.dart';
+import 'package:aturuang_project/configuration/api_configuration.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ListReporting extends StatelessWidget {
   final String title;
   final String time;
   final String date;
   final String nominal;
+  final bool isIncome;
 
   ListReporting({
     required this.title,
     required this.time,
     required this.date,
     required this.nominal,
+    required this.isIncome,
   });
 
   @override
@@ -31,8 +34,9 @@ class ListReporting extends StatelessWidget {
           leading: InkWell(
             onTap: () {},
             child: Icon(
-              Icons.arrow_upward_outlined,
-              // color: reportIncome,
+              // Tampilkan ikon panah sesuai dengan jenis transaksi
+              isIncome ? Icons.arrow_upward : Icons.arrow_downward,
+              color: isIncome ? arrowUp : arrowDown,
               size: 30,
             ),
           ),
@@ -85,7 +89,18 @@ class ListReporting extends StatelessWidget {
   }
 }
 
+String formatCurrency(int amount) {
+  final NumberFormat formatter = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp',
+    decimalDigits: 0,
+  );
+
+  return formatter.format(amount);
+}
+
 class ListGoals extends StatelessWidget {
+  final String id_goal;
   final String goals;
   final String collected;
   final String target;
@@ -93,6 +108,7 @@ class ListGoals extends StatelessWidget {
   final VoidCallback onPressed;
 
   ListGoals({
+    required this.id_goal,
     required this.goals,
     required this.collected,
     required this.target,
@@ -104,8 +120,7 @@ class ListGoals extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, 'goals_detail', (route) => false);
+        Navigator.pushNamed(context, 'goals_detail', arguments: [id_goal]);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -124,7 +139,7 @@ class ListGoals extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(imagePath),
+                image: NetworkImage(fileUri + imagePath),
               ),
             ),
           ),
@@ -142,7 +157,7 @@ class ListGoals extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Collected : ${collected}",
+                "Collected : ${formatCurrency(int.parse(collected))}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,
@@ -151,7 +166,7 @@ class ListGoals extends StatelessWidget {
                 ),
               ),
               Text(
-                "Target : ${target}",
+                "Target : ${formatCurrency(int.parse(target))}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w100,

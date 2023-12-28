@@ -1,14 +1,24 @@
-import 'dart:io';
+
 import 'dart:typed_data'; // Add this import for Uint8List
 import 'dart:html' as html; // Add this import for html
-import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:file_picker/file_picker.dart';
 
 class ExportingPDF {
+  static User? currentUser = FirebaseAuth.instance.currentUser;
+  static String formatCurrency(int amount) {
+    final NumberFormat formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+
+    return formatter.format(amount);
+  }
+
   static Future<void> exportToUserSelectedDirectory(
       List<Report> reports) async {
     try {
@@ -35,10 +45,12 @@ class ExportingPDF {
 
                 pw.SizedBox(height: 20),
                 //user and date information
-                pw.Text('Username: Asepfikri'), //ambil dari data username
+                pw.Text(
+                    'Username: ${currentUser!.displayName}'), //ambil dari data username
                 pw.Text(
                     'Date Report: $formattedDate'), //date time pengambilan daya
-                pw.Text('Reporting Category: Salary'), //ambil data kategori
+                pw.Text(
+                    'Reporting Category: ${reports.first.category}'), //ambil data kategori
 
                 pw.SizedBox(height: 20),
                 // Table
@@ -58,14 +70,17 @@ class ExportingPDF {
                     ['Date', 'Description', 'Amount'],
                     for (final report in reports)
                       [
-                        report.date ?? '',
+                        report.date != null
+                            ? DateFormat('dd/MM/yy')
+                                .format(DateTime.parse(report.date!))
+                            : '',
                         report.description ?? '',
-                        'Rp${report.amount.toString()}'
+                        '${formatCurrency(int.parse(report.amount.toString()))}'
                       ],
                     [
                       'Total',
                       '',
-                      'Rp${reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b)}',
+                      '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
                     ],
                   ],
                 ),
@@ -87,7 +102,8 @@ class ExportingPDF {
       // Create an anchor element
       final anchor = html.AnchorElement(href: url)
         ..target = 'blank'
-        ..download = 'Laporan_Aturuang.pdf'; // Set your desired file name here
+        ..download =
+            '${DateFormat('dd_MM_yyyy').format(DateTime.now())}_LaporanKeuangan_${DateTime.now().second}.pdf'; // Set your desired file name here
 
       // Trigger a click on the anchor element
       anchor.click();

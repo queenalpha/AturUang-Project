@@ -35,7 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^1.1.0
-  file_picker: ^6.1.1
   intl: ^0.18.1
   flutter_svg: ^2.0.9
   firebase_auth: ^4.15.0
@@ -45,12 +44,14 @@ dependencies:
   percent_indicator: ^4.2.3
   shared_preferences: ^2.2.2
   hovering: ^1.0.4
+  file_picker: ^6.1.1
   fl_chart: ^0.65.0
   chart_it: ^0.2.2
   pdf: ^3.10.7
   get: ^4.6.6
   url_launcher: ^6.0.16
   open_file: ^3.3.2
+  downloads_path_provider_28: ^0.1.2
   # file_picker_cross: ^4.6.0
 
 dev_dependencies:
@@ -82,6 +83,7 @@ flutter:
     - assets/undraw_personal_goals_re_iow7.svg
     - assets/undraw_transfer_money_re_6o1h.svg
     - assets/undraw_note_list_re_r4u9.svg
+    - assets/undraw_forgot_password_re_hxwm.svg
     - assets/Logo Aturuang.png
     - assets/background.png
     - assets/Logo_without_text.png
@@ -107,11 +109,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Poppins-Regular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-Bold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
