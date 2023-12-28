@@ -37,7 +37,7 @@ class Validator {
     return null;
   }
 
-  static String? validatePassword({required String? password}) {
+  static String? validatePassword({required String? password, required String confirmPassword}) {
     if (password == null) {
       return null;
     }

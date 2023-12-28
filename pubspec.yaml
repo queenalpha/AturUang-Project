@@ -35,12 +35,24 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^1.1.0
-  file_picker: ^6.0.0
   intl: ^0.18.1
   flutter_svg: ^2.0.9
   firebase_auth: ^4.15.0
   firebase_core: ^2.24.0
   google_fonts: ^6.1.0
+  introduction_screen: ^3.1.12
+  percent_indicator: ^4.2.3
+  shared_preferences: ^2.2.2
+  hovering: ^1.0.4
+  file_picker: ^6.1.1
+  fl_chart: ^0.65.0
+  chart_it: ^0.2.2
+  pdf: ^3.10.7
+  get: ^4.6.6
+  url_launcher: ^6.0.16
+  open_file: ^3.3.2
+  downloads_path_provider_28: ^0.1.2
+  # file_picker_cross: ^4.6.0
 
 dev_dependencies:
   flutter_test:
@@ -67,13 +79,24 @@ flutter:
   assets:
     - assets/undraw_my_password_re_ydq7.svg
     - assets/undraw_load_more_re_482p.svg
-    - assets/fonts/Poppins-Regular.ttf
+    - assets/undraw_vault_re_s4my.svg
+    - assets/undraw_personal_goals_re_iow7.svg
+    - assets/undraw_transfer_money_re_6o1h.svg
+    - assets/undraw_note_list_re_r4u9.svg
+    - assets/undraw_forgot_password_re_hxwm.svg
     - assets/Logo Aturuang.png
-    - assets/Ellipse3.png
+    - assets/background.png
     - assets/Logo_without_text.png
-    - assets/fonts/Poppins-Bold.ttf
-    - assets/fonts/Poppins-Regular.ttf
-    - assets/fonts/Poppins-SemiBold.ttf
+    - assets/moneycard.png
+    - assets/IconGoals.png
+    - assets/IconCounting.png
+    - assets/IconReporting.png
+    - assets/Mobil.jpg
+    - assets/jhondoe.png
+    - assets/delete account.png
+    - assets/logout.png
+    - assets/Mygoals.png
+    - assets/Meat.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -86,11 +109,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Poppins-Regular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-Bold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
