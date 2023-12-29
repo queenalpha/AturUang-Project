@@ -163,6 +163,7 @@ class _GoalsDetail extends State<GoalsDetail> {
     final args = ModalRoute.of(context)?.settings.arguments as List<String>;
 
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
@@ -200,247 +201,263 @@ class _GoalsDetail extends State<GoalsDetail> {
                     return Text('${snapshot.error}',
                         style: const TextStyle(color: Colors.red));
                   } else {
-                    return Column(children: [
-                      Container(
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 204,
-                              width: double.infinity,
-                              child: Image.network(
-                                fileUri + nabung[0].foto,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(top: 137, left: 25),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      nabung[0].nama,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins-Bold',
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    SizedBox(width: 21),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                                context, 'goals_edit',
-                                                arguments: [args[0]])
-                                            .then(reloadDataGoal);
-                                      },
-                                      child: Icon(
-                                        Icons.edit_square,
-                                        size: 20.0,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 29),
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                      color: primaryColor,
-                                      borderRadius: BorderRadius.circular(8)),
+                    return SingleChildScrollView(
+                      child: Column(children: [
+                        Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 204,
+                                width: double.infinity,
+                                child: Image.network(
+                                  fileUri + nabung[0].foto,
+                                  fit: BoxFit.cover,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 19, vertical: 14),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 137, left: 25),
+                                  child: Row(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Target"),
-                                          Text(
-                                            "${formatCurrency(int.parse(targetAmount.toString()))}",
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Container(
-                                        width: 314,
-                                        height: 10,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: Colors.grey[400],
+                                      Text(
+                                        nabung[0].nama,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins-Bold',
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
                                         ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: LinearProgressIndicator(
-                                            key: progressIndicatorKey,
-                                            value: currentAmount / targetAmount,
-                                            backgroundColor: Colors.transparent,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    secondaryColor),
-                                          ),
+                                      ),
+                                      SizedBox(width: 21),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                                  context, 'goals_edit',
+                                                  arguments: [args[0]])
+                                              .then(reloadDataGoal);
+                                        },
+                                        child: Icon(
+                                          Icons.edit_square,
+                                          size: 20.0,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],
+                                  ))
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 29),
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 65,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(8)),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 18),
-                            Row(
-                              children: [
-                                Form(
-                                    key: _formKey,
-                                    child: Expanded(
-                                      child: TextFormField(
-                                        decoration: InputDecoration(
-                                          prefixText: 'Rp.  ',
-                                          prefixStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          hintText: 'Enter the amount of money',
-                                          border: OutlineInputBorder(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 19, vertical: 14),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("Target"),
+                                            Text(
+                                              "${formatCurrency(int.parse(targetAmount.toString()))}",
+                                            ),
+                                          ],
                                         ),
-                                        focusNode: _focusAmount,
-                                        controller: _amountTextController,
-                                        validator: (value) => value == ''
-                                            ? 'Masukkan nominal!'
-                                            : null,
-                                      ),
-                                    )),
-                                SizedBox(width: 8),
-                                RoundedButton(
-                                  color: primaryColor,
-                                  title: 'Add',
-                                  onPressed: () async {
-                                    _focusAmount.unfocus();
-                                    collectedArray.clear();
-                                    collectedDate.clear();
-                                    if (_formKey.currentState!.validate()) {
-                                      List data = [];
-                                      data = jsonDecode(await ds.selectId(token,
-                                          project, "nabung", appid, args[0]));
-                                      nabung = data
-                                          .map((e) => NabungModel.fromJson(e))
-                                          .toList();
-                                      String stringDate = '';
-                                      collectedArray =
-                                          jsonDecode(nabung[0].nominal)
-                                              .cast<int>();
-                                      collected.add(collectedArray.fold(
-                                          0,
-                                          (previousValue, element) =>
-                                              previousValue + element));
-                                      stringDate = nabung[0].tanggal;
-                                      List<String> dateStrings = stringDate
-                                          .replaceAll("[", "")
-                                          .replaceAll("]", "")
-                                          .split(",");
-
-                                      for (String dateString in dateStrings) {
-                                        String trimmedDateString = dateString
-                                            .trim()
-                                            .replaceAll("'", "");
-                                        DateTime dateTime =
-                                            DateTime.parse(trimmedDateString);
-                                        collectedDate.add(dateTime);
-                                      }
-
-                                      collectedArray.add(int.parse(
-                                          _amountTextController.text));
-                                      await ds.updateId(
-                                          "nominal",
-                                          collectedArray.toString(),
-                                          token,
-                                          project,
-                                          "nabung",
-                                          appid,
-                                          args[0]);
-
-                                      collectedDate.add(DateTime.now());
-
-                                      await ds
-                                          .updateId(
-                                              "tanggal",
-                                              collectedDate.toString(),
-                                              token,
-                                              project,
-                                              "nabung",
-                                              appid,
-                                              args[0])
-                                          .then(reloadDataGoal);
+                                        SizedBox(height: 5),
+                                        Container(
+                                          width: 314,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.grey[400],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: LinearProgressIndicator(
+                                              key: progressIndicatorKey,
+                                              value:
+                                                  currentAmount / targetAmount,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      secondaryColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 18),
+                              Row(
+                                children: [
+                                  Form(
+                                      key: _formKey,
+                                      child: Expanded(
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            prefixText: 'Rp.  ',
+                                            prefixStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            hintText:
+                                                'Enter the amount of money',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          focusNode: _focusAmount,
+                                          controller: _amountTextController,
+                                          validator: (value) => value == ''
+                                              ? 'Masukkan nominal!'
+                                              : null,
+                                        ),
+                                      )),
+                                  SizedBox(width: 8),
+                                  RoundedButton(
+                                    color: primaryColor,
+                                    title: 'Add',
+                                    onPressed: () async {
+                                      _focusAmount.unfocus();
                                       collectedArray.clear();
                                       collectedDate.clear();
-                                      _amountTextController.text = '';
-                                      setState(() {
-                                        progressIndicatorKey =
-                                            ValueKey<double>(currentAmount);
-                                      });
-                                      Navigator.pushNamedAndRemoveUntil(context,
-                                          'goals_detail', (route) => false,
-                                          arguments: [args[0]]);
-                                    }
-                                  },
-                                  width: 96,
-                                  height: 60,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 15),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "History",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Reguler',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(height: 10),
-                                numberOfDates - 1 == 0
-                                    ? Text("Data Not Avaible!")
-                                    : SizedBox(height: 10),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    final reversedIndex =
-                                        numberOfDates - 1 - index;
-                                    return ListReporting(
-                                        title: 'Saving',
-                                        time:
-                                            '${collectedDate[reversedIndex].hour}.${collectedDate[reversedIndex].minute}',
-                                        date:
-                                            '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
-                                        nominal: formatCurrency(
-                                            collectedArray[reversedIndex]),
-                                        isIncome: true);
-                                  },
-                                  itemCount: numberOfDates - 1,
-                                )
-                              ],
-                            ),
-                          ],
+                                      if (_formKey.currentState!.validate()) {
+                                        List data = [];
+                                        data = jsonDecode(await ds.selectId(
+                                            token,
+                                            project,
+                                            "nabung",
+                                            appid,
+                                            args[0]));
+                                        nabung = data
+                                            .map((e) => NabungModel.fromJson(e))
+                                            .toList();
+                                        String stringDate = '';
+                                        collectedArray =
+                                            jsonDecode(nabung[0].nominal)
+                                                .cast<int>();
+                                        collected.add(collectedArray.fold(
+                                            0,
+                                            (previousValue, element) =>
+                                                previousValue + element));
+                                        stringDate = nabung[0].tanggal;
+                                        List<String> dateStrings = stringDate
+                                            .replaceAll("[", "")
+                                            .replaceAll("]", "")
+                                            .split(",");
+
+                                        for (String dateString in dateStrings) {
+                                          String trimmedDateString = dateString
+                                              .trim()
+                                              .replaceAll("'", "");
+                                          DateTime dateTime =
+                                              DateTime.parse(trimmedDateString);
+                                          collectedDate.add(dateTime);
+                                        }
+
+                                        collectedArray.add(int.parse(
+                                            _amountTextController.text));
+                                        await ds.updateId(
+                                            "nominal",
+                                            collectedArray.toString(),
+                                            token,
+                                            project,
+                                            "nabung",
+                                            appid,
+                                            args[0]);
+
+                                        collectedDate.add(DateTime.now());
+
+                                        await ds
+                                            .updateId(
+                                                "tanggal",
+                                                collectedDate.toString(),
+                                                token,
+                                                project,
+                                                "nabung",
+                                                appid,
+                                                args[0])
+                                            .then(reloadDataGoal);
+                                        collectedArray.clear();
+                                        collectedDate.clear();
+                                        _amountTextController.text = '';
+                                        setState(() {
+                                          progressIndicatorKey =
+                                              ValueKey<double>(currentAmount);
+                                        });
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            'goals_detail',
+                                            (route) => false,
+                                            arguments: [args[0]]);
+                                      }
+                                    },
+                                    width: 96,
+                                    height: 60,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    color: Colors.white,
+                                    child: Text(
+                                      "History",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins-Regular',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  numberOfDates - 1 == 0
+                                      ? Text("Data Not Avaible!")
+                                      : SizedBox(height: 10),
+                                  ListView.builder(
+                                    padding: EdgeInsets.only(top: 8),
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      final reversedIndex =
+                                          numberOfDates - 1 - index;
+                                      return ListReporting(
+                                          title: 'Saving',
+                                          time:
+                                              '${collectedDate[reversedIndex].hour}.${collectedDate[reversedIndex].minute}',
+                                          date:
+                                              '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
+                                          nominal: formatCurrency(
+                                              collectedArray[reversedIndex]),
+                                          isIncome: true);
+                                    },
+                                    itemCount: numberOfDates - 1,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ]);
+                      ]),
+                    );
                   }
                 }
             }

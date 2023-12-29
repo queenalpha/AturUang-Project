@@ -188,7 +188,7 @@ class _ReportingPageState extends State<ReportingPage> {
                       style: const TextStyle(color: Colors.red));
                 } else {
                   return SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
+                    // physics: NeverScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Container(
@@ -319,33 +319,40 @@ class _ReportingPageState extends State<ReportingPage> {
                           child: Center(
                             child: Card(
                               color: primaryColor,
-                              child: ToggleButtons(
-                                isSelected: widget.isSelected,
-                                onPressed: (index) {
-                                  setState(() {
-                                    for (int buttonIndex = 0;
-                                        buttonIndex < widget.isSelected.length;
-                                        buttonIndex++) {
-                                      widget.isSelected[buttonIndex] =
-                                          buttonIndex == index;
-                                    }
-                                    widget.selectedOption =
-                                        widget.buttonLabels[index];
-                                  });
-                                },
-                                selectedColor: secondaryColor,
-                                fillColor: secondaryColor,
-                                children: List.generate(
-                                  widget.buttonLabels.length,
-                                  (index) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 35),
-                                    child: Text(
-                                      widget.buttonLabels[index],
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Poppins-SemiBold',
-                                        fontSize: 15,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: ToggleButtons(
+                                    isSelected: widget.isSelected,
+                                    onPressed: (index) {
+                                      setState(() {
+                                        for (int buttonIndex = 0;
+                                            buttonIndex <
+                                                widget.isSelected.length;
+                                            buttonIndex++) {
+                                          widget.isSelected[buttonIndex] =
+                                              buttonIndex == index;
+                                        }
+                                        widget.selectedOption =
+                                            widget.buttonLabels[index];
+                                      });
+                                    },
+                                    selectedColor: secondaryColor,
+                                    fillColor: secondaryColor,
+                                    children: List.generate(
+                                      widget.buttonLabels.length,
+                                      (index) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 35),
+                                        child: Text(
+                                          widget.buttonLabels[index],
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins-SemiBold',
+                                            fontSize: 15,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
