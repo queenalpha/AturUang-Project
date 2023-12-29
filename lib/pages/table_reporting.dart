@@ -1,8 +1,8 @@
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/laporan_model.dart';
 import 'package:flutter/material.dart';
-// import 'package:aturuang_project/configuration/mobile_exporting.dart';
-import 'package:aturuang_project/configuration/web_exporting.dart';
+import 'package:aturuang_project/configuration/mobile_exporting.dart';
+// import 'package:aturuang_project/configuration/web_exporting.dart';
 import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:intl/intl.dart';
 
@@ -29,7 +29,7 @@ class Report {
   String? date;
   String? category;
   String? description;
-  double? amount;
+  double amount;
 
   Report({
     required this.date,
@@ -126,7 +126,7 @@ class _ReportingTableState extends State<ReportingTable> {
                   ),
                 ],
                 rows: [
-                  ...reports.map(
+                  ...reports.reversed.map(
                     (report) => DataRow(cells: [
                       DataCell(Text(
                         report.date != null
@@ -141,8 +141,8 @@ class _ReportingTableState extends State<ReportingTable> {
                           ),
                         ),
                       ),
-                      DataCell(Text(
-                          '${formatCurrency(report.amount!.toInt())}')),
+                      DataCell(
+                          Text('${formatCurrency(report.amount.toInt())}')),
                     ]),
                   ),
                 ],

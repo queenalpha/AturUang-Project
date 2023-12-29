@@ -1,11 +1,11 @@
-
-import 'dart:typed_data'; // Add this import for Uint8List
-import 'dart:html' as html; // Add this import for html
+import 'dart:io';
+import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:file_picker/file_picker.dart';
 
 class ExportingPDF {
   static User? currentUser = FirebaseAuth.instance.currentUser;
@@ -22,9 +22,32 @@ class ExportingPDF {
   static Future<void> exportToUserSelectedDirectory(
       List<Report> reports) async {
     try {
+      // buat user milih directory
+      final directory = await FilePicker.platform.getDirectoryPath();
+
+      // ngecek file di directory ada
+      if (directory != null) {
+        //kalo ada ngambil report ke directory
+        await _exportToUserSelectedDirectory(reports, directory);
+      } else {
+        print('Canceled');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
+
+  static Future<void> _exportToUserSelectedDirectory(
+      List<Report> reports, String directory) async {
+    try {
+      String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+
+      // buat nama file
+      final fileName =
+          '${DateFormat('dd_MM_yyyy').format(DateTime.now())}LaporanKeuangan${DateTime.now().second}.pdf';
+      final filePath = '$directory/$fileName';
       // Create a PDF document
       final pdf = pw.Document();
-      String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
       // Add a page to the PDF
       pdf.addPage(
         pw.Page(
@@ -34,14 +57,13 @@ class ExportingPDF {
               children: [
                 //Title
                 pw.Center(
-                  child: pw.Text(
-                    'Financial Reporting',
-                    style: pw.TextStyle(
-                      fontSize: 18,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
+                    child: pw.Text(
+                  'Financial Reporting',
+                  style: pw.TextStyle(
+                    fontSize: 18,
+                    fontWeight: pw.FontWeight.bold,
                   ),
-                ),
+                )),
 
                 pw.SizedBox(height: 20),
                 //user and date information
@@ -80,8 +102,7 @@ class ExportingPDF {
                     [
                       'Total',
                       '',
-                      ''
-                          '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
+                      '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
                     ],
                   ],
                 ),
@@ -91,28 +112,10 @@ class ExportingPDF {
         ),
       );
 
-      // Convert PDF to bytes
-      final Uint8List uint8List = await pdf.save();
-
-      // Create a Blob from the bytes
-      final blob = html.Blob([uint8List]);
-
-      // Create an object URL from the Blob
-      final url = html.Url.createObjectUrlFromBlob(blob);
-
-      // Create an anchor element
-      final anchor = html.AnchorElement(href: url)
-        ..target = 'blank'
-        ..download =
-            '${DateFormat('dd_MM_yyyy').format(DateTime.now())}_LaporanKeuangan_${DateTime.now().second}.pdf'; // Set your desired file name here
-
-      // Trigger a click on the anchor element
-      anchor.click();
-
-      // Revoke the object URL to free up resources
-      html.Url.revokeObjectUrl(url);
-
-      // Dialog
+      // ngesave file ke pdf
+      final file = File(filePath);
+      await file.writeAsBytes(await pdf.save());
+      //dialog
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');
