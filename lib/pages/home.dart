@@ -466,8 +466,8 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     fontFamily:
                                                         'Poppins-Reguler',
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w200,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
                                                     color: primaryColor)),
                                             SizedBox(height: 9),
                                             Text(
@@ -483,8 +483,8 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     fontFamily:
                                                         'Poppins-Reguler',
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w200,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
                                                     color: primaryColor)),
                                             SizedBox(height: 9),
                                             ListGoals(
@@ -622,7 +622,7 @@ class _HomePageState extends State<HomePage> {
                                                   )
                                                 : SizedBox(height: 9),
 
-                                            SizedBox(height: 9),
+                                            SizedBox(height: 10),
 
                                             Center(
                                               child: GestureDetector(
@@ -635,8 +635,8 @@ class _HomePageState extends State<HomePage> {
                                                   style: TextStyle(
                                                     fontFamily:
                                                         'Poppins-Reguler',
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w200,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
                                                     color: primaryColor,
                                                     decoration: TextDecoration
                                                         .underline,

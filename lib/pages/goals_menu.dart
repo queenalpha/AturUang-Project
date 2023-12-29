@@ -79,6 +79,25 @@ class _GoalsDetail extends State<GoalsMenu> {
         "[${now}]",
       );
       print("file name: ${file['file_name']}");
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Your goals has been created on goals list.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'home', (route) => false);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
       await ds.insertNabung(
         appid,
@@ -89,6 +108,25 @@ class _GoalsDetail extends State<GoalsMenu> {
         "[0]",
         currentUser!.uid,
         "[${now}]",
+      );
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Your goals was failed to created on goals list.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, 'home', (route) => false);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
     return created();
