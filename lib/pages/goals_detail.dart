@@ -132,31 +132,6 @@ class _GoalsDetail extends State<GoalsDetail> {
   File? image;
   String? imageProfpic;
 
-  Future pickImage(String id) async {
-    try {
-      var picked = await FilePicker.platform.pickFiles(withData: true);
-
-      if (picked != null) {
-        var response = await ds.upload(token, project,
-            picked.files.first.bytes!, picked.files.first.extension.toString());
-
-        var file = jsonDecode(response);
-
-        await ds.updateId('picture', file['file_name'], token, project,
-            'mahasiswa', appid, id);
-
-        foto = file['file_name'];
-
-        // trigger change valueNotifier
-        _notifier.value++;
-      }
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as List<String>;

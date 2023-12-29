@@ -24,23 +24,22 @@ class _GoalsDetail extends State<GoalsMenu> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  String? imagePath;
-  Uint8List? imageBytes;
-  MemoryImage? selectedImage;
-  String? extImage;
+  // String? imagePath;
+  // String? imageBytes;
+  // MemoryImage? selectedImage;
+  // String? extImage;
+  FilePickerResult? picked;
 
   Future pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      picked = await FilePicker.platform.pickFiles(withData: true);
 
-      if (result != null) {
+      if (picked != null && picked!.files.isNotEmpty) {
         setState(() {
-          imageBytes = result.files.single.bytes;
-          selectedImage = MemoryImage(imageBytes!);
-          extImage = result.files.first.extension.toString();
+          //refresh UI
+          // imageBytes = picked!.files.single.path;
+          // selectedImage = MemoryImage(imageBytes!);
+          // extImage = picked!.files.first.extension.toString();
         });
       }
     } on PlatformException catch (e) {
@@ -63,9 +62,11 @@ class _GoalsDetail extends State<GoalsMenu> {
     return null;
   }
 
-  Future<void> uploadDataAndImage() async {
-    if (imageBytes != null && extImage != null) {
-      var response = await ds.upload(token, project, imageBytes!, extImage!);
+  Future<Widget> uploadDataAndImage() async {
+    print("picked: ${picked}");
+    if (picked != null && picked!.files.isNotEmpty) {
+      var response = await ds.upload(token, project, picked!.files.first.bytes!,
+          picked!.files.first.extension.toString());
       var file = jsonDecode(response);
       await ds.insertNabung(
         appid,
@@ -77,6 +78,7 @@ class _GoalsDetail extends State<GoalsMenu> {
         currentUser!.uid,
         "[${now}]",
       );
+      print("file name: ${file['file_name']}");
     } else {
       await ds.insertNabung(
         appid,
@@ -89,7 +91,7 @@ class _GoalsDetail extends State<GoalsMenu> {
         "[${now}]",
       );
     }
-    created();
+    return created();
   }
 
   Widget created() {
@@ -151,8 +153,9 @@ class _GoalsDetail extends State<GoalsMenu> {
                   width: 142,
                   child: CircleAvatar(
                     backgroundColor: Colors.grey[300],
-                    backgroundImage: selectedImage,
-                    child: selectedImage == null
+                    backgroundImage:
+                        MemoryImage(picked?.files.first.bytes ?? Uint8List(0)),
+                    child: picked == null
                         ? Icon(
                             color: Colors.grey[500],
                             Icons.camera_alt_sharp,
