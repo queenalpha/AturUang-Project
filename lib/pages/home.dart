@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Total Saving",
+                                                  Text("Total Savings",
                                                       style: TextStyle(
                                                           fontSize: 10,
                                                           fontFamily:

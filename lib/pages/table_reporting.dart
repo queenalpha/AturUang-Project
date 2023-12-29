@@ -3,9 +3,7 @@ import 'package:Aturuang/models/laporan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Aturuang/configuration/mobile_exporting.dart';
 import 'package:Aturuang/configuration/roundedbutton.dart';
-import 'package:aturuang_project/configuration/mobile_exporting.dart';
 // import 'package:aturuang_project/configuration/web_exporting.dart';
-import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:intl/intl.dart';
 
 class ReportingTable extends StatefulWidget {
@@ -99,7 +97,7 @@ class _ReportingTableState extends State<ReportingTable> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         child: Column(
           children: <Widget>[
             SingleChildScrollView(

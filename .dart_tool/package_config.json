@@ -110,12 +110,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "downloads_path_provider_28",
-      "rootUri": "file:///C:/Users/rdFah/AppData/Local/Pub/Cache/hosted/pub.dev/downloads_path_provider_28-0.1.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "equatable",
       "rootUri": "file:///C:/Users/rdFah/AppData/Local/Pub/Cache/hosted/pub.dev/equatable-2.0.5",
       "packageUri": "lib/",
@@ -740,7 +734,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-29T06:57:19.525445Z",
+  "generated": "2023-12-29T07:17:12.033676Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }
