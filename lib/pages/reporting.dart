@@ -354,40 +354,14 @@ class _ReportingPageState extends State<ReportingPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // all list
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(left: 30, right: 30),
-                              //   child: Text(
-                              //     '${widget.selectedCategory}',
-                              //     style: TextStyle(
-                              //         fontFamily: 'Poppins-Medium',
-                              //         fontSize: 15,
-                              //         color: Colors.black),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 6.0,
-                              // ),
-                            ],
-                          ),
-                        ),
 
                         SingleChildScrollView(
                             // sengaja dikasih ini biar kalo banyak ngga overflow
                             child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding:
+                                  const EdgeInsets.only(right: 30, top: 10),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -420,8 +394,8 @@ class _ReportingPageState extends State<ReportingPage> {
                             ),
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: filteredLapKeu().length > 4
-                                    ? 4
+                                itemCount: filteredLapKeu().length > 3
+                                    ? 3
                                     : filteredLapKeu().length < 1
                                         ? 1
                                         : filteredLapKeu().length,

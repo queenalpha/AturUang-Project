@@ -208,7 +208,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                               width: double.infinity,
                               child: Image.network(
                                 fileUri + nabung[0].foto,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                             ),
                             Padding(

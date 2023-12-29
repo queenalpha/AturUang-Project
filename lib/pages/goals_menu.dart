@@ -139,148 +139,154 @@ class _GoalsDetail extends State<GoalsMenu> {
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 59),
-              child: GestureDetector(
-                onTap: () => pickImage(),
-                child: SizedBox(
-                  height: 142,
-                  width: 142,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey[300],
-                    backgroundImage: selectedImage,
-                    child: selectedImage == null
-                        ? Icon(
-                            color: Colors.grey[500],
-                            Icons.camera_alt_sharp,
-                            size: 38.5,
-                          )
-                        : SizedBox.shrink(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 59),
+                  child: GestureDetector(
+                    onTap: () => pickImage(),
+                    child: SizedBox(
+                      height: 142,
+                      width: 142,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: selectedImage,
+                        child: selectedImage == null
+                            ? Icon(
+                                color: Colors.grey[500],
+                                Icons.camera_alt_sharp,
+                                size: 38.5,
+                              )
+                            : SizedBox.shrink(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Text(profpic),
-            SizedBox(
-              height: 35,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 29),
-              child: Column(
-                children: [
-                  Container(
-                    height: 40,
-                    child: Card(
-                      color: primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0)),
-                      child: ToggleButtons(
-                        isSelected: widget.isSelected,
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int buttonIndex = 0;
-                                buttonIndex < widget.isSelected.length;
-                                buttonIndex++) {
-                              widget.isSelected[buttonIndex] =
-                                  widget.isSelected[buttonIndex] = false;
-                            }
-                            widget.isSelected[index] = true;
-                          });
-                          isAtLeastOneSelected =
-                              widget.isSelected.contains(true);
-                          if (widget.isSelected.contains(true)) {
-                            widget.selectedOption = widget
-                                .buttonLabels[widget.isSelected.indexOf(true)];
-                          } else {
-                            widget.selectedOption = '';
-                          }
-                        },
-                        selectedColor: secondaryColor,
-                        fillColor: secondaryColor,
-                        children: List.generate(
-                          widget.buttonLabels.length,
-                          (index) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 35),
-                            child: Text(
-                              widget.buttonLabels[index],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Poppins-SemiBold',
-                                fontSize: 15,
+                SizedBox(
+                  height: 35,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 29),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 40,
+                        child: Card(
+                          color: primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0)),
+                          child: ToggleButtons(
+                            isSelected: widget.isSelected,
+                            onPressed: (int index) {
+                              setState(() {
+                                for (int buttonIndex = 0;
+                                    buttonIndex < widget.isSelected.length;
+                                    buttonIndex++) {
+                                  widget.isSelected[buttonIndex] =
+                                      widget.isSelected[buttonIndex] = false;
+                                }
+                                widget.isSelected[index] = true;
+                              });
+                              isAtLeastOneSelected =
+                                  widget.isSelected.contains(true);
+                              if (widget.isSelected.contains(true)) {
+                                widget.selectedOption = widget.buttonLabels[
+                                    widget.isSelected.indexOf(true)];
+                              } else {
+                                widget.selectedOption = '';
+                              }
+                            },
+                            selectedColor: secondaryColor,
+                            fillColor: secondaryColor,
+                            children: List.generate(
+                              widget.buttonLabels.length,
+                              (index) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 35),
+                                child: Text(
+                                  widget.buttonLabels[index],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Poppins-SemiBold',
+                                    fontSize: 15,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(height: 31),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              decoration: kTextFieldDecoration.copyWith(
+                                hintText: 'Goals name',
+                              ),
+                              validator: (value) => isNotEmptyValidate(
+                                  value: value, field: "Goals name"),
+                              focusNode: _focusGoals,
+                              controller: _goalsTextController,
+                            ),
+                            SizedBox(height: 31),
+                            TextFormField(
+                              decoration: kTextFieldDecoration.copyWith(
+                                hintText: 'Target',
+                              ),
+                              focusNode: _focusTarget,
+                              controller: _targetTextController,
+                              keyboardType: TextInputType.number,
+                              validator: (value) => isNotEmptyValidate(
+                                  value: value, field: 'Target'),
+                            ),
+                            SizedBox(height: 44),
+                            RoundedButton(
+                              color: primaryColor,
+                              title: 'Create',
+                              onPressed: () async {
+                                _focusGoals.unfocus();
+                                _focusTarget.unfocus();
+                                if (_formKey.currentState?.validate() ??
+                                    false) {
+                                  if (widget.isSelected.contains(true)) {
+                                    widget.selectedOption = widget.buttonLabels[
+                                        widget.isSelected.indexOf(true)];
+                                    await uploadDataAndImage();
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, 'home', (route) => false);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Pilih salah satu periode!'),
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Lengkapi Seluruh data!'),
+                                    ),
+                                  );
+                                }
+                              },
+                              width: 180,
+                              height: 50,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(height: 31),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Goals name',
-                          ),
-                          validator: (value) => isNotEmptyValidate(
-                              value: value, field: "Goals name"),
-                          focusNode: _focusGoals,
-                          controller: _goalsTextController,
-                        ),
-                        SizedBox(height: 31),
-                        TextFormField(
-                          decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Target',
-                          ),
-                          focusNode: _focusTarget,
-                          controller: _targetTextController,
-                          keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              isNotEmptyValidate(value: value, field: 'Target'),
-                        ),
-                        SizedBox(height: 44),
-                        RoundedButton(
-                          color: primaryColor,
-                          title: 'Create',
-                          onPressed: () async {
-                            _focusGoals.unfocus();
-                            _focusTarget.unfocus();
-                            if (_formKey.currentState?.validate() ?? false) {
-                              if (widget.isSelected.contains(true)) {
-                                widget.selectedOption = widget.buttonLabels[
-                                    widget.isSelected.indexOf(true)];
-                                await uploadDataAndImage();
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, 'home', (route) => false);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Pilih salah satu periode!'),
-                                  ),
-                                );
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Lengkapi Seluruh data!'),
-                                ),
-                              );
-                            }
-                          },
-                          width: 180,
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

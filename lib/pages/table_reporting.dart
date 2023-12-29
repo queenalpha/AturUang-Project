@@ -1,9 +1,7 @@
-import 'package:Aturuang/configuration/mobile_exporting.dart';
 import 'package:Aturuang/configuration/theme_config.dart';
 import 'package:Aturuang/models/laporan_model.dart';
 import 'package:flutter/material.dart';
-// import 'package:Aturuang/configuration/mobile_exporting.dart';
-import 'package:Aturuang/configuration/web_exporting.dart';
+import 'package:Aturuang/configuration/mobile_exporting.dart';
 import 'package:Aturuang/configuration/roundedbutton.dart';
 import 'package:intl/intl.dart';
 
@@ -30,7 +28,7 @@ class Report {
   String? date;
   String? category;
   String? description;
-  double? amount;
+  double amount;
 
   Report({
     required this.date,
@@ -51,13 +49,20 @@ class _ReportingTableState extends State<ReportingTable> {
   void convertDataToReports() {
     for (var data in widget.lapKeuFiltered) {
       if (data.kategori == widget.kategori) {
-        Report report = Report(
-          date: data.tanggal,
-          category: data.kategori,
-          description: data.deskripsi,
-          amount: double.parse(data.nominal),
-        );
-        reports.add(report);
+        try {
+          if (data.nominal != null && data.nominal.isNotEmpty) {
+            Report report = Report(
+              date: data.tanggal,
+              category: data.kategori,
+              description: data.deskripsi,
+              amount: double.parse(data.nominal.trim()),
+            );
+            reports.add(report);
+          }
+        } catch (e) {
+          print("Error parsing nominal: ${data.nominal}");
+          // Handle the error, for example, set a default value or skip this entry.
+        }
       }
     }
   }
@@ -127,7 +132,7 @@ class _ReportingTableState extends State<ReportingTable> {
                   ),
                 ],
                 rows: [
-                  ...reports.map(
+                  ...reports.reversed.map(
                     (report) => DataRow(cells: [
                       DataCell(Text(
                         report.date != null
@@ -142,8 +147,8 @@ class _ReportingTableState extends State<ReportingTable> {
                           ),
                         ),
                       ),
-                      DataCell(Text(
-                          '${formatCurrency(int.parse(report.amount.toString()))}')),
+                      DataCell(
+                          Text('${formatCurrency(report.amount.toInt())}')),
                     ]),
                   ),
                 ],
