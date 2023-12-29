@@ -68,8 +68,7 @@ class _GoalsDetail extends State<GoalsDetail> {
       DateTime dateTime = DateTime.parse(trimmedDateString);
       collectedDate.add(dateTime);
     }
-    targetAmount = double.tryParse(nabung[0].target) ?? 0.0;
-
+    targetAmount = double.parse(nabung[0].target);
     collectedArray = jsonDecode(nabung[0].nominal).cast<int>();
     collected.add(collectedArray.fold(
         0, (previousValue, element) => previousValue + element));
@@ -271,7 +270,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         children: [
                                           Text("Target"),
                                           Text(
-                                            "${formatCurrency(int.parse(targetAmount.toString()))}",
+                                            "${formatCurrency(targetAmount.toInt())}",
                                           ),
                                         ],
                                       ),
