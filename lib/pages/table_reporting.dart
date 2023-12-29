@@ -96,93 +96,95 @@ class _ReportingTableState extends State<ReportingTable> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-        child: Column(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: DataTable(
-                headingRowColor: MaterialStateColor.resolveWith(
-                    (states) => Color.fromARGB(255, 20, 165, 182)),
-                dataRowColor:
-                    MaterialStateColor.resolveWith((states) => Colors.white),
-                columns: [
-                  DataColumn(
-                    label: Text('Date',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          color: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          child: Column(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: DataTable(
+                  headingRowColor: MaterialStateColor.resolveWith(
+                      (states) => Color.fromARGB(255, 20, 165, 182)),
+                  dataRowColor:
+                      MaterialStateColor.resolveWith((states) => Colors.white),
+                  columns: [
+                    DataColumn(
+                      label: Text('Date',
+                          style: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            color: Colors.white,
+                          )),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Text('Description',
+                          style: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            color: Colors.white,
+                          )),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Text('Amount',
+                          style: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            color: Colors.white,
+                          )),
+                      numeric: false,
+                    ),
+                  ],
+                  rows: [
+                    ...reports.reversed.map(
+                      (report) => DataRow(cells: [
+                        DataCell(Text(
+                          report.date != null
+                              ? DateFormat('dd/MM/yy')
+                                  .format(DateTime.parse(report.date!))
+                              : '',
                         )),
-                    numeric: false,
-                  ),
-                  DataColumn(
-                    label: Text('Description',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          color: Colors.white,
-                        )),
-                    numeric: false,
-                  ),
-                  DataColumn(
-                    label: Text('Amount',
-                        style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          color: Colors.white,
-                        )),
-                    numeric: false,
-                  ),
-                ],
-                rows: [
-                  ...reports.reversed.map(
-                    (report) => DataRow(cells: [
-                      DataCell(Text(
-                        report.date != null
-                            ? DateFormat('dd/MM/yy')
-                                .format(DateTime.parse(report.date!))
-                            : '',
-                      )),
-                      DataCell(
-                        Flexible(
-                          child: Text(
-                            report.description ?? '',
+                        DataCell(
+                          Flexible(
+                            child: Text(
+                              report.description ?? '',
+                            ),
                           ),
                         ),
-                      ),
-                      DataCell(
-                          Text('${formatCurrency(report.amount.toInt())}')),
-                    ]),
-                  ),
-                ],
+                        DataCell(
+                            Text('${formatCurrency(report.amount.toInt())}')),
+                      ]),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 500),
-              child: RoundedButton(
-                title: 'Export',
-                onPressed: () async {
-                  try {
-                    await ExportingPDF.exportToUserSelectedDirectory(reports);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Export PDF berhasil.'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Gagal melakukan ekspor PDF'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  }
-                },
-                width: 336,
-                height: 51,
-                color: primaryColor,
-              ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 500),
+                child: RoundedButton(
+                  title: 'Export',
+                  onPressed: () async {
+                    try {
+                      await ExportingPDF.exportToUserSelectedDirectory(reports);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Export PDF berhasil.'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Gagal melakukan ekspor PDF'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                  width: 336,
+                  height: 51,
+                  color: primaryColor,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

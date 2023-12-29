@@ -22,66 +22,65 @@ class ListReporting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 16, left: 16, top: 8, bottom: 8),
-      child: Container(
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
-        child: ListTile(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          tileColor: primaryColor,
-          dense: true,
-          leading: InkWell(
-            onTap: () {},
-            child: Icon(
-              // Tampilkan ikon panah sesuai dengan jenis transaksi
-              isIncome ? Icons.arrow_upward : Icons.arrow_downward,
-              color: isIncome ? arrowUp : arrowDown,
-              size: 30,
+      child: ClipRect(
+        child: Container(
+          child: ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            tileColor: primaryColor,
+            dense: true,
+            leading: InkWell(
+              onTap: () {},
+              child: Icon(
+                // Tampilkan ikon panah sesuai dengan jenis transaksi
+                isIncome ? Icons.arrow_upward : Icons.arrow_downward,
+                color: isIncome ? arrowUp : arrowDown,
+                size: 30,
+              ),
             ),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins-SemiBold',
-                    color: Colors.white),
-              ),
-              SizedBox(
-                height: 3,
-              ),
-              Row(
-                children: [
-                  Text(
-                    time,
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontFamily: 'Poppins-Bold',
-                        color: Colors.black),
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    date,
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontFamily: 'Poppins-Regular',
-                        color: Colors.black),
-                  )
-                ],
-              )
-            ],
-          ),
-          trailing: Text(
-            nominal,
-            style: TextStyle(
-                fontSize: 15,
-                fontFamily: 'Poppins-SemiBold',
-                color: Colors.white),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Poppins-SemiBold',
+                      color: Colors.white),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      time,
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: 'Poppins-Bold',
+                          color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Text(
+                      date,
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.black),
+                    )
+                  ],
+                )
+              ],
+            ),
+            trailing: Text(
+              nominal,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Poppins-SemiBold',
+                  color: Colors.white),
+            ),
           ),
         ),
       ),

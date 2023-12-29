@@ -313,25 +313,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                             radius: 140 / 2,
                                           ),
                                         ),
-                                  InkWell(
-                                    onTap: () => pickImage(id),
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          side: BorderSide(
-                                              color: Colors.black, width: 0.7),
-                                        ),
-                                        color:
-                                            Color.fromARGB(210, 255, 255, 255),
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.edit_rounded,
-                                            color: const Color.fromARGB(
-                                                255, 5, 116, 129),
+                                  Positioned(
+                                    bottom: -35,
+                                    right: 150,
+                                    child: InkWell(
+                                      onTap: () => pickImage(id),
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(6.0),
+                                            side: BorderSide(
+                                                color: Colors.black,
+                                                width: 0.7),
+                                          ),
+                                          color: Color.fromARGB(
+                                              210, 255, 255, 255),
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.edit_rounded,
+                                              color: const Color.fromARGB(
+                                                  255, 5, 116, 129),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -412,138 +417,144 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Color.fromARGB(255, 20, 165, 182),
                                     child: Padding(
                                       padding: const EdgeInsets.all(7.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.0),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.arrow_upward_rounded,
-                                                    size: 50,
-                                                    color: Color.fromARGB(
-                                                        255, 38, 243, 169),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons
+                                                          .arrow_upward_rounded,
+                                                      size: 50,
+                                                      color: Color.fromARGB(
+                                                          255, 38, 243, 169),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: Expanded(
-                                                      child: Text(
-                                                        'Income',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                                'Poppins-Regular',
-                                                            color:
-                                                                Colors.white),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 10,
+                                                      ),
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          'Income',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: Expanded(
-                                                      child: Text(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        formatCurrency(
-                                                                totalIncome)
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontFamily:
-                                                                'Poppins-SemiBold',
-                                                            color:
-                                                                Colors.white),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 10,
+                                                      ),
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          formatCurrency(
+                                                                  totalIncome)
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontFamily:
+                                                                  'Poppins-SemiBold',
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              //
-                                              SizedBox(
-                                                width: 25,
-                                              ),
-                                              Container(
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.0),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons
-                                                        .arrow_downward_rounded,
-                                                    size: 50,
-                                                    color: Color.fromARGB(
-                                                        255, 255, 85, 71),
+                                                  ],
+                                                ),
+                                                //
+                                                SizedBox(
+                                                  width: 25,
+                                                ),
+                                                Container(
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons
+                                                          .arrow_downward_rounded,
+                                                      size: 50,
+                                                      color: Color.fromARGB(
+                                                          255, 255, 85, 71),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: Expanded(
-                                                      child: Text(
-                                                        'Spending',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                                'Poppins-Regular',
-                                                            color:
-                                                                Colors.white),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 10,
+                                                      ),
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          'Spending',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                                  'Poppins-Regular',
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: Expanded(
-                                                      child: Text(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        formatCurrency(
-                                                                totalSpending)
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontFamily:
-                                                                'Poppins-SemiBold',
-                                                            color:
-                                                                Colors.white),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 10,
+                                                      ),
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          formatCurrency(
+                                                                  totalSpending)
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontFamily:
+                                                                  'Poppins-SemiBold',
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
