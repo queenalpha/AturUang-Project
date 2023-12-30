@@ -157,14 +157,14 @@ class _ReportingTableState extends State<ReportingTable> {
                     await ExportingPDF.exportToUserSelectedDirectory(reports);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Export PDF berhasil.'),
+                        content: Text('Export PDF successful'),
                         duration: Duration(seconds: 2),
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Gagal melakukan ekspor PDF'),
+                        content: Text('Failed to export PDF'),
                         duration: Duration(seconds: 2),
                       ),
                     );

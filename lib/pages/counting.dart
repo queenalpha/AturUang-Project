@@ -66,7 +66,7 @@ class _CountingScreenState extends State<CountingScreen> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
@@ -160,7 +160,7 @@ class _CountingScreenState extends State<CountingScreen> {
                       ),
                       value: selectedFinancialCategory,
                       validator: (value) =>
-                          value == null ? 'Pilih kategori keuangan!' : null,
+                          value == null ? 'Select a financial category!' : null,
                       items: [
                         ...financialCategory.map((Category) {
                           return DropdownMenuItem<String>(
@@ -247,7 +247,7 @@ class _CountingScreenState extends State<CountingScreen> {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Lengkapi Seluruh data!'),
+                      content: Text('Complete all data!'),
                     ),
                   );
                 }

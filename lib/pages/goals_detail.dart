@@ -96,31 +96,31 @@ class _GoalsDetail extends State<GoalsDetail> {
   String getMonthName(int month) {
     switch (month) {
       case 1:
-        return 'Januari';
+        return 'January';
       case 2:
-        return 'Februari';
+        return 'February';
       case 3:
-        return 'Maret';
+        return 'March';
       case 4:
         return 'April';
       case 5:
-        return 'Mei';
+        return 'May';
       case 6:
-        return 'Juni';
+        return 'June';
       case 7:
-        return 'Juli';
+        return 'July';
       case 8:
-        return 'Agustus';
+        return 'August';
       case 9:
         return 'September';
       case 10:
-        return 'Oktober';
+        return 'October';
       case 11:
         return 'November';
       case 12:
-        return 'Desember';
+        return 'December';
       default:
-        return 'Bulan tidak valid';
+        return 'Invalid month!';
     }
   }
 
@@ -291,7 +291,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                         focusNode: _focusAmount,
                                         controller: _amountTextController,
                                         validator: (value) => value == ''
-                                            ? 'Masukkan nominal!'
+                                            ? 'Enter nominal!'
                                             : null,
                                       ),
                                     )),

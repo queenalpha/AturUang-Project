@@ -24,10 +24,6 @@ class _GoalsDetail extends State<GoalsMenu> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  // String? imagePath;
-  // String? imageBytes;
-  // MemoryImage? selectedImage;
-  // String? extImage;
   FilePickerResult? picked;
 
   Future pickImage() async {
@@ -53,7 +49,7 @@ class _GoalsDetail extends State<GoalsMenu> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
@@ -258,14 +254,14 @@ class _GoalsDetail extends State<GoalsMenu> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Pilih salah satu periode!'),
+                                    content: Text('Select a period!'),
                                   ),
                                 );
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Lengkapi Seluruh data!'),
+                                  content: Text('Complete all data!'),
                                 ),
                               );
                             }

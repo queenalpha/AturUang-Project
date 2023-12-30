@@ -76,7 +76,7 @@ class _GoalsDetail extends State<GoalsEdit> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
