@@ -54,7 +54,7 @@ class _GoalsDetail extends State<GoalsDetail> {
     data = jsonDecode(await ds.selectId(token, project, 'nabung', appid, id));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
     foto = nabung[0].foto;
-    
+
     String stringDate = '';
     stringDate = nabung[0].tanggal;
     List<String> dateStrings =
@@ -171,159 +171,167 @@ class _GoalsDetail extends State<GoalsDetail> {
                     return Text('${snapshot.error}',
                         style: const TextStyle(color: Colors.red));
                   } else {
-                    return Column(children: [
-                      Container(
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 204,
-                              width: double.infinity,
-                              child: Image.network(
-                                fileUri + nabung[0].foto,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(top: 137, left: 25),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      nabung[0].nama,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins-Bold',
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    SizedBox(width: 21),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                                context, 'goals_edit',
-                                                arguments: [args[0]])
-                                            .then(reloadDataGoal);
-                                      },
-                                      child: Icon(
-                                        Icons.edit_square,
-                                        size: 20.0,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 29),
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                      color: primaryColor,
-                                      borderRadius: BorderRadius.circular(8)),
+                    return SingleChildScrollView(
+                      child: Column(children: [
+                        Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 204,
+                                width: double.infinity,
+                                child: Image.network(
+                                  fileUri + nabung[0].foto,
+                                  fit: BoxFit.cover,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 19, vertical: 14),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 137, left: 25),
+                                  child: Row(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Target"),
-                                          Text(
-                                            "${formatCurrency(targetAmount.toInt())}",
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Container(
-                                        width: 314,
-                                        height: 10,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: Colors.grey[400],
+                                      Text(
+                                        nabung[0].nama,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins-Bold',
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
                                         ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: LinearProgressIndicator(
-                                            key: progressIndicatorKey,
-                                            value: currentAmount / targetAmount,
-                                            backgroundColor: Colors.transparent,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    secondaryColor),
-                                          ),
+                                      ),
+                                      SizedBox(width: 21),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                                  context, 'goals_edit',
+                                                  arguments: [args[0]])
+                                              .then(reloadDataGoal);
+                                        },
+                                        child: Icon(
+                                          Icons.edit_square,
+                                          size: 20.0,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],
+                                  ))
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 29),
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 65,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(8)),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 18),
-                            Row(
-                              children: [
-                                Form(
-                                    key: _formKey,
-                                    child: Expanded(
-                                      child: TextFormField(
-                                        decoration: InputDecoration(
-                                          prefixText: 'Rp.  ',
-                                          prefixStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          hintText: 'Enter the amount of money',
-                                          border: OutlineInputBorder(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 19, vertical: 14),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("Target"),
+                                            Text(
+                                              "${formatCurrency(int.parse(targetAmount.toString()))}",
+                                            ),
+                                          ],
                                         ),
-                                        focusNode: _focusAmount,
-                                        controller: _amountTextController,
-                                        validator: (value) => value == ''
-                                            ? 'Enter nominal!'
-                                            : null,
-                                      ),
-                                    )),
-                                SizedBox(width: 8),
-                                RoundedButton(
-                                  color: primaryColor,
-                                  title: 'Add',
-                                  onPressed: () async {
-                                    _focusAmount.unfocus();
-                                    collectedArray.clear();
-                                    collectedDate.clear();
-                                    if (_formKey.currentState!.validate()) {
-                                      List data = [];
-                                      data = jsonDecode(await ds.selectId(token,
-                                          project, "nabung", appid, args[0]));
-                                      nabung = data
-                                          .map((e) => NabungModel.fromJson(e))
-                                          .toList();
-                                      String stringDate = '';
-                                      collectedArray =
-                                          jsonDecode(nabung[0].nominal)
-                                              .cast<int>();
-                                      collected.add(collectedArray.fold(
-                                          0,
-                                          (previousValue, element) =>
-                                              previousValue + element));
-                                      stringDate = nabung[0].tanggal;
-                                      List<String> dateStrings = stringDate
-                                          .replaceAll("[", "")
-                                          .replaceAll("]", "")
-                                          .split(",");
+                                        SizedBox(height: 5),
+                                        Container(
+                                          width: 314,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.grey[400],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: LinearProgressIndicator(
+                                              key: progressIndicatorKey,
+                                              value:
+                                                  currentAmount / targetAmount,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      secondaryColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 18),
+                              Row(
+                                children: [
+                                  Form(
+                                      key: _formKey,
+                                      child: Expanded(
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            prefixText: 'Rp.  ',
+                                            prefixStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            hintText:
+                                                'Enter the amount of money',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          focusNode: _focusAmount,
+                                          controller: _amountTextController,
+                                          validator: (value) => value == ''
+                                              ? 'Masukkan nominal!'
+                                              : null,
+                                        ),
+                                      )),
+                                  SizedBox(width: 8),
+                                  RoundedButton(
+                                    color: primaryColor,
+                                    title: 'Add',
+                                    onPressed: () async {
+                                      _focusAmount.unfocus();
+                                      collectedArray.clear();
+                                      collectedDate.clear();
+                                      if (_formKey.currentState!.validate()) {
+                                        List data = [];
+                                        data = jsonDecode(await ds.selectId(
+                                            token,
+                                            project,
+                                            "nabung",
+                                            appid,
+                                            args[0]));
+                                        nabung = data
+                                            .map((e) => NabungModel.fromJson(e))
+                                            .toList();
+                                        String stringDate = '';
+                                        collectedArray =
+                                            jsonDecode(nabung[0].nominal)
+                                                .cast<int>();
+                                        collected.add(collectedArray.fold(
+                                            0,
+                                            (previousValue, element) =>
+                                                previousValue + element));
+                                        stringDate = nabung[0].tanggal;
+                                        List<String> dateStrings = stringDate
+                                            .replaceAll("[", "")
+                                            .replaceAll("]", "")
+                                            .split(",");
 
                                       for (String dateString in dateStrings) {
                                         String trimmedDateString = dateString
