@@ -2,7 +2,7 @@ name: aturuang_project
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,10 +31,30 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  http: ^1.1.0
+  intl: ^0.18.1
+  flutter_svg: ^2.0.9
+  firebase_auth: ^4.15.0
+  firebase_core: ^2.24.0
+  google_fonts: ^6.1.0
+  introduction_screen: ^3.1.12
+  percent_indicator: ^4.2.3
+  shared_preferences: ^2.2.2
+  hovering: ^1.0.4
+  file_picker: ^6.1.1
+  fl_chart: ^0.65.0
+  chart_it: ^0.2.2
+  pdf: ^3.10.7
+  get: ^4.6.6
+  url_launcher: ^6.0.16
+  open_file: ^3.3.2
+  # downloads_path_provider_28: ^0.1.2
+  image_picker: ^1.0.5
+
+  # file_picker_cross: ^4.6.0
 
 dev_dependencies:
   flutter_test:
@@ -52,16 +72,33 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/undraw_my_password_re_ydq7.svg
+    - assets/undraw_load_more_re_482p.svg
+    - assets/undraw_vault_re_s4my.svg
+    - assets/undraw_personal_goals_re_iow7.svg
+    - assets/undraw_transfer_money_re_6o1h.svg
+    - assets/undraw_note_list_re_r4u9.svg
+    - assets/undraw_forgot_password_re_hxwm.svg
+    - assets/Logo Aturuang.png
+    - assets/background.png
+    - assets/Logo_without_text.png
+    - assets/moneycard.png
+    - assets/IconGoals.png
+    - assets/IconCounting.png
+    - assets/IconReporting.png
+    - assets/Mobil.jpg
+    - assets/jhondoe.png
+    - assets/delete account.png
+    - assets/logout.png
+    - assets/Mygoals.png
+    - assets/Meat.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -74,11 +111,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Poppins-Regular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-Bold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
