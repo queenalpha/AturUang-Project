@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:Aturuang/configuration/theme_config.dart';
-import 'package:Aturuang/pages/table_reporting.dart';
+import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -22,10 +21,8 @@ class ExportingPDF {
   static Future<void> exportToUserSelectedDirectory(
       List<Report> reports) async {
     try {
-      // buat user milih directory
       final directory = await FilePicker.platform.getDirectoryPath();
 
-      // ngecek file di directory ada
       if (directory != null) {
         //kalo ada ngambil report ke directory
         await _exportToUserSelectedDirectory(reports, directory);
@@ -44,7 +41,7 @@ class ExportingPDF {
 
       // buat nama file
       final fileName =
-          '${DateFormat('dd_MM_yyyy').format(DateTime.now())}_LaporanKeuangan_${DateTime.now().second}.pdf';
+          '${DateFormat('dd_MM_yyyy').format(DateTime.now())}LaporanKeuangan${DateTime.now().second}.pdf';
       final filePath = '$directory/$fileName';
       // Create a PDF document
       final pdf = pw.Document();
@@ -97,12 +94,12 @@ class ExportingPDF {
                                 .format(DateTime.parse(report.date!))
                             : '',
                         report.description ?? '',
-                        '${formatCurrency(int.parse(report.amount.toString()))}'
+                        '${formatCurrency(report.amount.toInt())}'
                       ],
                     [
                       'Total',
                       '',
-                      '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
+                      '${formatCurrency(reports.map((report) => report.amount).reduce((a, b) => a + b).toInt())}',
                     ],
                   ],
                 ),
@@ -111,11 +108,8 @@ class ExportingPDF {
           },
         ),
       );
-
-      // ngesave file ke pdf
       final file = File(filePath);
       await file.writeAsBytes(await pdf.save());
-      //dialog
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');

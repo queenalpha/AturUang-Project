@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:Aturuang/configuration/api_configuration.dart';
-import 'package:Aturuang/configuration/list_configuration.dart';
-import 'package:Aturuang/configuration/roundedbutton.dart';
-import 'package:Aturuang/configuration/theme_config.dart';
-import 'package:Aturuang/models/nabung_model.dart';
-import 'package:Aturuang/utils/restapi.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:aturuang_project/configuration/api_configuration.dart';
+import 'package:aturuang_project/configuration/list_configuration.dart';
+import 'package:aturuang_project/configuration/roundedbutton.dart';
+import 'package:aturuang_project/configuration/theme_config.dart';
+import 'package:aturuang_project/models/nabung_model.dart';
+import 'package:aturuang_project/utils/restapi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class GoalsDetail extends StatefulWidget {
@@ -56,8 +53,7 @@ class _GoalsDetail extends State<GoalsDetail> {
     data = jsonDecode(await ds.selectId(token, project, 'nabung', appid, id));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
     foto = nabung[0].foto;
-
-    DateTime date;
+    
     String stringDate = '';
     stringDate = nabung[0].tanggal;
     List<String> dateStrings =
@@ -101,62 +97,37 @@ class _GoalsDetail extends State<GoalsDetail> {
   String getMonthName(int month) {
     switch (month) {
       case 1:
-        return 'Januari';
+        return 'January';
       case 2:
-        return 'Februari';
+        return 'February';
       case 3:
-        return 'Maret';
+        return 'March';
       case 4:
         return 'April';
       case 5:
-        return 'Mei';
+        return 'May';
       case 6:
-        return 'Juni';
+        return 'June';
       case 7:
-        return 'Juli';
+        return 'July';
       case 8:
-        return 'Agustus';
+        return 'August';
       case 9:
         return 'September';
       case 10:
-        return 'Oktober';
+        return 'October';
       case 11:
         return 'November';
       case 12:
-        return 'Desember';
+        return 'December';
       default:
-        return 'Bulan tidak valid';
+        return 'Invalid month!';
     }
   }
 
   //Profic
   File? image;
   String? imageProfpic;
-
-  Future pickImage(String id) async {
-    try {
-      var picked = await FilePicker.platform.pickFiles(withData: true);
-
-      if (picked != null) {
-        var response = await ds.upload(token, project,
-            picked.files.first.bytes!, picked.files.first.extension.toString());
-
-        var file = jsonDecode(response);
-
-        await ds.updateId('picture', file['file_name'], token, project,
-            'mahasiswa', appid, id);
-
-        foto = file['file_name'];
-
-        // trigger change valueNotifier
-        _notifier.value++;
-      }
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

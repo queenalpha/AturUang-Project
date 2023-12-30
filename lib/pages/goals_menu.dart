@@ -13,7 +13,7 @@ class GoalsMenu extends StatefulWidget {
   GoalsMenu({Key? key}) : super(key: key);
   List<bool> isSelected = [true, false, false];
   List<String> buttonLabels = ['Day', 'Week', 'Month'];
-  String selectedOption = 'a';
+  String selectedOption = 'Day';
   @override
   _GoalsDetail createState() => _GoalsDetail();
 }
@@ -24,23 +24,15 @@ class _GoalsDetail extends State<GoalsMenu> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  String? imagePath;
-  Uint8List? imageBytes;
-  MemoryImage? selectedImage;
-  String? extImage;
+  FilePickerResult? picked;
 
   Future pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      picked = await FilePicker.platform.pickFiles(withData: true);
 
-      if (result != null) {
+      if (picked != null && picked!.files.isNotEmpty) {
         setState(() {
-          imageBytes = result.files.single.bytes;
-          selectedImage = MemoryImage(imageBytes!);
-          extImage = result.files.first.extension.toString();
+          //refresh UI
         });
       }
     } on PlatformException catch (e) {
@@ -57,15 +49,16 @@ class _GoalsDetail extends State<GoalsMenu> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
   }
 
-  Future<void> uploadDataAndImage() async {
-    if (imageBytes != null && extImage != null) {
-      var response = await ds.upload(token, project, imageBytes!, extImage!);
+  Future<Widget> uploadDataAndImage() async {
+    if (picked != null && picked!.files.isNotEmpty) {
+      var response = await ds.upload(token, project, picked!.files.first.bytes!,
+          picked!.files.first.extension.toString());
       var file = jsonDecode(response);
       await ds.insertNabung(
         appid,
@@ -77,6 +70,7 @@ class _GoalsDetail extends State<GoalsMenu> {
         currentUser!.uid,
         "[${now}]",
       );
+      print("file name: ${file['file_name']}");
     } else {
       await ds.insertNabung(
         appid,
@@ -89,7 +83,7 @@ class _GoalsDetail extends State<GoalsMenu> {
         "[${now}]",
       );
     }
-    created();
+    return created();
   }
 
   Widget created() {
@@ -151,8 +145,9 @@ class _GoalsDetail extends State<GoalsMenu> {
                   width: 142,
                   child: CircleAvatar(
                     backgroundColor: Colors.grey[300],
-                    backgroundImage: selectedImage,
-                    child: selectedImage == null
+                    backgroundImage:
+                        MemoryImage(picked?.files.first.bytes ?? Uint8List(0)),
+                    child: picked == null
                         ? Icon(
                             color: Colors.grey[500],
                             Icons.camera_alt_sharp,
@@ -259,14 +254,14 @@ class _GoalsDetail extends State<GoalsMenu> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Pilih salah satu periode!'),
+                                    content: Text('Select a period!'),
                                   ),
                                 );
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Lengkapi Seluruh data!'),
+                                  content: Text('Complete all data!'),
                                 ),
                               );
                             }
