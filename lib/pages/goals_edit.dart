@@ -26,26 +26,19 @@ class _GoalsDetail extends State<GoalsEdit> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   bool loadData = false;
 
-  String? imagePath;
-  Uint8List? imageBytes;
-  MemoryImage? selectedImage;
-  String? extImage;
   List<NabungModel> nabung = [];
   String foto = "-";
   String periode = '-';
 
+  FilePickerResult? picked;
+
   Future pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      picked = await FilePicker.platform.pickFiles(withData: true);
 
-      if (result != null) {
+      if (picked != null && picked!.files.isNotEmpty) {
         setState(() {
-          imageBytes = result.files.single.bytes;
-          selectedImage = MemoryImage(imageBytes!);
-          extImage = result.files.first.extension.toString();
+          //refresh UI
         });
       }
     } on PlatformException catch (e) {
@@ -83,7 +76,7 @@ class _GoalsDetail extends State<GoalsEdit> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
@@ -130,13 +123,14 @@ class _GoalsDetail extends State<GoalsEdit> {
                 child: SizedBox(
                   height: 142,
                   width: 142,
-                  child: selectedImage == null
+                  child: picked == null
                       ? CircleAvatar(
                           backgroundImage: NetworkImage(fileUri + foto),
                           backgroundColor: Colors.grey[300],
                         )
                       : CircleAvatar(
-                          backgroundImage: selectedImage,
+                          backgroundImage: MemoryImage(
+                              picked?.files.first.bytes ?? Uint8List(0)),
                           backgroundColor: Colors.grey[300],
                         ),
                 ),
@@ -226,9 +220,12 @@ class _GoalsDetail extends State<GoalsEdit> {
                           color: primaryColor,
                           title: 'Update',
                           onPressed: () async {
-                            if (selectedImage != null) {
+                            if (picked != null) {
                               var response = await ds.upload(
-                                  token, project, imageBytes!, extImage!);
+                                  token,
+                                  project,
+                                  picked!.files.first.bytes!,
+                                  picked!.files.first.extension.toString());
                               var file = jsonDecode(response);
                               foto = file['file_name'];
                             }

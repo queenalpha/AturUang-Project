@@ -13,7 +13,7 @@ class GoalsMenu extends StatefulWidget {
   GoalsMenu({Key? key}) : super(key: key);
   List<bool> isSelected = [true, false, false];
   List<String> buttonLabels = ['Day', 'Week', 'Month'];
-  String selectedOption = 'a';
+  String selectedOption = 'Day';
   @override
   _GoalsDetail createState() => _GoalsDetail();
 }
@@ -24,10 +24,6 @@ class _GoalsDetail extends State<GoalsMenu> {
   DataService ds = DataService();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  // String? imagePath;
-  // String? imageBytes;
-  // MemoryImage? selectedImage;
-  // String? extImage;
   FilePickerResult? picked;
 
   Future pickImage() async {
@@ -37,9 +33,6 @@ class _GoalsDetail extends State<GoalsMenu> {
       if (picked != null && picked!.files.isNotEmpty) {
         setState(() {
           //refresh UI
-          // imageBytes = picked!.files.single.path;
-          // selectedImage = MemoryImage(imageBytes!);
-          // extImage = picked!.files.first.extension.toString();
         });
       }
     } on PlatformException catch (e) {
@@ -56,14 +49,13 @@ class _GoalsDetail extends State<GoalsMenu> {
     }
 
     if (value.isEmpty) {
-      return 'Isi terlebih dahulu ${field} tersebut!';
+      return '${field} is required!';
     }
 
     return null;
   }
 
   Future<Widget> uploadDataAndImage() async {
-    print("picked: ${picked}");
     if (picked != null && picked!.files.isNotEmpty) {
       var response = await ds.upload(token, project, picked!.files.first.bytes!,
           picked!.files.first.extension.toString());
@@ -304,14 +296,14 @@ class _GoalsDetail extends State<GoalsMenu> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content:
-                                            Text('Pilih salah satu periode!'),
+                                            Text('Select a period!'),
                                       ),
                                     );
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Lengkapi Seluruh data!'),
+                                      content: Text('Complete all data!'),
                                     ),
                                   );
                                 }

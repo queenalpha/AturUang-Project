@@ -74,12 +74,12 @@
 //                                 .format(DateTime.parse(report.date!))
 //                             : '',
 //                         report.description ?? '',
-//                         '${formatCurrency(int.parse(report.amount.toString()))}'
+//                         '${formatCurrency(report.amount.toInt())}'
 //                       ],
 //                     [
 //                       'Total',
 //                       '',
-//                       '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
+//                       '${formatCurrency(reports.map((report) => report.amount).reduce((a, b) => a + b).toInt())}',
 //                     ],
 //                   ],
 //                 ),

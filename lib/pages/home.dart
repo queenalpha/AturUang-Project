@@ -48,7 +48,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _notifier = ValueNotifier<int>(0);
-    // selectAllTabungan();
     selectWhereNabung();
     super.initState();
 
@@ -59,7 +58,6 @@ class _HomePageState extends State<HomePage> {
 
   Future reloadDataTabungan(dynamic value) async {
     setState(() {
-      // selectAllTabungan();
       selectWhereNabung();
       idTabungan.clear();
       id_goals.clear();

@@ -22,10 +22,8 @@ class ExportingPDF {
   static Future<void> exportToUserSelectedDirectory(
       List<Report> reports) async {
     try {
-      // buat user milih directory
       final directory = await FilePicker.platform.getDirectoryPath();
 
-      // ngecek file di directory ada
       if (directory != null) {
         //kalo ada ngambil report ke directory
         await _exportToUserSelectedDirectory(reports, directory);
@@ -97,12 +95,12 @@ class ExportingPDF {
                                 .format(DateTime.parse(report.date!))
                             : '',
                         report.description ?? '',
-                        '${formatCurrency(int.parse(report.amount.toString()))}'
+                        '${formatCurrency(report.amount.toInt())}'
                       ],
                     [
                       'Total',
                       '',
-                      '${formatCurrency(int.parse(reports.map((report) => report.amount ?? 0).reduce((a, b) => a + b).toString()))}',
+                      '${formatCurrency(reports.map((report) => report.amount).reduce((a, b) => a + b).toInt())}',
                     ],
                   ],
                 ),
@@ -111,11 +109,8 @@ class ExportingPDF {
           },
         ),
       );
-
-      // ngesave file ke pdf
       final file = File(filePath);
       await file.writeAsBytes(await pdf.save());
-      //dialog
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');
