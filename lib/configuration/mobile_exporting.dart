@@ -110,7 +110,6 @@ class ExportingPDF {
       final file = File(filePath);
       await file.writeAsBytes(await pdf.save());
       //dialog
-      
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');
