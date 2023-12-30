@@ -7,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ExportingPDF {
-    static User? currentUser = FirebaseAuth.instance.currentUser;
+  static User? currentUser = FirebaseAuth.instance.currentUser;
   static String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
@@ -34,6 +34,7 @@ class ExportingPDF {
       print('An error occurred: $e');
     }
   }
+
   static Future<void> _exportToUserSelectedDirectory(
       List<Report> reports, String directory) async {
     try {
@@ -62,10 +63,12 @@ class ExportingPDF {
                 )),
                 pw.SizedBox(height: 20),
                 //user and date information
-                pw.Text('Username: ${currentUser!.displayName}'), //ambil dari data username
+                pw.Text(
+                    'Username: ${currentUser!.displayName}'), //ambil dari data username
                 pw.Text(
                     'Date Report: $formattedDate'), //date time pengambilan daya
-                pw.Text('Reporting Category:  ${reports.first.category}'), //ambil data kategori
+                pw.Text(
+                    'Reporting Category:  ${reports.first.category}'), //ambil data kategori
                 pw.SizedBox(height: 20),
                 // Table
                 pw.Table.fromTextArray(
@@ -84,7 +87,7 @@ class ExportingPDF {
                     ['Date', 'Description', 'Amount'],
                     for (final report in reports)
                       [
-                        report.date  != null
+                        report.date != null
                             ? DateFormat('dd/MM/yy')
                                 .format(DateTime.parse(report.date!))
                             : '',

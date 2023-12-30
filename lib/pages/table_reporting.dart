@@ -91,7 +91,7 @@ class _ReportingTableState extends State<ReportingTable> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 10),
           child: Column(
             children: <Widget>[
               SingleChildScrollView(
@@ -127,7 +127,7 @@ class _ReportingTableState extends State<ReportingTable> {
                     ),
                   ],
                   rows: [
-                    ...reports.map(
+                    ...reports.reversed.map(
                       (report) => DataRow(cells: [
                         DataCell(Text(
                           report.date != null
@@ -142,8 +142,8 @@ class _ReportingTableState extends State<ReportingTable> {
                             ),
                           ),
                         ),
-                        DataCell(Text(
-                            '${formatCurrency(int.parse(report.amount.toString()))}')),
+                        DataCell(
+                            Text('${formatCurrency(report.amount.toInt())}')),
                       ]),
                     ),
                   ],
@@ -158,14 +158,14 @@ class _ReportingTableState extends State<ReportingTable> {
                       await ExportingPDF.exportToUserSelectedDirectory(reports);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Export PDF berhasil.'),
+                          content: Text('Export PDF successful'),
                           duration: Duration(seconds: 2),
                         ),
                       );
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Gagal melakukan ekspor PDF'),
+                          content: Text('Failed to export PDF'),
                           duration: Duration(seconds: 2),
                         ),
                       );

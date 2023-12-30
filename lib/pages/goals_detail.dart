@@ -7,7 +7,6 @@ import 'package:Aturuang/configuration/roundedbutton.dart';
 import 'package:Aturuang/configuration/theme_config.dart';
 import 'package:Aturuang/models/nabung_model.dart';
 import 'package:Aturuang/utils/restapi.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -243,7 +242,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                           children: [
                                             Text("Target"),
                                             Text(
-                                              "${formatCurrency(int.parse(targetAmount.toString()))}",
+                                              "${formatCurrency(targetAmount.toInt())}",
                                             ),
                                           ],
                                         ),
@@ -296,7 +295,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                           focusNode: _focusAmount,
                                           controller: _amountTextController,
                                           validator: (value) => value == ''
-                                              ? 'Masukkan nominal!'
+                                              ? 'Enter nominal!'
                                               : null,
                                         ),
                                       )),
@@ -333,93 +332,98 @@ class _GoalsDetail extends State<GoalsDetail> {
                                             .replaceAll("]", "")
                                             .split(",");
 
-                                      for (String dateString in dateStrings) {
-                                        String trimmedDateString = dateString
-                                            .trim()
-                                            .replaceAll("'", "");
-                                        DateTime dateTime =
-                                            DateTime.parse(trimmedDateString);
-                                        collectedDate.add(dateTime);
+                                        for (String dateString in dateStrings) {
+                                          String trimmedDateString = dateString
+                                              .trim()
+                                              .replaceAll("'", "");
+                                          DateTime dateTime =
+                                              DateTime.parse(trimmedDateString);
+                                          collectedDate.add(dateTime);
+                                        }
+
+                                        collectedArray.add(int.parse(
+                                            _amountTextController.text));
+                                        await ds.updateId(
+                                            "nominal",
+                                            collectedArray.toString(),
+                                            token,
+                                            project,
+                                            "nabung",
+                                            appid,
+                                            args[0]);
+
+                                        collectedDate.add(DateTime.now());
+
+                                        await ds
+                                            .updateId(
+                                                "tanggal",
+                                                collectedDate.toString(),
+                                                token,
+                                                project,
+                                                "nabung",
+                                                appid,
+                                                args[0])
+                                            .then(reloadDataGoal);
+                                        collectedArray.clear();
+                                        collectedDate.clear();
+                                        _amountTextController.text = '';
+                                        setState(() {
+                                          progressIndicatorKey =
+                                              ValueKey<double>(currentAmount);
+                                        });
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            'goals_detail',
+                                            (route) => false,
+                                            arguments: [args[0]]);
                                       }
-
-                                      collectedArray.add(int.parse(
-                                          _amountTextController.text));
-                                      await ds.updateId(
-                                          "nominal",
-                                          collectedArray.toString(),
-                                          token,
-                                          project,
-                                          "nabung",
-                                          appid,
-                                          args[0]);
-
-                                      collectedDate.add(DateTime.now());
-
-                                      await ds
-                                          .updateId(
-                                              "tanggal",
-                                              collectedDate.toString(),
-                                              token,
-                                              project,
-                                              "nabung",
-                                              appid,
-                                              args[0])
-                                          .then(reloadDataGoal);
-                                      collectedArray.clear();
-                                      collectedDate.clear();
-                                      _amountTextController.text = '';
-                                      setState(() {
-                                        progressIndicatorKey =
-                                            ValueKey<double>(currentAmount);
-                                      });
-                                      Navigator.pushNamedAndRemoveUntil(context,
-                                          'goals_detail', (route) => false,
-                                          arguments: [args[0]]);
-                                    }
-                                  },
-                                  width: 96,
-                                  height: 60,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 15),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "History",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins-Reguler',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(height: 10),
-                                numberOfDates - 1 == 0
-                                    ? Text("Data Not Avaible!")
-                                    : SizedBox(height: 10),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    final reversedIndex =
-                                        numberOfDates - 1 - index;
-                                    return ListReporting(
-                                        title: 'Saving',
-                                        time:
-                                            '${collectedDate[reversedIndex].hour}.${collectedDate[reversedIndex].minute}',
-                                        date:
-                                            '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
-                                        nominal: formatCurrency(
-                                            collectedArray[reversedIndex]),
-                                        isIncome: true);
-                                  },
-                                  itemCount: numberOfDates - 1,
-                                )
-                              ],
-                            ),
-                          ],
+                                    },
+                                    width: 96,
+                                    height: 60,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "History",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins-Reguler',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  SizedBox(height: 10),
+                                  numberOfDates - 1 == 0
+                                      ? Text("Data Not Avaible!")
+                                      : SizedBox(height: 10),
+                                  ListView.builder(
+                                    padding: EdgeInsets.only(top: 8),
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      final reversedIndex =
+                                          numberOfDates - 1 - index;
+                                      return ListReporting(
+                                          title: 'Saving',
+                                          time:
+                                              '${collectedDate[reversedIndex].hour}.${collectedDate[reversedIndex].minute}',
+                                          date:
+                                              '${collectedDate[reversedIndex].day} ${getMonthName(collectedDate[reversedIndex].month)} ${collectedDate[reversedIndex].year}',
+                                          nominal: formatCurrency(
+                                              collectedArray[reversedIndex]),
+                                          isIncome: true);
+                                    },
+                                    itemCount: numberOfDates - 1,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ]);
+                      ]),
+                    );
                   }
                 }
             }
