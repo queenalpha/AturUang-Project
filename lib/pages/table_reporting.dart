@@ -2,8 +2,8 @@ import 'package:Aturuang/configuration/theme_config.dart';
 import 'package:Aturuang/models/laporan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Aturuang/configuration/mobile_exporting.dart';
+// import 'package:Aturuang/configuration/web_exporting.dart';
 import 'package:Aturuang/configuration/roundedbutton.dart';
-// import 'package:aturuang_project/configuration/web_exporting.dart';
 import 'package:intl/intl.dart';
 
 class ReportingTable extends StatefulWidget {
@@ -50,20 +50,13 @@ class _ReportingTableState extends State<ReportingTable> {
   void convertDataToReports() {
     for (var data in widget.lapKeuFiltered) {
       if (data.kategori == widget.kategori) {
-        try {
-          if (data.nominal != null && data.nominal.isNotEmpty) {
-            Report report = Report(
-              date: data.tanggal,
-              category: data.kategori,
-              description: data.deskripsi,
-              amount: double.parse(data.nominal.trim()),
-            );
-            reports.add(report);
-          }
-        } catch (e) {
-          print("Error parsing nominal: ${data.nominal}");
-          // Handle the error, for example, set a default value or skip this entry.
-        }
+        Report report = Report(
+          date: data.tanggal,
+          category: data.kategori,
+          description: data.deskripsi,
+          amount: double.parse(data.nominal),
+        );
+        reports.add(report);
       }
     }
   }
@@ -96,95 +89,93 @@ class _ReportingTableState extends State<ReportingTable> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-          child: Column(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: DataTable(
-                  headingRowColor: MaterialStateColor.resolveWith(
-                      (states) => Color.fromARGB(255, 20, 165, 182)),
-                  dataRowColor:
-                      MaterialStateColor.resolveWith((states) => Colors.white),
-                  columns: [
-                    DataColumn(
-                      label: Text('Date',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            color: Colors.white,
-                          )),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text('Description',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            color: Colors.white,
-                          )),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text('Amount',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            color: Colors.white,
-                          )),
-                      numeric: false,
-                    ),
-                  ],
-                  rows: [
-                    ...reports.reversed.map(
-                      (report) => DataRow(cells: [
-                        DataCell(Text(
-                          report.date != null
-                              ? DateFormat('dd/MM/yy')
-                                  .format(DateTime.parse(report.date!))
-                              : '',
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 10),
+        child: Column(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: DataTable(
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Color.fromARGB(255, 20, 165, 182)),
+                dataRowColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white),
+                columns: [
+                  DataColumn(
+                    label: Text('Date',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
                         )),
-                        DataCell(
-                          Flexible(
-                            child: Text(
-                              report.description ?? '',
-                            ),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text('Description',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
+                        )),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text('Amount',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          color: Colors.white,
+                        )),
+                    numeric: false,
+                  ),
+                ],
+                rows: [
+                  ...reports.reversed.map(
+                    (report) => DataRow(cells: [
+                      DataCell(Text(
+                        report.date != null
+                            ? DateFormat('dd/MM/yy')
+                                .format(DateTime.parse(report.date!))
+                            : '',
+                      )),
+                      DataCell(
+                        Flexible(
+                          child: Text(
+                            report.description ?? '',
                           ),
                         ),
-                        DataCell(
-                            Text('${formatCurrency(report.amount.toInt())}')),
-                      ]),
-                    ),
-                  ],
-                ),
+                      ),
+                      DataCell(
+                          Text('${formatCurrency(report.amount.toInt())}')),
+                    ]),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 500),
-                child: RoundedButton(
-                  title: 'Export',
-                  onPressed: () async {
-                    try {
-                      await ExportingPDF.exportToUserSelectedDirectory(reports);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Export PDF successful'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Failed to export PDF'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  },
-                  width: 336,
-                  height: 51,
-                  color: primaryColor,
-                ),
-              )
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 500),
+              child: RoundedButton(
+                title: 'Export',
+                onPressed: () async {
+                  try {
+                    await ExportingPDF.exportToUserSelectedDirectory(reports);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Export PDF successful'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Failed to export PDF'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                width: 336,
+                height: 51,
+                color: primaryColor,
+              ),
+            )
+          ],
         ),
       ),
     );
