@@ -12,8 +12,6 @@ class ToggleButton extends StatefulWidget {
 }
 
 class _ToggleButtonState extends State<ToggleButton> {
-  // Initial state
-
   @override
   Widget build(BuildContext context) {
     return Container(

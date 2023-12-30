@@ -136,35 +136,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       });
                     },
                   ),
-                  // if (_isEmailValidated) // Tampilkan field password hanya jika email sudah divalidasi
-                  //   Column(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                  //     children: [
-                  //       SizedBox(height: 10.0),
-                  //       Text(
-                  //         'Your New Password',
-                  //         style: TextStyle(
-                  //           fontFamily: 'Poppins-Regular',
-                  //           fontSize: 15.0,
-                  //           color: const Color.fromARGB(255, 20, 165, 162),
-                  //         ),
-                  //       ),
-                  //       SizedBox(height: 5.0),
-                  //       TextFormField(
-                  //         controller: _passwordTextController,
-                  //         focusNode: _focusPassword,
-                  //         obscureText: true,
-                  //         validator: (value) => Validator.validatePassword(
-                  //           password: value,
-                  //           confirmPassword: _passwordTextController.text,
-                  //         ),
-                  //         decoration: kTextFieldDecoration.copyWith(
-                  //           hintText: 'Enter Your New Password',
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
                   Center(
                     child: RoundedButton(
                       title: 'Reset Password',

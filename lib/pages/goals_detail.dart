@@ -7,11 +7,8 @@ import 'package:aturuang_project/configuration/roundedbutton.dart';
 import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/models/nabung_model.dart';
 import 'package:aturuang_project/utils/restapi.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class GoalsDetail extends StatefulWidget {
@@ -56,8 +53,7 @@ class _GoalsDetail extends State<GoalsDetail> {
     data = jsonDecode(await ds.selectId(token, project, 'nabung', appid, id));
     nabung = data.map((e) => NabungModel.fromJson(e)).toList();
     foto = nabung[0].foto;
-
-    DateTime date;
+    
     String stringDate = '';
     stringDate = nabung[0].tanggal;
     List<String> dateStrings =

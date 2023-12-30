@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:aturuang_project/configuration/theme_config.dart';
 import 'package:aturuang_project/pages/table_reporting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -22,10 +21,8 @@ class ExportingPDF {
   static Future<void> exportToUserSelectedDirectory(
       List<Report> reports) async {
     try {
-      // buat user milih directory
       final directory = await FilePicker.platform.getDirectoryPath();
 
-      // ngecek file di directory ada
       if (directory != null) {
         //kalo ada ngambil report ke directory
         await _exportToUserSelectedDirectory(reports, directory);
@@ -111,11 +108,8 @@ class ExportingPDF {
           },
         ),
       );
-
-      // ngesave file ke pdf
       final file = File(filePath);
       await file.writeAsBytes(await pdf.save());
-      //dialog
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');
