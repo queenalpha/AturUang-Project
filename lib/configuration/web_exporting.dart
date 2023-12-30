@@ -6,7 +6,6 @@
 // import 'package:pdf/pdf.dart';
 // import 'package:pdf/widgets.dart' as pw;
 
-<<<<<<<<< Temporary merge branch 1
 // class ExportingPDF {
 //   static User? currentUser = FirebaseAuth.instance.currentUser;
 //   static String formatCurrency(int amount) {
@@ -104,7 +103,6 @@
 
 //       html.Url.revokeObjectUrl(url);
 
-=========
 // import 'dart:typed_data'; // Add this import for Uint8List
 // import 'dart:html' as html; // Add this import for html
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -148,8 +146,6 @@
 //                     ),
 //                   ),
 //                 ),
-=======
->>>>>>> 3ba915edc92ca128f443b66176dd4e1107e9f66a
 
 //                 pw.SizedBox(height: 20),
 //                 //user and date information
@@ -167,7 +163,6 @@
 //                     'Date Report: $formattedDate'), //date time pengambilan daya
 //                 pw.Text(
 //                     'Reporting Category: ${reports.first.category}'), //ambil data kategori
-<<<<<<< HEAD
 //                 pw.SizedBox(height: 20),
 //                 //user and date information
 //                 pw.Text(
@@ -176,8 +171,6 @@
 //                     'Date Report: $formattedDate'), //date time pengambilan daya
 //                 pw.Text(
 //                     'Reporting Category: ${reports.first.category}'), //ambil data kategori
-=======
->>>>>>> 3ba915edc92ca128f443b66176dd4e1107e9f66a
 
 //                 pw.SizedBox(height: 20),
 //                 // Table
