@@ -471,7 +471,11 @@
     },
     {
       "name": "percent_indicator",
+<<<<<<<<< Temporary merge branch 1
       "rootUri": "file:///C:/Users/ramdhan/AppData/Local/Pub/Cache/hosted/pub.dev/percent_indicator-4.2.3",
+=========
+      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/percent_indicator-4.2.3",
+>>>>>>>>> Temporary merge branch 2
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -704,7 +708,11 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-30T03:16:36.806614Z",
+<<<<<<<<< Temporary merge branch 1
+  "generated": "2023-12-28T13:28:40.101351Z",
+=========
+  "generated": "2023-12-30T01:45:35.130500Z",
+>>>>>>>>> Temporary merge branch 2
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

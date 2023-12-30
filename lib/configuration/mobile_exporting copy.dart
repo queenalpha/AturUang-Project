@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:Aturuang/pages/table_reporting.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -8,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ExportingPDF {
-  static User? currentUser = FirebaseAuth.instance.currentUser;
+    static User? currentUser = FirebaseAuth.instance.currentUser;
   static String formatCurrency(int amount) {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'id_ID',
@@ -35,7 +34,6 @@ class ExportingPDF {
       print('An error occurred: $e');
     }
   }
-
   static Future<void> _exportToUserSelectedDirectory(
       List<Report> reports, String directory) async {
     try {
@@ -64,19 +62,17 @@ class ExportingPDF {
                 )),
                 pw.SizedBox(height: 20),
                 //user and date information
-                pw.Text(
-                    'Username: ${currentUser!.displayName}'), //ambil dari data username
+                pw.Text('Username: ${currentUser!.displayName}'), //ambil dari data username
                 pw.Text(
                     'Date Report: $formattedDate'), //date time pengambilan daya
-                pw.Text(
-                    'Reporting Category:  ${reports.first.category}'), //ambil data kategori
+                pw.Text('Reporting Category:  ${reports.first.category}'), //ambil data kategori
                 pw.SizedBox(height: 20),
                 // Table
                 pw.Table.fromTextArray(
                   context: context,
                   cellAlignment: pw.Alignment.centerLeft,
                   headerDecoration: pw.BoxDecoration(
-                    color: PdfColor.fromHex('14A5B6'),
+                    color: PdfColors.blue,
                   ),
                   cellStyle: pw.TextStyle(fontSize: 10),
                   headerStyle: pw.TextStyle(
@@ -88,7 +84,7 @@ class ExportingPDF {
                     ['Date', 'Description', 'Amount'],
                     for (final report in reports)
                       [
-                        report.date != null
+                        report.date  != null
                             ? DateFormat('dd/MM/yy')
                                 .format(DateTime.parse(report.date!))
                             : '',
@@ -111,7 +107,6 @@ class ExportingPDF {
       final file = File(filePath);
       await file.writeAsBytes(await pdf.save());
       //dialog
-      
       print('The table data has been exported');
     } catch (e) {
       print('An error occurred while exporting the table data: $e');
