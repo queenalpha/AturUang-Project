@@ -13,7 +13,7 @@ class GoalsMenu extends StatefulWidget {
   GoalsMenu({Key? key}) : super(key: key);
   List<bool> isSelected = [true, false, false];
   List<String> buttonLabels = ['Day', 'Week', 'Month'];
-  String selectedOption = 'a';
+  String selectedOption = 'Day';
   @override
   _GoalsDetail createState() => _GoalsDetail();
 }
@@ -37,9 +37,6 @@ class _GoalsDetail extends State<GoalsMenu> {
       if (picked != null && picked!.files.isNotEmpty) {
         setState(() {
           //refresh UI
-          // imageBytes = picked!.files.single.path;
-          // selectedImage = MemoryImage(imageBytes!);
-          // extImage = picked!.files.first.extension.toString();
         });
       }
     } on PlatformException catch (e) {
@@ -63,7 +60,6 @@ class _GoalsDetail extends State<GoalsMenu> {
   }
 
   Future<Widget> uploadDataAndImage() async {
-    print("picked: ${picked}");
     if (picked != null && picked!.files.isNotEmpty) {
       var response = await ds.upload(token, project, picked!.files.first.bytes!,
           picked!.files.first.extension.toString());
