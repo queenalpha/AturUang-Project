@@ -101,38 +101,35 @@ class _ReportListState extends State<ReportList> {
             style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: ListView.builder(
-            itemCount: widget.lapKeuFiltered.length,
-            itemBuilder: (context, index) {
-              final reversedIndex = widget.lapKeuFiltered.length - 1 - index;
-              return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReportingTable(
-                          lapKeuFiltered: widget.lapKeuFiltered,
-                          kategori:
-                              widget.lapKeuFiltered[reversedIndex].kategori,
-                          tipe: widget.selectedTipe,
-                        ),
+      body: ListView.builder(
+          itemCount: widget.lapKeuFiltered.length,
+          itemBuilder: (context, index) {
+            final reversedIndex = widget.lapKeuFiltered.length - 1 - index;
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReportingTable(
+                        lapKeuFiltered: widget.lapKeuFiltered,
+                        kategori: widget.lapKeuFiltered[reversedIndex].kategori,
+                        tipe: widget.selectedTipe,
                       ),
-                    );
-                  },
-                  child: ListReporting(
-                      title: '${widget.lapKeuFiltered[reversedIndex].kategori}',
-                      time:
-                          '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).hour}:${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).minute}',
-                      date:
-                          '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).month)} ${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).year}',
-                      nominal:
-                          '${formatCurrency(int.parse(widget.lapKeuFiltered[reversedIndex].nominal))}',
-                      isIncome:
-                          widget.lapKeuFiltered[reversedIndex].tipe_keuangan ==
-                              'Income'));
-            }),
-      ),
+                    ),
+                  );
+                },
+                child: ListReporting(
+                    title: '${widget.lapKeuFiltered[reversedIndex].kategori}',
+                    time:
+                        '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).hour}:${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).minute}',
+                    date:
+                        '${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).day} ${getMonthName(DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).month)} ${DateTime.parse(widget.lapKeuFiltered[reversedIndex].tanggal).year}',
+                    nominal:
+                        '${formatCurrency(int.parse(widget.lapKeuFiltered[reversedIndex].nominal))}',
+                    isIncome:
+                        widget.lapKeuFiltered[reversedIndex].tipe_keuangan ==
+                            'Income'));
+          }),
     );
   }
 

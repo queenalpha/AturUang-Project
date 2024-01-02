@@ -276,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: double.infinity,
                             child: Stack(
                                 alignment: Alignment.center,
-                                clipBehavior: Clip.none,
+                                // clipBehavior: Clip.none,
                                 children: [
                                   Image.asset(
                                     'assets/background.png',
@@ -293,14 +293,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 24,
                                             fontFamily: 'Poppins-SemiBold'),
                                       )),
-                                  // SizedBox(height: 30.0),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 120),
                                     child: GestureDetector(
                                       onTap: () => pickImage(id),
                                       child: SizedBox(
-                                        height: 120,
-                                        width: 120,
+                                        height: 185,
+                                        width: 185,
                                         child: CircleAvatar(
                                           backgroundColor: Colors.grey[300],
                                           backgroundImage:
@@ -316,57 +315,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  // profpic == '-'
-                                  //     ? SizedBox(
-                                  //         height: 120,
-                                  //         width: 120,
-                                  //         child: CircleAvatar(
-                                  //           backgroundColor: Colors.grey[300],
-                                  //           child: Icon(
-                                  //             color: Colors.grey[500],
-                                  //             Icons.person,
-                                  //             size: 90,
-                                  //           ),
-                                  //         ),
-                                  //       )
-                                  //     : Positioned(
-                                  //         top: 250 - 220 / 2,
-                                  //         child: CircleAvatar(
-                                  //           backgroundImage:
-                                  //               NetworkImage(fileUri + profpic),
-                                  //           backgroundColor: Colors.transparent,
-                                  //           radius: 140 / 2,
-                                  //         ),
-                                  //       ),
-                                  // InkWell(
-                                  //   onTap: () => pickImage(id),
-                                  //   child: Container(
-                                  //     width: 40,
-                                  //     height: 40,
-                                  //     child: Card(
-                                  //       shape: RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(6.0),
-                                  //         side: BorderSide(
-                                  //             color: Colors.black, width: 0.7),
-                                  //       ),
-                                  //       color:
-                                  //           Color.fromARGB(210, 255, 255, 255),
-                                  //       child: Center(
-                                  //         child: Icon(
-                                  //           Icons.edit_rounded,
-                                  //           color: const Color.fromARGB(
-                                  //               255, 5, 116, 129),
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ]),
                           ),
                           //Username
                           Padding(
-                            padding: const EdgeInsets.only(top: 38.0),
+                            padding: const EdgeInsets.only(top: 20.0),
                             child: Column(
                               children: [
                                 Container(

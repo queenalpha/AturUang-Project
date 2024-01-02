@@ -188,7 +188,7 @@ class _ReportingPageState extends State<ReportingPage> {
                       style: const TextStyle(color: Colors.red));
                 } else {
                   return SingleChildScrollView(
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Container(
@@ -319,40 +319,33 @@ class _ReportingPageState extends State<ReportingPage> {
                           child: Center(
                             child: Card(
                               color: primaryColor,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: ToggleButtons(
-                                    isSelected: widget.isSelected,
-                                    onPressed: (index) {
-                                      setState(() {
-                                        for (int buttonIndex = 0;
-                                            buttonIndex <
-                                                widget.isSelected.length;
-                                            buttonIndex++) {
-                                          widget.isSelected[buttonIndex] =
-                                              buttonIndex == index;
-                                        }
-                                        widget.selectedOption =
-                                            widget.buttonLabels[index];
-                                      });
-                                    },
-                                    selectedColor: secondaryColor,
-                                    fillColor: secondaryColor,
-                                    children: List.generate(
-                                      widget.buttonLabels.length,
-                                      (index) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 35),
-                                        child: Text(
-                                          widget.buttonLabels[index],
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins-SemiBold',
-                                            fontSize: 15,
-                                          ),
-                                        ),
+                              child: ToggleButtons(
+                                isSelected: widget.isSelected,
+                                onPressed: (index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0;
+                                        buttonIndex < widget.isSelected.length;
+                                        buttonIndex++) {
+                                      widget.isSelected[buttonIndex] =
+                                          buttonIndex == index;
+                                    }
+                                    widget.selectedOption =
+                                        widget.buttonLabels[index];
+                                  });
+                                },
+                                selectedColor: secondaryColor,
+                                fillColor: secondaryColor,
+                                children: List.generate(
+                                  widget.buttonLabels.length,
+                                  (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 35),
+                                    child: Text(
+                                      widget.buttonLabels[index],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins-SemiBold',
+                                        fontSize: 15,
                                       ),
                                     ),
                                   ),
@@ -361,14 +354,40 @@ class _ReportingPageState extends State<ReportingPage> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // all list
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(left: 30, right: 30),
+                              //   child: Text(
+                              //     '${widget.selectedCategory}',
+                              //     style: TextStyle(
+                              //         fontFamily: 'Poppins-Medium',
+                              //         fontSize: 15,
+                              //         color: Colors.black),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 6.0,
+                              // ),
+                            ],
+                          ),
+                        ),
 
                         SingleChildScrollView(
                             // sengaja dikasih ini biar kalo banyak ngga overflow
                             child: Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 30, top: 10),
+                              padding: const EdgeInsets.all(16.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
