@@ -156,7 +156,10 @@ class _HomePageState extends State<HomePage> {
                   }
                 case ConnectionState.waiting:
                   {
-                    return const Center(child: CircularProgressIndicator());
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 350),
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
                   }
                 case ConnectionState.active:
                   {
