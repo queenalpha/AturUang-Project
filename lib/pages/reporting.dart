@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:aturuang_project/configuration/list_configuration.dart';
-import 'package:aturuang_project/configuration/theme_config.dart';
-import 'package:aturuang_project/models/laporan_model.dart';
-import 'package:aturuang_project/pages/report_list.dart';
-import 'package:aturuang_project/pages/table_reporting.dart';
-import 'package:aturuang_project/utils/restapi.dart';
-import 'package:aturuang_project/configuration/api_configuration.dart';
+import 'package:Aturuang/configuration/list_configuration.dart';
+import 'package:Aturuang/configuration/theme_config.dart';
+import 'package:Aturuang/models/laporan_model.dart';
+import 'package:Aturuang/pages/report_list.dart';
+import 'package:Aturuang/pages/table_reporting.dart';
+import 'package:Aturuang/utils/restapi.dart';
+import 'package:Aturuang/configuration/api_configuration.dart';
 import 'package:chart_it/chart_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -420,8 +420,8 @@ class _ReportingPageState extends State<ReportingPage> {
                             ),
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: filteredLapKeu().length > 4
-                                    ? 4
+                                itemCount: filteredLapKeu().length > 3
+                                    ? 3
                                     : filteredLapKeu().length < 1
                                         ? 1
                                         : filteredLapKeu().length,

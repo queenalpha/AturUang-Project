@@ -680,13 +680,13 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "aturuang_project",
+      "name": "Aturuang",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-30T01:45:35.130500Z",
+  "generated": "2024-01-02T03:53:43.361622Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }
