@@ -729,6 +729,7 @@
     },
     {
       "name": "Aturuang",
+      "name": "Aturuang",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.1"

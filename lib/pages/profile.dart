@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Aturuang/configuration/api_configuration.dart';
 import 'package:Aturuang/models/laporan_model.dart';
+import 'package:Aturuang/configuration/api_configuration.dart';
+import 'package:Aturuang/models/laporan_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
@@ -291,57 +293,75 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 24,
                                             fontFamily: 'Poppins-SemiBold'),
                                       )),
-                                  profpic == '-'
-                                      ? SizedBox(
-                                          height: 120,
-                                          width: 120,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[300],
-                                            child: Icon(
-                                              color: Colors.grey[500],
-                                              Icons.person,
-                                              size: 90,
-                                            ),
-                                          ),
-                                        )
-                                      : Positioned(
-                                          top: 250 - 220 / 2,
-                                          child: CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(fileUri + profpic),
-                                            backgroundColor: Colors.transparent,
-                                            radius: 140 / 2,
-                                          ),
-                                        ),
-                                  Positioned(
-                                    bottom: -35,
-                                    right: 150,
-                                    child: InkWell(
+                                  // SizedBox(height: 30.0),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 120),
+                                    child: GestureDetector(
                                       onTap: () => pickImage(id),
-                                      child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6.0),
-                                            side: BorderSide(
-                                                color: Colors.black,
-                                                width: 0.7),
-                                          ),
-                                          color: Color.fromARGB(
-                                              210, 255, 255, 255),
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.edit_rounded,
-                                              color: const Color.fromARGB(
-                                                  255, 5, 116, 129),
-                                            ),
-                                          ),
+                                      child: SizedBox(
+                                        height: 120,
+                                        width: 120,
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.grey[300],
+                                          backgroundImage:
+                                              NetworkImage(fileUri + profpic),
+                                          child: profpic == '-'
+                                              ? Icon(
+                                                  color: Colors.grey[500],
+                                                  Icons.person,
+                                                  size: 70.0,
+                                                )
+                                              : SizedBox.shrink(),
                                         ),
                                       ),
                                     ),
                                   ),
+                                  // profpic == '-'
+                                  //     ? SizedBox(
+                                  //         height: 120,
+                                  //         width: 120,
+                                  //         child: CircleAvatar(
+                                  //           backgroundColor: Colors.grey[300],
+                                  //           child: Icon(
+                                  //             color: Colors.grey[500],
+                                  //             Icons.person,
+                                  //             size: 90,
+                                  //           ),
+                                  //         ),
+                                  //       )
+                                  //     : Positioned(
+                                  //         top: 250 - 220 / 2,
+                                  //         child: CircleAvatar(
+                                  //           backgroundImage:
+                                  //               NetworkImage(fileUri + profpic),
+                                  //           backgroundColor: Colors.transparent,
+                                  //           radius: 140 / 2,
+                                  //         ),
+                                  //       ),
+                                  // InkWell(
+                                  //   onTap: () => pickImage(id),
+                                  //   child: Container(
+                                  //     width: 40,
+                                  //     height: 40,
+                                  //     child: Card(
+                                  //       shape: RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(6.0),
+                                  //         side: BorderSide(
+                                  //             color: Colors.black, width: 0.7),
+                                  //       ),
+                                  //       color:
+                                  //           Color.fromARGB(210, 255, 255, 255),
+                                  //       child: Center(
+                                  //         child: Icon(
+                                  //           Icons.edit_rounded,
+                                  //           color: const Color.fromARGB(
+                                  //               255, 5, 116, 129),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ]),
                           ),
                           //Username

@@ -8,7 +8,10 @@ class ToggleButton extends StatefulWidget {
   final List<String> buttonLabels;
   final Function(int) onPressed;
 
-  ToggleButton({required this.isSelected, required this.buttonLabels, required this.onPressed});
+  ToggleButton(
+      {required this.isSelected,
+      required this.buttonLabels,
+      required this.onPressed});
 }
 
 class _ToggleButtonState extends State<ToggleButton> {
