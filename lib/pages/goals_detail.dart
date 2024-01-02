@@ -404,7 +404,7 @@ class _GoalsDetail extends State<GoalsDetail> {
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       final reversedIndex =
-                                          numberOfDates - 1 - index;
+                                           numberOfDates - 1 - index;
                                       return ListReporting(
                                           title: 'Saving',
                                           time:
