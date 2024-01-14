@@ -387,7 +387,7 @@ class _ReportingPageState extends State<ReportingPage> {
                             child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -473,7 +473,6 @@ class _ReportingPageState extends State<ReportingPage> {
                           ],
                         )),
                         SizedBox(height: 9),
-
                         Center(
                           child: GestureDetector(
                             onTap: () {
@@ -496,7 +495,7 @@ class _ReportingPageState extends State<ReportingPage> {
                                     style: TextStyle(
                                       fontFamily: 'Poppins-Reguler',
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w200,
+                                      fontWeight: FontWeight.w600,
                                       color: primaryColor,
                                       decoration: TextDecoration.underline,
                                     ),

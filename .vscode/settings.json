@@ -56,5 +56,6 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "cmake.sourceDirectory": "D:/KULIAH/Sistem Informasi/TINGKAT 3/ISB - 311 SISTEM INFORMASI SELULER/Aturuang/linux"
 }
